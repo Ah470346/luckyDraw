@@ -1,0 +1,26 @@
+.custom-button1 {
+    margin-left: 20px;
+}
+.block-connect-wallet{
+    text-align: center;
+    color: rgb(40, 13, 95)!important;
+}
+.block-connect-wallet p{
+    color: rgb(40, 13, 95)!important;
+}
+
+.modal-connect .ant-modal-header {
+    -webkit-box-align: center;
+    align-items: center;
+    background: linear-gradient(
+139.73deg, rgb(61 222 52) 0%, rgb(32 162 42) 100%);
+    border-bottom: 1px solid rgb(231, 227, 235);
+    /*display: flex;*/
+    /*padding: 12px 24px;*/
+}
+.block-connect-wallet button{
+    background: none;
+}
+.block-connect-wallet button:hover{
+    opacity: 0.5;
+}
