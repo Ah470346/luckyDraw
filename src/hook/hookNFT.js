@@ -61,6 +61,10 @@ export const useNFTaction = () => {
      return await nftContract.returnTotalAddress(currentId)
     }, [nftContract])
 
+    const getHistoryList = useCallback(async ()=> {
+     return await nftContract.getHistoryList()
+    }, [nftContract])
+
 
 
     return {
@@ -78,5 +82,6 @@ export const useNFTaction = () => {
         returnDatetimeId:returnDatetimeId,
         returnTotalrewardId:returnTotalrewardId,
         returnTotalAddress:returnTotalAddress,
+        getHistoryList:getHistoryList
     }
 }
