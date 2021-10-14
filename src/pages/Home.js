@@ -11,6 +11,9 @@ import {handledErrorAction} from "../utils/handleError";
 import {contractAddress} from "../utils/contract";
 import Countdown from "react-countdown";
 import { Form, Input, Button, Radio } from 'antd';
+import {useNFTcontract} from "../hook/hookContract";
+import {handleTxHash} from "../utils/handleTxHash";
+import {useNFTaction} from "../hook/hookNFT";
 
 function* shuffle(array) {
 
@@ -46,6 +49,7 @@ const Home = () => {
     const wallet = useWallet();
     const buyTicketAction = useBuyTicketAction();
     const {approve, isApprove} = useERC20Action();
+    const {nftContract} = useNFTaction();
     const [isApproved, setIsApproved] = useState(false);
     const [price, setPrice] = useState(100);
     const [amount, setAmount] = useState(1);
@@ -85,6 +89,8 @@ const Home = () => {
                             <button className="custom-button1" onClick={()=>setLsNumber(getRandomTicket())}><i className="fas fa-magic"></i>Quick
                             Pick</button>
                             {lsTicket.length > 1 ? <button className="custom-button2" onClick={()=>callbackRemoveTicket(indexTicket)}>Remove</button> :null }
+                            {lsTicket && lsTicket.length < 5 ?
+                            <button className="custom-button2 custom-button-add-ticket" onClick={()=>addTicket()}><i className="fas fa-plus"></i> Add Tickets</button> :null}
                         </div>
                     </div>
                     <div className="body-area">
@@ -161,9 +167,28 @@ const Home = () => {
     }
     const buyTicket = () => {
         console.log(lsTicket)
+        setLoading(true)
         buyTicketAction.buyTicket(lsTicket)
             .then(res => {
-                debugger
+                console.log(res)
+                res.wait().then(result => {
+                    console.log(result)
+                    let e = handleTxHash(result, account, nftContract)
+                    console.log("result",e)
+                    setLoading(false)
+                    setLsTicket([['?','?','?','?','?','?']])
+                    openNotificationWithIcon('success','Success','Transaction Success')
+                })
+                .catch(error => {
+                        const message = handledErrorAction(error).message
+                        openNotificationWithIcon('error','Error',message)
+                        setLoading(false)
+                    })
+            })
+            .catch(error => {
+                const message = handledErrorAction(error).message
+                openNotificationWithIcon('error','Error',message)
+                setLoading(false)
             })
     }
 
@@ -275,14 +300,14 @@ const Home = () => {
                         <div className="row justify-content-center" id={'test'}>
                             <BoxTicket lsTicket={lsTicket} callbackRemoveTicket={(index)=>RemoveTicket(index)}/>
                         </div>
-                        <div className="row">
-                            {lsTicket && lsTicket.length < 5 ?
-                                <>
-                            <div className="col-lg-12 text-center">
-                                <a className="add-ticket-btn" onClick={()=>addTicket()}><i className="fas fa-plus"></i> Add Tickets</a>
-                            </div>
-                                </> : null }
-                        </div>
+                        {/*<div className="row">*/}
+                        {/*    {lsTicket && lsTicket.length < 5 ?*/}
+                        {/*        <>*/}
+                        {/*    <div className="col-lg-12 text-center">*/}
+                        {/*        <a className="add-ticket-btn" onClick={()=>addTicket()}><i className="fas fa-plus"></i> Add Tickets</a>*/}
+                        {/*    </div>*/}
+                        {/*        </> : null }*/}
+                        {/*</div>*/}
                     </div>
                     <div className="col-lg-3">
                         <div className="cart-summary">
@@ -317,7 +342,7 @@ const Home = () => {
                                                     return approveFC()
                                                 }}>{
                                                     isApproved ?
-                                                        "Buy Tickets" :
+                                                        <Spin spinning={loading}>Buy Tickets</Spin> :
                                                         "Approve"
                                                 }</button>
                             </div>
