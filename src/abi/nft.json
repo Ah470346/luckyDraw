@@ -3,12 +3,12 @@
 			"inputs": [
 				{
 					"internalType": "string",
-					"name": "_name",
+					"name": "tokenname",
 					"type": "string"
 				},
 				{
 					"internalType": "string",
-					"name": "_symbol",
+					"name": "symbol",
 					"type": "string"
 				}
 			],
@@ -69,12 +69,6 @@
 			"anonymous": false,
 			"inputs": [
 				{
-					"indexed": true,
-					"internalType": "uint256",
-					"name": "tokenId",
-					"type": "uint256"
-				},
-				{
 					"indexed": false,
 					"internalType": "address",
 					"name": "buyer",
@@ -82,94 +76,12 @@
 				},
 				{
 					"indexed": false,
-					"internalType": "address",
-					"name": "seller",
-					"type": "address"
-				},
-				{
-					"indexed": false,
 					"internalType": "uint256",
-					"name": "price",
+					"name": "currentId",
 					"type": "uint256"
 				}
 			],
-			"name": "Buy",
-			"type": "event"
-		},
-		{
-			"anonymous": false,
-			"inputs": [
-				{
-					"indexed": true,
-					"internalType": "uint256",
-					"name": "tokenId",
-					"type": "uint256"
-				},
-				{
-					"indexed": false,
-					"internalType": "address",
-					"name": "seller",
-					"type": "address"
-				}
-			],
-			"name": "CancelOrder",
-			"type": "event"
-		},
-		{
-			"anonymous": false,
-			"inputs": [
-				{
-					"indexed": true,
-					"internalType": "uint256",
-					"name": "tokenId",
-					"type": "uint256"
-				},
-				{
-					"indexed": false,
-					"internalType": "uint256",
-					"name": "dna",
-					"type": "uint256"
-				}
-			],
-			"name": "Evolve",
-			"type": "event"
-		},
-		{
-			"anonymous": false,
-			"inputs": [
-				{
-					"indexed": true,
-					"internalType": "uint256",
-					"name": "tokenId",
-					"type": "uint256"
-				},
-				{
-					"indexed": false,
-					"internalType": "uint256",
-					"name": "exp",
-					"type": "uint256"
-				}
-			],
-			"name": "Exp",
-			"type": "event"
-		},
-		{
-			"anonymous": false,
-			"inputs": [
-				{
-					"indexed": true,
-					"internalType": "uint256",
-					"name": "tokenId",
-					"type": "uint256"
-				},
-				{
-					"indexed": false,
-					"internalType": "address",
-					"name": "buyer",
-					"type": "address"
-				}
-			],
-			"name": "LaySeed",
+			"name": "BuyTicket",
 			"type": "event"
 		},
 		{
@@ -189,31 +101,6 @@
 				}
 			],
 			"name": "OwnershipTransferred",
-			"type": "event"
-		},
-		{
-			"anonymous": false,
-			"inputs": [
-				{
-					"indexed": true,
-					"internalType": "uint256",
-					"name": "tokenId",
-					"type": "uint256"
-				},
-				{
-					"indexed": false,
-					"internalType": "address",
-					"name": "seller",
-					"type": "address"
-				},
-				{
-					"indexed": false,
-					"internalType": "uint256",
-					"name": "price",
-					"type": "uint256"
-				}
-			],
-			"name": "PlaceOrder",
 			"type": "event"
 		},
 		{
@@ -242,13 +129,137 @@
 			"type": "event"
 		},
 		{
-			"inputs": [],
-			"name": "COOPA_ADMIN",
+			"anonymous": false,
+			"inputs": [
+				{
+					"indexed": false,
+					"internalType": "address",
+					"name": "buyer",
+					"type": "address"
+				},
+				{
+					"indexed": false,
+					"internalType": "uint256",
+					"name": "bracket",
+					"type": "uint256"
+				}
+			],
+			"name": "adressReward",
+			"type": "event"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "buyer",
+					"type": "address"
+				},
+				{
+					"internalType": "uint256[]",
+					"name": "_number",
+					"type": "uint256[]"
+				},
+				{
+					"internalType": "uint256",
+					"name": "rewardvalue",
+					"type": "uint256"
+				}
+			],
+			"name": "_buyTicket",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "devaddress",
+					"type": "address"
+				},
+				{
+					"internalType": "uint256[6]",
+					"name": "_number",
+					"type": "uint256[6]"
+				}
+			],
+			"name": "_drawnloto",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				},
+				{
+					"internalType": "address",
+					"name": "",
+					"type": "address"
+				}
+			],
+			"name": "addrTicket",
 			"outputs": [
 				{
-					"internalType": "bytes32",
+					"internalType": "uint256",
+					"name": "datetime",
+					"type": "uint256"
+				},
+				{
+					"internalType": "uint256",
+					"name": "batchid",
+					"type": "uint256"
+				},
+				{
+					"internalType": "uint256",
+					"name": "totalreward",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "address",
 					"name": "",
-					"type": "bytes32"
+					"type": "address"
+				},
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"name": "addrTicketBatch",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "totalreward",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "",
+					"type": "address"
+				}
+			],
+			"name": "addressClaim",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
 				}
 			],
 			"stateMutability": "view",
@@ -308,30 +319,54 @@
 			"inputs": [
 				{
 					"internalType": "uint256",
-					"name": "_tokenId",
+					"name": "_index",
 					"type": "uint256"
 				}
 			],
-			"name": "coopaClass",
+			"name": "calReward",
 			"outputs": [
 				{
-					"internalType": "enum CoopaNFT.Class",
+					"internalType": "uint256",
 					"name": "",
-					"type": "uint8"
+					"type": "uint256"
 				}
 			],
-			"stateMutability": "view",
+			"stateMutability": "nonpayable",
 			"type": "function"
 		},
 		{
 			"inputs": [
 				{
 					"internalType": "uint256",
-					"name": "_tokenId",
+					"name": "_idloto",
 					"type": "uint256"
 				}
 			],
-			"name": "coopaLevel",
+			"name": "checkReward",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				},
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"name": "countEach",
 			"outputs": [
 				{
 					"internalType": "uint256",
@@ -344,45 +379,20 @@
 		},
 		{
 			"inputs": [],
-			"name": "coopaOwner",
+			"name": "currentId",
 			"outputs": [
 				{
-					"internalType": "address",
+					"internalType": "uint256",
 					"name": "",
-					"type": "address"
+					"type": "uint256"
 				}
 			],
 			"stateMutability": "view",
 			"type": "function"
 		},
 		{
-			"inputs": [
-				{
-					"internalType": "uint256",
-					"name": "_tokenId",
-					"type": "uint256"
-				}
-			],
-			"name": "coopaRarity",
-			"outputs": [
-				{
-					"internalType": "enum CoopaNFT.Rare",
-					"name": "",
-					"type": "uint8"
-				}
-			],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"inputs": [
-				{
-					"internalType": "uint256",
-					"name": "_tokenId",
-					"type": "uint256"
-				}
-			],
-			"name": "coopaTimeBonusTurn",
+			"inputs": [],
+			"name": "currentticketId",
 			"outputs": [
 				{
 					"internalType": "uint256",
@@ -397,79 +407,29 @@
 			"inputs": [
 				{
 					"internalType": "uint256",
-					"name": "_tokenId",
-					"type": "uint256"
-				}
-			],
-			"name": "coopaTimeMainTurn",
-			"outputs": [
-				{
-					"internalType": "uint256",
 					"name": "",
 					"type": "uint256"
 				}
 			],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"inputs": [
-				{
-					"internalType": "uint256",
-					"name": "_tokenId",
-					"type": "uint256"
-				}
-			],
-			"name": "coopaTribe",
+			"name": "dTicket",
 			"outputs": [
 				{
-					"internalType": "enum CoopaNFT.Tribe",
-					"name": "",
-					"type": "uint8"
-				}
-			],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"inputs": [
-				{
 					"internalType": "uint256",
-					"name": "_tokenId",
-					"type": "uint256"
-				},
-				{
-					"internalType": "address",
-					"name": "_owner",
-					"type": "address"
-				}
-			],
-			"name": "evolve",
-			"outputs": [],
-			"stateMutability": "nonpayable",
-			"type": "function"
-		},
-		{
-			"inputs": [
-				{
-					"internalType": "uint256",
-					"name": "_tokenId",
+					"name": "totalreward",
 					"type": "uint256"
 				},
 				{
 					"internalType": "uint256",
-					"name": "_exp",
+					"name": "datetime",
 					"type": "uint256"
 				},
 				{
 					"internalType": "bool",
-					"name": "_main",
+					"name": "allowclaim",
 					"type": "bool"
 				}
 			],
-			"name": "exp",
-			"outputs": [],
-			"stateMutability": "nonpayable",
+			"stateMutability": "view",
 			"type": "function"
 		},
 		{
@@ -492,65 +452,8 @@
 			"type": "function"
 		},
 		{
-			"inputs": [
-				{
-					"internalType": "uint256",
-					"name": "_tokenId",
-					"type": "uint256"
-				}
-			],
-			"name": "getCoopa",
-			"outputs": [
-				{
-					"components": [
-						{
-							"internalType": "uint256",
-							"name": "exp",
-							"type": "uint256"
-						},
-						{
-							"internalType": "enum CoopaNFT.Rare",
-							"name": "rare",
-							"type": "uint8"
-						},
-						{
-							"internalType": "enum CoopaNFT.Tribe",
-							"name": "tribe",
-							"type": "uint8"
-						},
-						{
-							"internalType": "enum CoopaNFT.Class",
-							"name": "class",
-							"type": "uint8"
-						},
-						{
-							"internalType": "uint256",
-							"name": "timeBonusTurn",
-							"type": "uint256"
-						},
-						{
-							"internalType": "uint256",
-							"name": "timeMainTurn",
-							"type": "uint256"
-						}
-					],
-					"internalType": "struct CoopaNFT.Coopa",
-					"name": "",
-					"type": "tuple"
-				}
-			],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"inputs": [
-				{
-					"internalType": "uint256",
-					"name": "_tokenId",
-					"type": "uint256"
-				}
-			],
-			"name": "getExp",
+			"inputs": [],
+			"name": "getCurrentId",
 			"outputs": [
 				{
 					"internalType": "uint256",
@@ -586,27 +489,8 @@
 			"type": "function"
 		},
 		{
-			"inputs": [
-				{
-					"internalType": "uint256",
-					"name": "",
-					"type": "uint256"
-				}
-			],
-			"name": "isEvolved",
-			"outputs": [
-				{
-					"internalType": "bool",
-					"name": "",
-					"type": "bool"
-				}
-			],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
 			"inputs": [],
-			"name": "latestTokenId",
+			"name": "lengout",
 			"outputs": [
 				{
 					"internalType": "uint256",
@@ -615,24 +499,6 @@
 				}
 			],
 			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"inputs": [
-				{
-					"internalType": "address",
-					"name": "receiver",
-					"type": "address"
-				},
-				{
-					"internalType": "enum CoopaNFT.Rare",
-					"name": "_rare",
-					"type": "uint8"
-				}
-			],
-			"name": "laySeed",
-			"outputs": [],
-			"stateMutability": "nonpayable",
 			"type": "function"
 		},
 		{
@@ -685,6 +551,401 @@
 			"name": "renounceOwnership",
 			"outputs": [],
 			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "_address",
+					"type": "address"
+				}
+			],
+			"name": "returnAddressClaim",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "_id",
+					"type": "uint256"
+				}
+			],
+			"name": "returnAllowclaimId",
+			"outputs": [
+				{
+					"internalType": "bool",
+					"name": "",
+					"type": "bool"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "_id",
+					"type": "uint256"
+				},
+				{
+					"internalType": "address",
+					"name": "_address",
+					"type": "address"
+				}
+			],
+			"name": "returnBatchidEachId",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "_id",
+					"type": "uint256"
+				}
+			],
+			"name": "returnCountEach",
+			"outputs": [
+				{
+					"internalType": "uint256[6]",
+					"name": "",
+					"type": "uint256[6]"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "_id",
+					"type": "uint256"
+				},
+				{
+					"internalType": "address",
+					"name": "_address",
+					"type": "address"
+				}
+			],
+			"name": "returnDateEachId",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "_id",
+					"type": "uint256"
+				}
+			],
+			"name": "returnDatetimeId",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "_id",
+					"type": "uint256"
+				},
+				{
+					"internalType": "address",
+					"name": "_address",
+					"type": "address"
+				}
+			],
+			"name": "returnIdAddress",
+			"outputs": [
+				{
+					"internalType": "uint256[][]",
+					"name": "",
+					"type": "uint256[][]"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "_id",
+					"type": "uint256"
+				},
+				{
+					"internalType": "address",
+					"name": "_address",
+					"type": "address"
+				}
+			],
+			"name": "returnNumberEachId",
+			"outputs": [
+				{
+					"internalType": "uint256[][]",
+					"name": "",
+					"type": "uint256[][]"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "_id",
+					"type": "uint256"
+				}
+			],
+			"name": "returnNumberId",
+			"outputs": [
+				{
+					"internalType": "uint256[6]",
+					"name": "",
+					"type": "uint256[6]"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "_index",
+					"type": "uint256"
+				}
+			],
+			"name": "returnNumbersTicket",
+			"outputs": [
+				{
+					"internalType": "uint256[]",
+					"name": "",
+					"type": "uint256[]"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "_index",
+					"type": "uint256"
+				}
+			],
+			"name": "returnOwnerTicket",
+			"outputs": [
+				{
+					"internalType": "address",
+					"name": "",
+					"type": "address"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "_id",
+					"type": "uint256"
+				},
+				{
+					"internalType": "address",
+					"name": "_address",
+					"type": "address"
+				}
+			],
+			"name": "returnResultAddress",
+			"outputs": [
+				{
+					"internalType": "uint256[]",
+					"name": "",
+					"type": "uint256[]"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "_index",
+					"type": "uint256"
+				}
+			],
+			"name": "returnTicketbatchTicket",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "_id",
+					"type": "uint256"
+				},
+				{
+					"internalType": "address",
+					"name": "_address",
+					"type": "address"
+				}
+			],
+			"name": "returnTicketindexEachId",
+			"outputs": [
+				{
+					"internalType": "uint256[]",
+					"name": "",
+					"type": "uint256[]"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "_id",
+					"type": "uint256"
+				}
+			],
+			"name": "returnTotalAddress",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "returnTotalReward",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "_id",
+					"type": "uint256"
+				},
+				{
+					"internalType": "address",
+					"name": "_address",
+					"type": "address"
+				}
+			],
+			"name": "returnTotalrewardAddress",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "_id",
+					"type": "uint256"
+				},
+				{
+					"internalType": "address",
+					"name": "_address",
+					"type": "address"
+				}
+			],
+			"name": "returnTotalrewardEachId",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "_id",
+					"type": "uint256"
+				}
+			],
+			"name": "returnTotalrewardId",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
 			"type": "function"
 		},
 		{
@@ -759,17 +1020,38 @@
 		{
 			"inputs": [
 				{
+					"internalType": "uint256[6]",
+					"name": "_array",
+					"type": "uint256[6]"
+				}
+			],
+			"name": "setArrReward",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "_amount",
+					"type": "uint256"
+				}
+			],
+			"name": "setBonusReward",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
 					"internalType": "address",
 					"name": "_address",
 					"type": "address"
-				},
-				{
-					"internalType": "bool",
-					"name": "_bool",
-					"type": "bool"
 				}
 			],
-			"name": "setBattleFields",
+			"name": "setClearReward",
 			"outputs": [],
 			"stateMutability": "nonpayable",
 			"type": "function"
@@ -790,6 +1072,30 @@
 			"name": "setEvolver",
 			"outputs": [],
 			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				},
+				{
+					"internalType": "address",
+					"name": "",
+					"type": "address"
+				}
+			],
+			"name": "sumAddress",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
 			"type": "function"
 		},
 		{
@@ -819,6 +1125,30 @@
 					"internalType": "string",
 					"name": "",
 					"type": "string"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"name": "ticketValue",
+			"outputs": [
+				{
+					"internalType": "address",
+					"name": "owner",
+					"type": "address"
+				},
+				{
+					"internalType": "uint256",
+					"name": "ticketbatch",
+					"type": "uint256"
 				}
 			],
 			"stateMutability": "view",
@@ -900,6 +1230,32 @@
 			"type": "function"
 		},
 		{
+			"inputs": [],
+			"name": "totalplayer",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "totalreward",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
 			"inputs": [
 				{
 					"internalType": "address",
@@ -933,6 +1289,25 @@
 			"name": "transferOwnership",
 			"outputs": [],
 			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"name": "ttPlayer",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
 			"type": "function"
 		}
 	]

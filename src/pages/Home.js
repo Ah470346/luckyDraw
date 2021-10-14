@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import 'react-notifications/lib/notifications.css';
 import {withRouter} from 'react-router';
 import {useWallet} from "use-wallet";
-import {useOpenBoxAction} from "../hook/hookOpenBox";
+import {useBuyTicketAction} from "../hook/hookBuyTicket";
 import {convertBigNumBer, LoadingFC, openNotificationWithIcon} from "../components/api/Api";
 import {useERC20Action} from "../hook/hookErc20";
 import {Spin} from "antd";
@@ -44,22 +44,22 @@ const getRandomTicket = () => {
 
 const Home = () => {
     const wallet = useWallet();
-    const openBoxAction = useOpenBoxAction();
+    const buyTicketAction = useBuyTicketAction();
     const {approve, isApprove} = useERC20Action();
     const [isApproved, setIsApproved] = useState(false);
-    const [price, setPrice] = useState(10000);
+    const [price, setPrice] = useState(100);
     const [amount, setAmount] = useState(1);
     const [nextDraw, setNextDraw] = useState(null);
     const [loading, setLoading] = useState(false);
     const [lsTicket,setLsTicket] = useState([getRandomTicket()])
     const {account} = useWallet();
-    // useEffect(() => {
-    //     openBoxAction.getSeedPrice()
-    //         .then(res => {
-    //             setPrice(convertBigNumBer(res))
-    //         })
-    //
-    // }, [])
+    useEffect(() => {
+        buyTicketAction.getTicketPrice()
+            .then(res => {
+                setPrice(convertBigNumBer(res))
+            })
+
+    }, [])
     // useEffect(()=>{
     //     setLsTicket(getRandomTicket())
     // },[])
@@ -159,6 +159,14 @@ const Home = () => {
             setLsTicket(currentLsTicket)
         }
     }
+    const buyTicket = () => {
+        console.log(lsTicket)
+        buyTicketAction.buyTicket(lsTicket)
+            .then(res => {
+                debugger
+            })
+    }
+
     const approveFC = () => {
         approve().then(res => {
             res.wait().then(res=>{
@@ -169,7 +177,7 @@ const Home = () => {
 
     const openBoxFC = () => {
         setLoading(true)
-        openBoxAction.buySeed(amount)
+        buyTicketAction.buySeed(amount)
             .then(res => {
                 res.wait().then(function(receipt) {
                     openNotificationWithIcon('success','Success','Transaction Success')
@@ -303,7 +311,15 @@ const Home = () => {
                                     <span className="left">Total</span>
                                     <span className="right">${lsTicket.length*price}</span>
                                 </div>
-                                <a href="#" className="custom-button2">Buy Tickets</a>
+                                <button className="custom-button2" onClick={()=>{if(isApproved){
+                                                        return buyTicket()
+                                                    }
+                                                    return approveFC()
+                                                }}>{
+                                                    isApproved ?
+                                                        "Buy Tickets" :
+                                                        "Approve"
+                                                }</button>
                             </div>
                         </div>
                     </div>

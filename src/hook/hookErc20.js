@@ -11,7 +11,7 @@ export const useERC20Action = () => {
     const {account} = useWallet()
 
     const isApprove = useCallback(async ()=> {
-        return await coopaERC20Contract.allowance(account, contractAddress.openBox)
+        return await coopaERC20Contract.allowance(account, contractAddress.buyTicket)
             .then(res=> {
                 if(res < BigNumber.from(10).pow(30)){
                     return false
@@ -21,7 +21,7 @@ export const useERC20Action = () => {
     })
 
     const approve = useCallback(async ()=> {
-        return await coopaERC20Contract.approve(contractAddress.openBox, BigNumber.from(10).pow(60))
+        return await coopaERC20Contract.approve(contractAddress.buyTicket, BigNumber.from(10).pow(60))
     }, [coopaERC20Contract, signer])
 
     const isApproveMarket = useCallback(async ()=> {

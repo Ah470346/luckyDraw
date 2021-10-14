@@ -10,7 +10,7 @@ import {ethers} from "ethers";
 import {useBattleAction} from "../hook/hookBattle";
 import {getCoopaEvolution, LoadingFC, lsCoopaMap, lsTribe, openNotificationWithIcon} from "../components/api/Api";
 import {handleTxHash} from "../utils/handleTxHash";
-import {useOpenBoxAction} from "../hook/hookOpenBox";
+import {useOpenBoxAction} from "../hook/hookBuyTicket";
 import {handledErrorAction} from "../utils/handleError";
 import Countdown from 'react-countdown';
 

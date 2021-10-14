@@ -1,7 +1,7 @@
 import {ethers} from "ethers";
 import NftABi from "../abi/nft.json"
 import MarketABi from "../abi/market.json"
-import openBoxABi from "../abi/openBox.json"
+import openBoxABi from "../abi/buyTicket.json"
 import battleABi from "../abi/battle.json"
 import erc20ABI from "../abi/ecr20.json"
 import {contractAddress} from "../utils/contract";
@@ -15,15 +15,15 @@ export const useContract = (address, abi, signer) => {
 }
 
 export const useNFTcontract = (signer) => {
-  return useContract(contractAddress.coopaNFT,NftABi, signer)
+  return useContract(contractAddress.NFT,NftABi, signer)
 }
 
 export const useMarketcontract = (signer) => {
   return useContract(contractAddress.market, MarketABi, signer)
 }
 
-export const useOpenBoxcontract = (signer) => {
-  return useContract(contractAddress.openBox, openBoxABi, signer)
+export const useBuyTicketcontract = (signer) => {
+  return useContract(contractAddress.buyTicket, openBoxABi, signer)
 }
 
 export const useBattlecontract = (signer) => {
@@ -31,7 +31,7 @@ export const useBattlecontract = (signer) => {
 }
 
 export const useCoopaToken = (signer) => {
-  return useContract(contractAddress.coopaToken, erc20ABI, signer)
+  return useContract(contractAddress.Token, erc20ABI, signer)
 }
 
 export const useMultiCall = (abi,calls) => {

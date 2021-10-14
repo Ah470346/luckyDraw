@@ -9,7 +9,7 @@ import ShopOutlined from "@ant-design/icons/lib/icons/ShopOutlined";
 import ShoppingCartOutlined from "@ant-design/icons/lib/icons/ShoppingCartOutlined";
 import {useNFTaction} from "../hook/hookNFT";
 import {ethers} from "ethers";
-import {useOpenBoxAction} from "../hook/hookOpenBox";
+import {useOpenBoxAction} from "../hook/hookBuyTicket";
 import {useMarketAction} from "../hook/hookMarket";
 import {getCoopaEvolution, LoadingFC, lsCoopaMap, lsTribe, openNotificationWithIcon} from "../components/api/Api";
 import {contractAddress} from "../utils/contract";
@@ -403,7 +403,7 @@ const Inventory = () => {
         const promises = [];
         for (let i = 0; i < value ; i++) {
             let obj = {}
-            obj.address = contractAddress.coopaNFT
+            obj.address = contractAddress.NFT
             obj.name = 'tokenOfOwnerByIndex'
             obj.params = [account,i]
             promises.push(obj);
@@ -416,7 +416,7 @@ const Inventory = () => {
         for (let i of value) {
             let obj = {}
             const tokenId = ethers.BigNumber.from(i.toString()).toString()
-            obj.address = contractAddress.coopaNFT
+            obj.address = contractAddress.NFT
             obj.name = 'getCoopa'
             obj.params = [tokenId]
             arr.push(obj);
@@ -428,7 +428,7 @@ const Inventory = () => {
         for (let i of value) {
             let obj = {}
             const tokenId = ethers.BigNumber.from(i.toString()).toString()
-            obj.address = contractAddress.coopaNFT
+            obj.address = contractAddress.NFT
             obj.name = 'coopaLevel'
             obj.params = [tokenId]
             arr.push(obj);

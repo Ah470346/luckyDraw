@@ -13,22 +13,6 @@ export const useNFTaction = () => {
         return await nftContract.getCoopa(idToken)
     }, [nftContract])
 
-    const getCountCoopaOfAddress = useCallback(async (address) => {
-        return await nftContract.balanceOf(address)
-    }, [nftContract])
-
-    const getTokenOfOwnerByIndex = useCallback(async (address,index) => {
-        return await nftContract.tokenOfOwnerByIndex(address,index)
-    }, [nftContract])
-
-    const getCoopa = useCallback(async (tokenId) => {
-        return await nftContract.getCoopa(tokenId)
-    }, [nftContract])
-
-    const getCoopaLevel = useCallback(async (tokenId) => {
-        return await nftContract.coopaLevel(tokenId)
-    }, [nftContract])
-
     const transferFrom = useCallback(async (from, to, tokenId) => {
         return await nftContract.transferFrom(from, to, tokenId)
     }, [nftContract])
@@ -44,15 +28,55 @@ export const useNFTaction = () => {
         return await nftContract.setApprovalForAll(contractAddress.market, true)
     }, [nftContract, signer])
 
+
+    const getLsTicketIdByAddress = useCallback(async (address)=> {
+     return await nftContract.addrTicketBatch(address)
+    }, [nftContract])
+
+    const getCurrentDraw = useCallback(async ()=> {
+     return await nftContract.getCurrentId()
+    }, [nftContract])
+
+    const getCurrentResult = useCallback(async (address,currentId)=> {
+     return await nftContract.returnNumberEachId(currentId,address)
+    }, [nftContract])
+
+    const returnTotalReward = useCallback(async ()=> {
+     return await nftContract.returnTotalReward()
+    }, [nftContract])
+
+    const returnTotalrewardId = useCallback(async (currentId)=> {
+     return await nftContract.returnTotalrewardId(currentId)
+    }, [nftContract])
+
+    const returnNumberId = useCallback(async (currentId)=> {
+     return await nftContract.returnNumberId(currentId)
+    }, [nftContract])
+
+    const returnDatetimeId = useCallback(async (currentId)=> {
+     return await nftContract.returnDatetimeId(currentId)
+    }, [nftContract])
+
+    const returnTotalAddress = useCallback(async (currentId)=> {
+     return await nftContract.returnTotalAddress(currentId)
+    }, [nftContract])
+
+
+
     return {
         nftContract: nftContract,
         getNftInfo: getNftInfo,
-        getCountCoopaOfAddress:getCountCoopaOfAddress,
-        getTokenOfOwnerByIndex:getTokenOfOwnerByIndex,
-        getCoopa:getCoopa,
         approve:approve,
         isApprove:isApprove,
         transferFrom:transferFrom,
-        getCoopaLevel:getCoopaLevel
+
+        getLsTicketIdByAddress:getLsTicketIdByAddress,
+        getCurrentDraw:getCurrentDraw,
+        getCurrentResult:getCurrentResult,
+        returnTotalReward:returnTotalReward,
+        returnNumberId:returnNumberId,
+        returnDatetimeId:returnDatetimeId,
+        returnTotalrewardId:returnTotalrewardId,
+        returnTotalAddress:returnTotalAddress,
     }
 }

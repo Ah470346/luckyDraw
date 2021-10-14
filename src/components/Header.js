@@ -1,10 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
-import { Container, Navbar, Nav } from 'react-bootstrap';
 import {useWallet} from "use-wallet";
 import {Link} from 'react-router-dom';
 import {Col, Modal, Row} from "antd";
-import {BarsOutlined} from '@ant-design/icons';
-import {ethers} from "ethers";
 import {useERC20Action} from "../hook/hookErc20";
 
 
@@ -29,7 +26,7 @@ export const Header = () => {
     const fetchBallance = () => {
         balanceOf(account)
         .then(res =>{
-            setBalanceCPA(res.toString()/(10e17))
+            setBalanceCPA((res.toString()/(10e17)).toFixed(0))
         })
     }
 
@@ -92,7 +89,7 @@ export const Header = () => {
                                 <Link to={'/'} className="active">Home</Link>
                             </li>
                             <li>
-                                <Link to={'/result'}>Results</Link>
+                                <Link to={'/results'}>Results</Link>
                             </li>
                             {/*<li>*/}
                             {/*    <a href="single-lottery.html" className="active">Lottery</a>*/}

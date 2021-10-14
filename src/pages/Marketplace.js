@@ -266,7 +266,7 @@ const Marketplace = () => {
         for (let i of value) {
             let obj = {}
             const tokenId = ethers.BigNumber.from(i.toString()).toString()
-            obj.address = contractAddress.coopaNFT
+            obj.address = contractAddress.NFT
             obj.name = 'getCoopa'
             obj.params = [tokenId]
             arr.push(obj);
@@ -278,7 +278,7 @@ const Marketplace = () => {
         for (let i of value) {
             let obj = {}
             const tokenId = ethers.BigNumber.from(i.toString()).toString()
-            obj.address = contractAddress.coopaNFT
+            obj.address = contractAddress.NFT
             obj.name = 'coopaLevel'
             obj.params = [tokenId]
             arr.push(obj);
