@@ -1849,9 +1849,9 @@ input[type=submit] {
   display: flex;
   -webkit-box-shadow: 0px 3px 43px 0px rgba(12, 0, 255, 0.1);
           box-shadow: 0px 3px 43px 0px rgba(12, 0, 255, 0.1);
-  /*border-radius: 10px;*/
+  border-radius: 10px;
   overflow: hidden;
-  /*margin-bottom: 30px;*/
+  margin-bottom: 30px;
 }
 .result-list .single-list .light-area {
   -webkit-box-flex: 1;
@@ -2737,7 +2737,7 @@ input[type=submit] {
   border-radius: 10px;
   -webkit-box-shadow: 2.505px 17.825px 59px 0px rgba(45, 112, 196, 0.2);
           box-shadow: 2.505px 17.825px 59px 0px rgba(45, 112, 196, 0.2);
-  padding: 33px 30px 80px;
+  padding: 33px 30px 5px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;

@@ -5,7 +5,7 @@ import {useWallet} from "use-wallet";
 import {useBuyTicketAction} from "../hook/hookBuyTicket";
 import {convertBigNumBer, LoadingFC, openNotificationWithIcon} from "../components/api/Api";
 import {useERC20Action} from "../hook/hookErc20";
-import {Skeleton, Spin} from "antd";
+import {Spin} from "antd";
 import {Container} from "react-bootstrap";
 import {handledErrorAction} from "../utils/handleError";
 import {contractAddress} from "../utils/contract";
@@ -14,7 +14,6 @@ import { Form, Input, Button, Radio } from 'antd';
 import {useNFTcontract} from "../hook/hookContract";
 import {handleTxHash} from "../utils/handleTxHash";
 import {useNFTaction} from "../hook/hookNFT";
-import {BlockCurrentDetail, BlockResult} from "../components/Component";
 
 function* shuffle(array) {
 
@@ -50,7 +49,6 @@ const Home = () => {
     const wallet = useWallet();
     const buyTicketAction = useBuyTicketAction();
     const {approve, isApprove} = useERC20Action();
-    const nftAction = useNFTaction();
     const {nftContract} = useNFTaction();
     const [isApproved, setIsApproved] = useState(false);
     const [price, setPrice] = useState(100);
@@ -58,20 +56,7 @@ const Home = () => {
     const [nextDraw, setNextDraw] = useState(null);
     const [loading, setLoading] = useState(false);
     const [isBuying, setIsBuying] = useState(false);
-    const [isShowDetail, setIsShowDetail] = useState(false);
-    const [totalPlayerCurrentId, setTotalPlayerCurrentId] = useState(null);
-    const [rewardMoney,setRewardMoney] = useState(0)
-    const [rewardMoneyForSelectedId,setRewardMoneyForSelectedId] = useState(0)
     const [lsTicket,setLsTicket] = useState([getRandomTicket()])
-    const [currentDraw, setCurrentDraw] = useState(null);
-    const [selectedDrawWinningNumber, setSelectedDrawWinningNumber] = useState(null);
-    const [maxDraw, setMaxDraw] = useState(null);
-    const [selectedDraw, setSelectedDraw] = useState(null);
-    const [selectedDate, setSelectedDate] = useState(null);
-    const [result,setResult] = useState([])
-    const [lastestWinningNumber,setLastestWinningNumber] = useState(null)
-
-
     const {account} = useWallet();
     useEffect(() => {
         buyTicketAction.getTicketPrice()
@@ -83,10 +68,7 @@ const Home = () => {
     // useEffect(()=>{
     //     setLsTicket(getRandomTicket())
     // },[])
-    const toggleDetail =()=>{
-        const currentDetail = isShowDetail
-        setIsShowDetail(!currentDetail)
-    }
+
     const BoxSingleTicket = ({callbackRemoveTicket,indexTicket,lsTicket}) => {
         const [lsNumber, setLsNumber] = useState(lsTicket[indexTicket])
         const newLsTicket = [...lsTicket]
@@ -129,14 +111,13 @@ const Home = () => {
             </>
         )
     }
-
-      const container = document.getElementsByClassName('input-select-lot');
+    const container = document.getElementsByClassName('input-select-lot');
       for (let i = 0;i < container.length; i++) {
           container[i].addEventListener('keyup',function (e) {
               if (['0','1','2','3','4','5','6','7','8','9'].includes(e.key)){
               this.value = e.key}
           })
-          }
+      }
     const BoxTicket = ({lsTicket,callbackRemoveTicket}) => {
         return (
             <>
@@ -155,34 +136,6 @@ const Home = () => {
               })
           }
       },[lsTicket])
-
-    useEffect(()=>{
-        nftAction.getCurrentDraw()
-            .then(res=>{
-                const curId = res
-                setCurrentDraw(res-1)
-                setMaxDraw(res-1)
-                nftAction.returnTotalReward()
-                .then(res=>{
-                    setRewardMoney(convertBigNumBer(res))
-                    nftAction.returnTotalAddress(curId-1)
-                    .then(res=>{
-                        console.log(res)
-                        setTotalPlayerCurrentId(res.toString())
-                    })
-                })
-                nftAction.returnNumberId(parseInt(res)-1)
-                    .then(res=>{
-                        let lsWinning = []
-                        for (let i of res) {
-                            lsWinning.push(i.toString())
-                        }
-                        setLastestWinningNumber(lsWinning)
-                    })
-
-            })
-    },[])
-
     useEffect(()=>{
         const currentTime = new Date();
         const nextDate = new Date(new Date().setDate(currentTime.getDate()+1))
@@ -274,19 +227,27 @@ const Home = () => {
     console.log("lsTicket",lsTicket)
     return (
         <>
-        <section className="banner-section">
-            <div className="container">
-                <div className="row">
-                    <div className="col-12">
-                        <p className="banner-subtitle">Exclusive Lottery </p>
-                        <h1 className="banner-title">
-                            Mega Jackpot
-                        </h1>
-                        <p className="text">Power up for a chance to win in this electrifying instant game!</p>
-                        <a href="#" className="custom-button2" onClick={()=>setIsBuying(true)}>Start Playing Now</a>
+        <section className="breadcrumb-area">
+            <img className="lottory" src="assets/images/lottery-b-icon.png" alt=""/>
+
+                <div className="container">
+                    <div className="content">
+                        <h2 className="title">
+                            &nbsp;
+                        </h2>
+                        <ul className="extra-padding">
+                            <li>
+                                <a href="index.html">
+                                    &nbsp;
+                                </a>
+                            </li>
+
+                            <li>
+                                <a>&nbsp;</a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
-            </div>
         </section>
     <section className="singlelottery">
         <div className="container">
@@ -294,8 +255,10 @@ const Home = () => {
                 <div className="col-lg-12">
                     <div className="steps" style={{display:'block'}}>
                         <div className="section-header">
-                        <h2 className={'title ep'} style={{fontSize:'36px'}}>Get your tickets now!</h2></div>
-                        {/*<button className="custom-button2" onClick={()=>setIsBuying(true)}>Buy Tickets</button>*/}
+                        <h2 className={'title ep'}>The DLT Lottery</h2></div>
+                        <div>
+                        <h1>~ 500000</h1></div>
+                        <button className="custom-button2" onClick={()=>setIsBuying(true)}>Buy Tickets</button>
                     </div>
                     <div className="time-wrapper">
                         <div className="time-counter">
@@ -372,101 +335,180 @@ const Home = () => {
             </div>
         </div>
         </> :null}
-                    <div className="lottery-result result-page">
-                        <div className="container">
-                        <div className="row">
-                            <div className="col-lg-12">
-                                <div className="result-list">
-                                    <div className="single-list" style={{borderBottom:'1px solid #e0e0e0'}}>
-                                        <div className="light-area">
-                                            <div className="light-area-top">
-                                                <div className="left">
-                                                    <img src="assets/images/d1.png" alt=""/>
-                                                </div>
-                                                <button className="custom-button2">Buy Ticket</button>
-                                                {/*<div className="right">*/}
-                                                {/*    <span>Draw took place on</span>*/}
-                                                {/*    <h6>Saturday April 20, 2020</h6>*/}
-                                                {/*</div>*/}
-                                            </div>
-                                            <div className="light-area-bottom">
-                                                <div className={'col-lg-12'}>
-                                        <div className={'row'}>
-                                        {/*<div className={'col-3 left-detail'}>*/}
-                                        {/*    <div>*/}
-                                        {/*       <span className={'prize-pot'}>Prize pot</span>*/}
-                                        {/*        <h6 className={'match-first-title totalPot'}>~ {rewardMoney} DLT</h6>*/}
-                                        {/*    </div>*/}
-                                        {/*    <div>*/}
-                                        {/*        <span className={'match-reward-sub'}>Total players this round : {totalPlayerCurrentId}</span>*/}
-                                        {/*    </div>*/}
-                                        {/*</div>*/}
-                                        <BlockCurrentDetail rewardMoney={rewardMoney}/>
-                                        </div>
-                                    </div>
-                                            </div>
-                                        </div>
-                                        <div className="color-area">
-                                            <div className="top">
-                                                <span>Next Draw</span>
-                                                <h6>Wed, Oct 28, 2020</h6>
-                                            </div>
-                                            <div className="bottom">
-                                                <span>Est. Jackpot </span>
-                                                <h6><img src={'assets/images/logo-coin.png'}/>&nbsp; {rewardMoney} DLT</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    </div>
 
-    <div className="lottery-result result-page">
-        <div className="container mt-5">
-            <div className="row justify-content-center">
-                <div className="col-lg-9">
-                    <div className="content">
-                        <div className="section-header">
-                            <h2 className="title">
-                                Latest Lottery results
-                            </h2>
-                            <p className="text">
-                                Check Your lotto online, find all the lotto winning numbers and see
-                                if you won the latest lotto jackpots
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className="row">
-                <div className="col-lg-12">
-                    <div className="result-box">
-                        <h4 className="box-header">Lottery Winning Numbers</h4>
-                        <div className="result-list">
-                            {lastestWinningNumber ?
-                            <BlockResult winningNumber={lastestWinningNumber}/>
-                            :
-                            <Skeleton active paragraph={{rows: 1}}/> }
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className="row">
-                <div className="col-lg-12">
-                    <div className="result-box">
-                        <h4 className="box-header">Your ticket</h4>
-                        <div className="result-list">
-                            <BlockResult winningNumber={lastestWinningNumber}/>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
+        {/*<div className="frequent-number">*/}
+        {/*    <div className="container">*/}
+        {/*        <div className="row justify-content-center">*/}
+        {/*            <div className="col-lg-9">*/}
+        {/*                <div className="section-header">*/}
+        {/*                    <h2 className="title ep">*/}
+        {/*                        Most Frequent Number*/}
+        {/*                    </h2>*/}
+        {/*                    <p className="text">*/}
+        {/*                        Check Your lotto online, find all the lotto winning numbers and see*/}
+        {/*                        if you won the latest lotto jackpots*/}
+        {/*                    </p>*/}
+        {/*                </div>*/}
+        {/*            </div>*/}
+        {/*        </div>*/}
+        {/*        <div className="row">*/}
+        {/*            <div className="col-lg-12">*/}
+        {/*                <div className="number-slider owl-carousel">*/}
+        {/*                    <div className="item">*/}
+        {/*                        <div className="single-number">*/}
+        {/*                            <ul>*/}
+        {/*                                <li>*/}
+        {/*                                    <span>1</span>*/}
+        {/*                                </li>*/}
+        {/*                                <li>*/}
+        {/*                                    <span>2</span>*/}
+        {/*                                </li>*/}
+        {/*                                <li>*/}
+        {/*                                    <span>3</span>*/}
+        {/*                                </li>*/}
+        {/*                                <li>*/}
+        {/*                                    <span>4</span>*/}
+        {/*                                </li>*/}
+        {/*                                <li>*/}
+        {/*                                    <span>5</span>*/}
+        {/*                                </li>*/}
+        {/*                                <li>*/}
+        {/*                                    <span>6</span>*/}
+        {/*                                </li>*/}
+        {/*                            </ul>*/}
+        {/*                            <input type="text" placeholder="Try These Numbers"/>*/}
+        {/*                        </div>*/}
+        {/*                    </div>*/}
+        {/*                    <div className="item">*/}
+        {/*                        <div className="single-number">*/}
+        {/*                            <ul>*/}
+        {/*                                <li>*/}
+        {/*                                    <span>1</span>*/}
+        {/*                                </li>*/}
+        {/*                                <li>*/}
+        {/*                                    <span>2</span>*/}
+        {/*                                </li>*/}
+        {/*                                <li>*/}
+        {/*                                    <span>3</span>*/}
+        {/*                                </li>*/}
+        {/*                                <li>*/}
+        {/*                                    <span>4</span>*/}
+        {/*                                </li>*/}
+        {/*                                <li>*/}
+        {/*                                    <span>5</span>*/}
+        {/*                                </li>*/}
+        {/*                                <li>*/}
+        {/*                                    <span>6</span>*/}
+        {/*                                </li>*/}
+        {/*                            </ul>*/}
+        {/*                            <input type="text" placeholder="Try These Numbers"/>*/}
+        {/*                        </div>*/}
+        {/*                    </div>*/}
+        {/*                    <div className="item">*/}
+        {/*                        <div className="single-number">*/}
+        {/*                            <ul>*/}
+        {/*                                <li>*/}
+        {/*                                    <span>1</span>*/}
+        {/*                                </li>*/}
+        {/*                                <li>*/}
+        {/*                                    <span>2</span>*/}
+        {/*                                </li>*/}
+        {/*                                <li>*/}
+        {/*                                    <span>3</span>*/}
+        {/*                                </li>*/}
+        {/*                                <li>*/}
+        {/*                                    <span>4</span>*/}
+        {/*                                </li>*/}
+        {/*                                <li>*/}
+        {/*                                    <span>5</span>*/}
+        {/*                                </li>*/}
+        {/*                                <li>*/}
+        {/*                                    <span>6</span>*/}
+        {/*                                </li>*/}
+        {/*                            </ul>*/}
+        {/*                            <input type="text" placeholder="Try These Numbers"/>*/}
+        {/*                        </div>*/}
+        {/*                    </div>*/}
+        {/*                    <div className="item">*/}
+        {/*                        <div className="single-number">*/}
+        {/*                            <ul>*/}
+        {/*                                <li>*/}
+        {/*                                    <span>1</span>*/}
+        {/*                                </li>*/}
+        {/*                                <li>*/}
+        {/*                                    <span>2</span>*/}
+        {/*                                </li>*/}
+        {/*                                <li>*/}
+        {/*                                    <span>3</span>*/}
+        {/*                                </li>*/}
+        {/*                                <li>*/}
+        {/*                                    <span>4</span>*/}
+        {/*                                </li>*/}
+        {/*                                <li>*/}
+        {/*                                    <span>5</span>*/}
+        {/*                                </li>*/}
+        {/*                                <li>*/}
+        {/*                                    <span>6</span>*/}
+        {/*                                </li>*/}
+        {/*                            </ul>*/}
+        {/*                            <input type="text" placeholder="Try These Numbers"/>*/}
+        {/*                        </div>*/}
+        {/*                    </div>*/}
+        {/*                    <div className="item">*/}
+        {/*                        <div className="single-number">*/}
+        {/*                            <ul>*/}
+        {/*                                <li>*/}
+        {/*                                    <span>1</span>*/}
+        {/*                                </li>*/}
+        {/*                                <li>*/}
+        {/*                                    <span>2</span>*/}
+        {/*                                </li>*/}
+        {/*                                <li>*/}
+        {/*                                    <span>3</span>*/}
+        {/*                                </li>*/}
+        {/*                                <li>*/}
+        {/*                                    <span>4</span>*/}
+        {/*                                </li>*/}
+        {/*                                <li>*/}
+        {/*                                    <span>5</span>*/}
+        {/*                                </li>*/}
+        {/*                                <li>*/}
+        {/*                                    <span>6</span>*/}
+        {/*                                </li>*/}
+        {/*                            </ul>*/}
+        {/*                            <input type="text" placeholder="Try These Numbers"/>*/}
+        {/*                        </div>*/}
+        {/*                    </div>*/}
+        {/*                    <div className="item">*/}
+        {/*                        <div className="single-number">*/}
+        {/*                            <ul>*/}
+        {/*                                <li>*/}
+        {/*                                    <span>1</span>*/}
+        {/*                                </li>*/}
+        {/*                                <li>*/}
+        {/*                                    <span>2</span>*/}
+        {/*                                </li>*/}
+        {/*                                <li>*/}
+        {/*                                    <span>3</span>*/}
+        {/*                                </li>*/}
+        {/*                                <li>*/}
+        {/*                                    <span>4</span>*/}
+        {/*                                </li>*/}
+        {/*                                <li>*/}
+        {/*                                    <span>5</span>*/}
+        {/*                                </li>*/}
+        {/*                                <li>*/}
+        {/*                                    <span>6</span>*/}
+        {/*                                </li>*/}
+        {/*                            </ul>*/}
+        {/*                            <input type="text" placeholder="Try These Numbers"/>*/}
+        {/*                        </div>*/}
+        {/*                    </div>*/}
+        {/*                </div>*/}
+        {/*            </div>*/}
+        {/*        </div>*/}
+        {/*    </div>*/}
+        {/*</div>*/}
     </section>
     </>
     );

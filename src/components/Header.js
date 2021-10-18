@@ -86,10 +86,10 @@ export const Header = () => {
                     <div className="header-wrapper">
                         <ul className="menu">
                             <li>
-                                <Link to={'/'} className="active">Home</Link>
+                                <Link to={'/'} className="active">Powerball</Link>
                             </li>
                             <li>
-                                <Link to={'/results'}>Results</Link>
+                                <Link to={'/results'}>Poker</Link>
                             </li>
                             {/*<li>*/}
                             {/*    <a href="single-lottery.html" className="active">Lottery</a>*/}
