@@ -9,14 +9,14 @@ export default function Footer() {
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="footer-top-area">
-                                <div className="left">
-                                    <a href="#">
-                                        <img src="assets/images/app_store_btn.png" alt=""/>
-                                    </a>
-                                    <a href="#">
-                                        <img src="assets/images/goole_play_btn.png" alt=""/>
-                                    </a>
-                                </div>
+                                {/*<div className="left">*/}
+                                {/*    <a href="#">*/}
+                                {/*        <img src="assets/images/app_store_btn.png" alt=""/>*/}
+                                {/*    </a>*/}
+                                {/*    <a href="#">*/}
+                                {/*        <img src="assets/images/goole_play_btn.png" alt=""/>*/}
+                                {/*    </a>*/}
+                                {/*</div>*/}
                                 <div className="right">
                                     <ul className="links">
                                         <li>
@@ -52,7 +52,7 @@ export default function Footer() {
                             <span>
                                 Copyright © 2020.All Rights Reserved By
                             </span>
-                                <a href="#">Fantra</a>
+                                <a href="/">&nbsp;DLT</a>
                             </div>
                         </div>
                         <div className="col-lg-6 align-self-center">
