@@ -421,6 +421,19 @@
 		},
 		{
 			"inputs": [],
+			"name": "returnTokenAddress",
+			"outputs": [
+				{
+					"internalType": "address",
+					"name": "",
+					"type": "address"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
 			"name": "sellFeeRate",
 			"outputs": [
 				{

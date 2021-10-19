@@ -80,3 +80,6 @@ export const lsCoopaMap = [
 export const lsTribe = ['Seed','Mornia','Noonia','Evenia','Nightia']
 
 export const lsTribeMarket = ['Mornia','Noonia','Evenia','Nightia']
+
+
+

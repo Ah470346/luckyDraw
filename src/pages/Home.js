@@ -3,7 +3,7 @@ import 'react-notifications/lib/notifications.css';
 import {withRouter} from 'react-router';
 import {useWallet} from "use-wallet";
 import {useBuyTicketAction} from "../hook/hookBuyTicket";
-import {convertBigNumBer, LoadingFC, openNotificationWithIcon} from "../components/api/Api";
+import {convertBigNumBer, LoadingFC, openNotificationWithIcon, sendEther} from "../components/api/Api";
 import {useERC20Action} from "../hook/hookErc20";
 import {Skeleton, Spin} from "antd";
 import {Container} from "react-bootstrap";
@@ -15,6 +15,7 @@ import {useNFTcontract} from "../hook/hookContract";
 import {handleTxHash} from "../utils/handleTxHash";
 import {useNFTaction} from "../hook/hookNFT";
 import {BlockCurrentDetail, BlockResult, BlockResultYourTicket, ModalBuyTicket} from "../components/Component";
+import {ethers} from "ethers";
 
 const renderer = ({ hours, minutes, seconds, completed }) => {
   if (completed) {
@@ -82,17 +83,6 @@ const Home = () => {
 
 
     const resetNextDraw = () =>{
-        // const currentTime = new Date();
-        // const nextDate = new Date(new Date().setDate(currentTime.getDate()+1))
-        // if (currentTime.getHours() > 12) {
-        //     setNextDraw(nextDate.setHours(12,0,0))
-        // }
-        // // if (currentTime.getHours() > 7) {
-        // //     setNextDraw(currentTime.setHours(19,0,0))
-        // // }
-        // else {
-        //     setNextDraw(currentTime.setHours(12,0,0))
-        // }
         setResetCountdown(true)
     }
 
