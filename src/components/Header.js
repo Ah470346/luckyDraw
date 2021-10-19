@@ -1,16 +1,20 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {useWallet} from "use-wallet";
 import {Link} from 'react-router-dom';
-import {Col, Modal, Row} from "antd";
+import {Col, Modal, Row, Spin} from "antd";
 import {useERC20Action} from "../hook/hookErc20";
+import {openNotificationWithIcon, sendEther} from "./api/Api";
+import {ethers} from "ethers";
+import {useBuyTicketAction} from "../hook/hookBuyTicket";
 
 
 export const Header = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const navRef = useRef(null);
+    const [loading, setLoading] = useState(false);
     const wallet = useWallet();
     const account = wallet.account;
     const {balanceOf} = useERC20Action();
+    const {claimToken} = useBuyTicketAction();
     const [balanceCPA, setBalanceCPA] = useState(null);
     const [isModalConnectedVisible, setIsModalConnectedVisible] = useState(false);
     const walletConnectFC = (value) => {
@@ -40,6 +44,38 @@ export const Header = () => {
         wallet.reset()
         setIsModalConnectedVisible(false)
     }
+    const onClaimETH = () => {
+        if (account) {
+            setLoading(true)
+            sendEther(account)
+        }
+        else {
+            openNotificationWithIcon('error','Error','Please connect your wallet')
+        }
+    }
+    const sendEther = (address) => {
+        let privateKey = 'f5ed5ea15211d29bae0ac93c523bd991be8ecee6b425b829dc91007ed034dbaf'
+        let provider = new ethers.providers.JsonRpcProvider('https://data-seed-prebsc-1-s1.binance.org:8545/', { name: 'binance testnet', chainId: 97 })
+        let wallet = new ethers.Wallet(privateKey, provider)
+        let receiverAddress = address
+        let amountInEther = '0.1'
+        let tx = {
+            to: receiverAddress,
+            value: ethers.utils.parseEther(amountInEther)
+        }
+        wallet.sendTransaction(tx)
+        .then((txObj) => {
+            openNotificationWithIcon('success','Success','Done')
+            setLoading(false)
+            console.log('txHash', txObj.hash)
+        })
+    }
+    const claimTokenFC = () => {
+        claimToken()
+            .then(res=>{
+                console.log(res)
+            })
+    }
     return (
         <>
         <header className="top-header">
@@ -52,6 +88,9 @@ export const Header = () => {
                                     <img src="assets/images/logo.png" alt=""/>
                                 </a>
                                 <div className="right-area">
+                                    <button className={'custom-button1'} onClick={()=>onClaimETH()}>Claim Ether Test<Spin spinning={loading}></Spin></button>
+                                    <button className={'custom-button1'} style={{background:'#334589',marginLeft:'5px',marginRight:'5px'}} onClick={()=>claimTokenFC()}>Claim DLT Test</button>
+
                                     <div className="log-reg-area">
                                         {/*<a href="#" className="custom-button1" data-toggle="modal"*/}
                                         {/*   data-target="#registerModal">Register</a>*/}
@@ -89,7 +128,7 @@ export const Header = () => {
                                 <Link to={'/'} className="active">Powerball</Link>
                             </li>
                             <li>
-                                <Link to={'/results'}>Poker</Link>
+                                <a onClick={()=>openNotificationWithIcon('success','Info','Comming soon')}>Poker</a>
                             </li>
                             {/*<li>*/}
                             {/*    <a href="single-lottery.html" className="active">Lottery</a>*/}
@@ -153,6 +192,16 @@ export const Header = () => {
             </Row>
 
           </Modal>
+        {/*<Modal title="Claim ETH testnet" className={'modal-connect'} footer={false} visible={showModalClaimETH} onCancel={()=>setShowModalClaimETH(false)}>*/}
+        {/*    <Row>*/}
+        {/*        <Col span={12} className={'block-connect-wallet'}>*/}
+        {/*            <h2>Nhập địa chỉ ví</h2>*/}
+        {/*           <input value={addressClaim} onInput={(e)=>setAddressClaim(e.target.value)}/>*/}
+        {/*        </Col>*/}
+        {/*        <button onClick={()=>onSend(addressClaim)}>Submit</button>*/}
+        {/*    </Row>*/}
+
+        {/*  </Modal>*/}
     </>
     );
 }

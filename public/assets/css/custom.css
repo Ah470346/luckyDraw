@@ -222,3 +222,7 @@ input[type=number] {
 .pick-number-area .single-pick .body-area{
     text-align: center;
 }
+
+.block-connect-wallet button{
+    border: none;
+}

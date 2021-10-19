@@ -64,6 +64,42 @@ export const BlockCurrentDetail = ({rewardMoney}) => {
     )
 }
 
+export const BlockCurrentYourTicket = ({selectedDraw}) => {
+    const wallet = useWallet();
+    const {account} = useWallet();
+    const nftAction = useNFTaction();
+    const [result,setResult] = useState([])
+    const [selectedDate, setSelectedDate] = useState(null);
+    useEffect(()=>{
+        nftAction.getCurrentResult(account,parseInt(selectedDraw))
+            .then(res=>{
+                let lsResult = []
+                for (let i of res) {
+                    let lsTemp = []
+                    for (let j of i) {
+                        lsTemp.push(j.toString())
+                    }
+                    lsResult.push(lsTemp)
+                }
+                setResult(lsResult)
+            })
+        nftAction.returnDatetimeId(selectedDraw)
+            .then(res=>{
+                console.log(res.toString())
+                setSelectedDate(new Date(parseInt(res.toString())*1000).toLocaleDateString())
+            })
+    },[selectedDraw,account])
+
+    return (
+        <>
+            <div className={'col-12 row'}>
+
+            </div>
+    </>
+    )
+}
+
+
 
 export const BlockResult = () => {
     const nftAction = useNFTaction();
@@ -169,7 +205,7 @@ export const BlockResult = () => {
                                 {lastestWinningNumber && lastestWinningNumber.length > 0 ?
                                      <>
                                     {lastestWinningNumber.map((item, index) =>
-                                        <span>{item}</span>
+                                        <span key={'wininingnumber' + index}>{item}</span>
                                     )}
                                     </>
                                     :
@@ -203,38 +239,50 @@ export const BlockResult = () => {
 
 export const BlockResultYourTicket = () => {
     const nftAction = useNFTaction();
-    const [currentDraw, setCurrentDraw] = useState(null);
+    const buyTicketAction = useBuyTicketAction();
+    const [selectedDraw, setSelectedDraw] = useState(null);
     const [lastestDraw, setLastestDraw] = useState(null);
     const [lastestWinningNumber,setLastestWinningNumber] = useState(null)
     const [rewardMoney,setRewardMoney] = useState(0)
     const [selectedDate, setSelectedDate] = useState(null);
     const [totalPlayerCurrentId, setTotalPlayerCurrentId] = useState(null);
+    const wallet = useWallet();
+    const {account} = useWallet();
+    const [result,setResult] = useState([])
+
 
     useEffect(()=>{
-        nftAction.getCurrentDraw()
+        buyTicketAction.getHistoryList(account)
             .then(res=>{
-                const curId = res
-                setLastestDraw(curId-1)
-                setCurrentDraw(res-1)
-                nftAction.returnTotalrewardId(curId-1)
-                .then(res=>{
-                    setRewardMoney(convertBigNumBer(res))
-                    nftAction.returnTotalAddress(curId-1)
-                    .then(res=>{
-                        setTotalPlayerCurrentId(res.toString())
-                    })
-                })
-                nftAction.returnNumberId(parseInt(res)-1)
-                    .then(res=>{
-                        let lsWinning = []
-                        for (let i of res) {
-                            lsWinning.push(i.toString())
-                        }
-                        setLastestWinningNumber(lsWinning)
-                    })
-
+                console.log("history")
+                console.log(res)
+                const lastRound = res[res.length-1].toString()
+                setLastestDraw(parseInt(lastRound))
+                setSelectedDraw(parseInt(lastRound))
             })
-    },[])
+    },[account])
+
+    useEffect(()=>{
+        nftAction.getCurrentResult(account,parseInt(selectedDraw))
+            .then(res=>{
+                let lsResult = []
+                for (let i of res) {
+                    let lsTemp = []
+                    for (let j of i) {
+                        lsTemp.push(j.toString())
+                    }
+                    lsResult.push(lsTemp)
+                }
+                setResult(lsResult)
+            })
+        nftAction.returnDatetimeId(selectedDraw)
+            .then(res=>{
+                console.log(res.toString())
+                setSelectedDate(new Date(parseInt(res.toString())*1000).toLocaleDateString())
+            })
+    },[selectedDraw,account])
+
+
 
     const fetchSelectedDrawResult = (value) => {
         nftAction.returnTotalrewardId(value)
@@ -245,6 +293,18 @@ export const BlockResultYourTicket = () => {
                setTotalPlayerCurrentId(res.toString())
             })
         })
+        nftAction.getCurrentResult(account,parseInt(value))
+            .then(res=>{
+                let lsResult = []
+                for (let i of res) {
+                    let lsTemp = []
+                    for (let j of i) {
+                        lsTemp.push(j.toString())
+                    }
+                    lsResult.push(lsTemp)
+                }
+                setResult(lsResult)
+            })
         nftAction.returnNumberId(value)
             .then(res=>{
                 let lsWinning = []
@@ -262,14 +322,14 @@ export const BlockResultYourTicket = () => {
 
     const onInputRoundChange = (e) => {
         if (0 < parseInt(e.target.value) <= parseInt(lastestDraw)) {
-            setCurrentDraw(e.target.value)
+            setSelectedDraw(e.target.value)
             fetchSelectedDrawResult(e.target.value)
         }
 
     }
     useEffect(()=>{
-        fetchSelectedDrawResult(currentDraw)
-    },[currentDraw])
+        fetchSelectedDrawResult(selectedDraw)
+    },[selectedDraw])
     return (
         <>
             <div className="single-list">
@@ -278,16 +338,16 @@ export const BlockResultYourTicket = () => {
                         <div className="left">
                             <img src="assets/images/d1.png" alt=""/>
                                 <h4>Round <input pattern="^[0-9]+$" inputMode="numeric" id="round-id" name="round-id"
-                                                 scale="lg" className="input-number-inner" autoComplete={'off'} value={currentDraw} onChange={(e)=>onInputRoundChange(e)}/></h4>
+                                                 scale="lg" className="input-number-inner" autoComplete={'off'} value={selectedDraw} onChange={(e)=>onInputRoundChange(e)}/></h4>
                         </div>
                         <div className="right">
-                            {currentDraw > 1 ?
-                            <span><CaretLeftOutlined style={{fontSize:'26px'}} onClick={()=>setCurrentDraw(currentDraw-1)}/></span> :
+                            {selectedDraw > 1 ?
+                            <span><CaretLeftOutlined style={{fontSize:'26px'}} onClick={()=>setSelectedDraw(selectedDraw-1)}/></span> :
                             <span><CaretLeftOutlined style={{fontSize:'26px',color: '#777777'}}/></span>}
-                            {currentDraw < lastestDraw ?
+                            {selectedDraw < lastestDraw ?
                                 <>
-                                <span><CaretRightOutlined style={{fontSize:'26px'}} onClick={()=>setCurrentDraw(currentDraw+1)} /></span>
-                                <span><StepForwardOutlined style={{fontSize:'26px'}} onClick={()=>setCurrentDraw(lastestDraw)} /></span></>
+                                <span><CaretRightOutlined style={{fontSize:'26px'}} onClick={()=>setSelectedDraw(selectedDraw+1)} /></span>
+                                <span><StepForwardOutlined style={{fontSize:'26px'}} onClick={()=>setSelectedDraw(lastestDraw)} /></span></>
                                 :
                                 <>
                                 <span><CaretRightOutlined style={{fontSize:'26px',color: '#777777'}} /></span>
@@ -298,7 +358,9 @@ export const BlockResultYourTicket = () => {
 
                         </div>
                     </div>
+                    {selectedDraw < lastestDraw ?
                     <div className="light-area-bottom">
+
                         <div className="left row col-12">
                             <p className={'left col-5'}>Winning Numbers:</p>
 
@@ -315,13 +377,28 @@ export const BlockResultYourTicket = () => {
 
                             </div>
                         </div>
+                    </div>:null}
+                    <div className="light-area-bottom">
+                        <div className="left row col-12">
+                            <div className="numbers right col-7">
+                                {result.map((item,index)=>
+                                <>
+                                    {item.map((itemTicket,indexTicket)=>
+                                        <span className={'mb-3'}>{itemTicket}</span>
+                                        )}
+                                </>)
+                                }
+                            </div>
+                        </div>
                     </div>
-                    <BlockCurrentDetail rewardMoney={rewardMoney}/>
+
                 </div>
                 <div className="color-area">
                     <div className="top">
+                        {selectedDraw < lastestDraw ?
+                            <>
                         <span>Draw took place on</span>
-                        <h6>{selectedDate}</h6>
+                        <h6>{selectedDate}</h6></>:null }
                     </div>
                     <div className="top">
                         <span>Total players this round</span>
