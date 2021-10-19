@@ -14,17 +14,7 @@ import { Form, Input, Button, Radio } from 'antd';
 import {useNFTcontract} from "../hook/hookContract";
 import {handleTxHash} from "../utils/handleTxHash";
 import {useNFTaction} from "../hook/hookNFT";
-import {BlockCurrentDetail, BlockResult} from "../components/Component";
-
-function* shuffle(array) {
-
-    var i = array.length;
-
-    while (i--) {
-        yield array.splice(Math.floor(Math.random() * (i + 1)), 1)[0];
-    }
-
-}
+import {BlockCurrentDetail, BlockResult, BlockResultYourTicket, ModalBuyTicket} from "../components/Component";
 
 const renderer = ({ hours, minutes, seconds, completed }) => {
   if (completed) {
@@ -34,154 +24,32 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
   }
 };
 
-const getRandomTicket = () => {
-    const ranNums = shuffle([0,1,2,3,4,5,6,7,8,9]);
-    const lsTemp = []
-    for (let i = 1; i < 7; i++) {
-        lsTemp.push(ranNums.next().value)
-    }
-    return lsTemp
-}
 
 
+const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
 
 const Home = () => {
-    const wallet = useWallet();
-    const buyTicketAction = useBuyTicketAction();
-    const {approve, isApprove} = useERC20Action();
     const nftAction = useNFTaction();
-    const {nftContract} = useNFTaction();
-    const [isApproved, setIsApproved] = useState(false);
-    const [price, setPrice] = useState(100);
     const [amount, setAmount] = useState(1);
     const [nextDraw, setNextDraw] = useState(null);
+    const [resetCountdown, setResetCountdown] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [isBuying, setIsBuying] = useState(false);
+    const [isShowModalBuyTicket, setIsShowModalBuyTicket] = useState(false);
     const [isShowDetail, setIsShowDetail] = useState(false);
-    const [totalPlayerCurrentId, setTotalPlayerCurrentId] = useState(null);
-    const [rewardMoney,setRewardMoney] = useState(0)
-    const [rewardMoneyForSelectedId,setRewardMoneyForSelectedId] = useState(0)
-    const [lsTicket,setLsTicket] = useState([getRandomTicket()])
-    const [currentDraw, setCurrentDraw] = useState(null);
-    const [selectedDrawWinningNumber, setSelectedDrawWinningNumber] = useState(null);
-    const [maxDraw, setMaxDraw] = useState(null);
-    const [selectedDraw, setSelectedDraw] = useState(null);
-    const [selectedDate, setSelectedDate] = useState(null);
+    const [currentRewardMoney,setCurrentRewardMoney] = useState(0)
     const [result,setResult] = useState([])
-    const [lastestWinningNumber,setLastestWinningNumber] = useState(null)
-
-
+    const wallet = useWallet();
     const {account} = useWallet();
     useEffect(() => {
-        buyTicketAction.getTicketPrice()
-            .then(res => {
-                setPrice(convertBigNumBer(res))
-            })
-
+        nftAction.returnTotalReward()
+        .then(res=>{
+            setCurrentRewardMoney(convertBigNumBer(res))})
     }, [])
-    // useEffect(()=>{
-    //     setLsTicket(getRandomTicket())
-    // },[])
     const toggleDetail =()=>{
         const currentDetail = isShowDetail
         setIsShowDetail(!currentDetail)
     }
-    const BoxSingleTicket = ({callbackRemoveTicket,indexTicket,lsTicket}) => {
-        const [lsNumber, setLsNumber] = useState(lsTicket[indexTicket])
-        const newLsTicket = [...lsTicket]
-        const onInputChange = (e,index) => {
-            if (e.target.value) {
-            let currentValue = [...lsNumber]
-            currentValue[index] = parseInt(e.target.value)
-            setLsNumber(currentValue)
-            newLsTicket[indexTicket] = currentValue
-            setLsTicket(newLsTicket)}
-        }
-        return (
-            <>
-                <div className={lsTicket.length > 1 ? "col-lg-6 col-md-6 mb-5" : "col-lg-12 col-md-12 mb-5"}  key={'boxsingle' + indexTicket}>
-                <div className="single-pick">
-                    <div className="header-area">
-                        {/*<h4 className="title">Pick 6 Numbers</h4>*/}
-                        <div className="buttons">
-                            <button className="custom-button1" onClick={()=>setLsNumber(getRandomTicket())}><i className="fas fa-magic"></i>Quick
-                            Pick</button>
-                            {lsTicket.length > 1 ? <button className="custom-button2" onClick={()=>callbackRemoveTicket(indexTicket)}>Remove</button> :null }
-                            {lsTicket && lsTicket.length < 5 ?
-                            <button className="custom-button2 custom-button-add-ticket" onClick={()=>addTicket()}><i className="fas fa-plus"></i> Add Tickets</button> :null}
-                        </div>
-                    </div>
-                    <div className="body-area">
-                        <ul>
-            {lsNumber.map((item, index) =>
-                <div key={'abc'+index} style={{display:'inline-block'}}>
-                <li>
-                    <span><input className={'input-select-lot'} maxLength={'1'} pattern="[0-9]{1}" onChange={(e)=>onInputChange(e,index)} value={lsNumber[index]} min={0} max={9}/></span>
-                </li>
-
-                </div>
-                    )}
-                    </ul>
-                    </div>
-                </div>
-            </div>
-            </>
-        )
-    }
-
-      const container = document.getElementsByClassName('input-select-lot');
-      for (let i = 0;i < container.length; i++) {
-          container[i].addEventListener('keyup',function (e) {
-              if (['0','1','2','3','4','5','6','7','8','9'].includes(e.key)){
-              this.value = e.key}
-          })
-          }
-    const BoxTicket = ({lsTicket,callbackRemoveTicket}) => {
-        return (
-            <>
-            {lsTicket.map((item,index) =>
-                <BoxSingleTicket lsTicket={lsTicket} callbackRemoveTicket={(indexTicket)=>callbackRemoveTicket(indexTicket)} indexTicket={index} key={'box' + index}/>
-            )}
-        </>
-        )
-    }
-      useEffect(()=> {
-          const container = document.getElementsByClassName('input-select-lot');
-          for (let i = 0;i < container.length; i++) {
-              container[i].addEventListener('keyup',function (e) {
-              if (['0','1','2','3','4','5','6','7','8','9'].includes(e.key)){
-                this.value = e.key}
-              })
-          }
-      },[lsTicket])
-
-    useEffect(()=>{
-        nftAction.getCurrentDraw()
-            .then(res=>{
-                const curId = res
-                setCurrentDraw(res-1)
-                setMaxDraw(res-1)
-                nftAction.returnTotalReward()
-                .then(res=>{
-                    setRewardMoney(convertBigNumBer(res))
-                    nftAction.returnTotalAddress(curId-1)
-                    .then(res=>{
-                        console.log(res)
-                        setTotalPlayerCurrentId(res.toString())
-                    })
-                })
-                nftAction.returnNumberId(parseInt(res)-1)
-                    .then(res=>{
-                        let lsWinning = []
-                        for (let i of res) {
-                            lsWinning.push(i.toString())
-                        }
-                        setLastestWinningNumber(lsWinning)
-                    })
-
-            })
-    },[])
 
     useEffect(()=>{
         const currentTime = new Date();
@@ -195,95 +63,51 @@ const Home = () => {
         else {
             setNextDraw(currentTime.setHours(12,0,0))
         }
-
     },[]);
-    useEffect(() => {
-        if (account) {
-            isApprove()
-                .then(setIsApproved);
+
+    useEffect(()=>{
+        const currentTime = new Date();
+        const nextDate = new Date(new Date().setDate(currentTime.getDate()+1))
+        if (currentTime.getHours() > 12) {
+            setNextDraw(nextDate.setHours(12,0,0))
         }
-    }, [account]);
-
-    const addTicket = () => {
-        const currentLsTicket = [...lsTicket]
-        if (currentLsTicket.length < 6) {
-            currentLsTicket.push(getRandomTicket())
-            setLsTicket(currentLsTicket)
+        // if (currentTime.getHours() > 7) {
+        //     setNextDraw(currentTime.setHours(19,0,0))
+        // }
+        else {
+            setNextDraw(currentTime.setHours(12,0,0))
         }
-    }
-    const buyTicket = () => {
-        console.log(lsTicket)
-        setLoading(true)
-        buyTicketAction.buyTicket(lsTicket)
-            .then(res => {
-                console.log(res)
-                res.wait().then(result => {
-                    console.log(result)
-                    let e = handleTxHash(result, account, nftContract)
-                    console.log("result",e)
-                    setLoading(false)
-                    setLsTicket([['?','?','?','?','?','?']])
-                    openNotificationWithIcon('success','Success','Transaction Success')
-                })
-                .catch(error => {
-                        const message = handledErrorAction(error).message
-                        openNotificationWithIcon('error','Error',message)
-                        setLoading(false)
-                    })
-            })
-            .catch(error => {
-                const message = handledErrorAction(error).message
-                openNotificationWithIcon('error','Error',message)
-                setLoading(false)
-            })
+        setResetCountdown(false)
+    },[resetCountdown]);
+
+
+    const resetNextDraw = () =>{
+        // const currentTime = new Date();
+        // const nextDate = new Date(new Date().setDate(currentTime.getDate()+1))
+        // if (currentTime.getHours() > 12) {
+        //     setNextDraw(nextDate.setHours(12,0,0))
+        // }
+        // // if (currentTime.getHours() > 7) {
+        // //     setNextDraw(currentTime.setHours(19,0,0))
+        // // }
+        // else {
+        //     setNextDraw(currentTime.setHours(12,0,0))
+        // }
+        setResetCountdown(true)
     }
 
-    const approveFC = () => {
-        approve().then(res => {
-            res.wait().then(res=>{
-                setIsApproved(true)
-            })
-        })
-    }
-
-    const openBoxFC = () => {
-        setLoading(true)
-        buyTicketAction.buySeed(amount)
-            .then(res => {
-                res.wait().then(function(receipt) {
-                    openNotificationWithIcon('success','Success','Transaction Success')
-                    setLoading(false)
-                })
-                .catch(error => {
-                        const message = handledErrorAction(error).message
-                        openNotificationWithIcon('error','Error',message)
-                        setLoading(false)
-                    })
-            })
-            .catch(error => {
-                        const message = handledErrorAction(error).message
-                        openNotificationWithIcon('error','Error',message)
-                        setLoading(false)
-                    })
-    }
-    const RemoveTicket = (index) => {
-        const currentLsTicket = [...lsTicket]
-        currentLsTicket.splice(index,1)
-        setLsTicket(currentLsTicket)
-    }
-    console.log("lsTicket",lsTicket)
     return (
         <>
         <section className="banner-section">
             <div className="container">
                 <div className="row">
                     <div className="col-12">
-                        <p className="banner-subtitle">Exclusive Lottery </p>
+                        <p className="banner-subtitle">Exclusive Lottery Mega Jackpot</p>
                         <h1 className="banner-title">
-                            Mega Jackpot
+                            ~ {currentRewardMoney}
                         </h1>
                         <p className="text">Power up for a chance to win in this electrifying instant game!</p>
-                        <a href="#" className="custom-button2" onClick={()=>setIsBuying(true)}>Start Playing Now</a>
+                        <a href="#" className="custom-button2" onClick={()=>setIsShowModalBuyTicket(true)}>Start Playing Now</a>
                     </div>
                 </div>
             </div>
@@ -302,76 +126,16 @@ const Home = () => {
                             <img src="assets/images/clock.png" alt=""/>
                                 {/*<p className="time-countdown" data-countdown="01/01/2021"></p>*/}
                                 <p className="time-countdown">
-                            {nextDraw ?
+                                {nextDraw && resetCountdown === false ?
                                 <>
-                                    <Countdown date={nextDraw} renderer={renderer}/> <span>until the draw</span>
+                                    <Countdown date={nextDraw} renderer={renderer} onComplete={()=>resetNextDraw()}/> <span>until the draw</span>
                                 </>:null}</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        {isBuying ?
-            <>
-        <div className="pick-number-area">
-            <div className="container">
-                <div className="row">
-                    <div className="col-lg-9">
-                        <div className="row justify-content-center">
-                            <BoxTicket lsTicket={lsTicket} callbackRemoveTicket={(index)=>RemoveTicket(index)}/>
-                        </div>
-                        {/*<div className="row">*/}
-                        {/*    {lsTicket && lsTicket.length < 5 ?*/}
-                        {/*        <>*/}
-                        {/*    <div className="col-lg-12 text-center">*/}
-                        {/*        <a className="add-ticket-btn" onClick={()=>addTicket()}><i className="fas fa-plus"></i> Add Tickets</a>*/}
-                        {/*    </div>*/}
-                        {/*        </> : null }*/}
-                        {/*</div>*/}
-                    </div>
-                    <div className="col-lg-3">
-                        <div className="cart-summary">
-                            <div className="top-area">
-                                <h4 className="title">
-                                    Cart Summary
-                                </h4>
-                                <p className="text">
-                                    You've got 30% of chance to win. Shop more tickets to get more chance
-                                </p>
-                            </div>
-                            <div className="middle-area">
-                                <div className="tikit">
-                                    <span className="left">Filled out Tickets</span>
-                                    <span className="right">{lsTicket.length}</span>
-                                </div>
-                                <div className="price">
-                                    <span className="left">Ticket Price
-                                        <small>({lsTicket.length} tickets <i className="fas fa-times"></i> ${price})</small>
-                                    </span>
-                                    <span className="right">${lsTicket.length*price}</span>
-                                </div>
-                            </div>
-                            <div className="bottom-area">
-                                <div className="total-area">
-                                    <span className="left">Total</span>
-                                    <span className="right">${lsTicket.length*price}</span>
-                                </div>
-                                <button className="custom-button2" onClick={()=>{if(isApproved){
-                                                        return buyTicket()
-                                                    }
-                                                    return approveFC()
-                                                }}>{
-                                                    isApproved ?
-                                                        <Spin spinning={loading}>Buy Tickets</Spin> :
-                                                        "Approve"
-                                                }</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </> :null}
+
                     <div className="lottery-result result-page">
                         <div className="container">
                         <div className="row">
@@ -383,7 +147,7 @@ const Home = () => {
                                                 <div className="left">
                                                     <img src="assets/images/d1.png" alt=""/>
                                                 </div>
-                                                <button className="custom-button2">Buy Ticket</button>
+                                                <button className="custom-button2" onClick={()=>setIsShowModalBuyTicket(true)}>Buy Ticket</button>
                                                 {/*<div className="right">*/}
                                                 {/*    <span>Draw took place on</span>*/}
                                                 {/*    <h6>Saturday April 20, 2020</h6>*/}
@@ -401,7 +165,7 @@ const Home = () => {
                                         {/*        <span className={'match-reward-sub'}>Total players this round : {totalPlayerCurrentId}</span>*/}
                                         {/*    </div>*/}
                                         {/*</div>*/}
-                                        <BlockCurrentDetail rewardMoney={rewardMoney}/>
+                                        <BlockCurrentDetail rewardMoney={currentRewardMoney}/>
                                         </div>
                                     </div>
                                             </div>
@@ -409,11 +173,11 @@ const Home = () => {
                                         <div className="color-area">
                                             <div className="top">
                                                 <span>Next Draw</span>
-                                                <h6>Wed, Oct 28, 2020</h6>
+                                                <h6>{nextDraw ? new Date(parseInt(nextDraw.toString())).toLocaleDateString("en-US", options) : null}</h6>
                                             </div>
                                             <div className="bottom">
                                                 <span>Est. Jackpot </span>
-                                                <h6><img src={'assets/images/logo-coin.png'}/>&nbsp; {rewardMoney} DLT</h6>
+                                                <h6><img src={'assets/images/logo-coin.png'}/>&nbsp;{currentRewardMoney} DLT</h6>
                                             </div>
                                         </div>
                                     </div>
@@ -445,20 +209,21 @@ const Home = () => {
                     <div className="result-box">
                         <h4 className="box-header">Lottery Winning Numbers</h4>
                         <div className="result-list">
-                            {lastestWinningNumber ?
-                            <BlockResult winningNumber={lastestWinningNumber}/>
-                            :
-                            <Skeleton active paragraph={{rows: 1}}/> }
+                            <BlockResult />
                         </div>
                     </div>
                 </div>
             </div>
+
+
+
+
             <div className="row">
                 <div className="col-lg-12">
                     <div className="result-box">
                         <h4 className="box-header">Your ticket</h4>
                         <div className="result-list">
-                            <BlockResult winningNumber={lastestWinningNumber}/>
+                            <BlockResultYourTicket/>
                         </div>
                     </div>
                 </div>
@@ -468,6 +233,7 @@ const Home = () => {
     </div>
 
     </section>
+            <ModalBuyTicket visible={isShowModalBuyTicket} hideModal={()=>setIsShowModalBuyTicket(false)}/>
     </>
     );
 };

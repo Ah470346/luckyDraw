@@ -176,3 +176,49 @@ input[type=number] {
 .result-list .single-list .light-area .light-area-bottom .left p{
     line-height: 50px;
 }
+
+.input-number-inner{
+    width: 60px;
+    height: 100%;
+    padding: 4px 16px;
+    background-color: rgb(238, 234, 244);
+    border-radius: 16px;
+    box-shadow: rgb(74 74 104 / 10%) 0px 2px 2px -1px inset;
+    color: rgb(40, 13, 95);
+    font-size: 16px;
+    height: 48px;
+    outline: 0px;
+    padding: 0px 16px;
+    border: 1px solid rgb(215, 202, 236);
+}
+
+.result-list .single-list .light-area .light-area-bottom {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.pick-number-area .single-pick .body-area ul li span{
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+}
+
+.single-pick .body-area input{
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    padding-left:0px;
+    text-align: center;
+}
+
+.pick-number-area{
+    border: 1px solid #e0e0e0;
+}
+
+.ant-modal-close-x, .ant-modal-close{
+    display: none;
+}
+
+.pick-number-area .single-pick .body-area{
+    text-align: center;
+}
