@@ -21,13 +21,13 @@
 				{
 					"indexed": false,
 					"internalType": "address",
-					"name": "_address",
+					"name": "",
 					"type": "address"
 				},
 				{
 					"indexed": false,
 					"internalType": "uint256",
-					"name": "total",
+					"name": "",
 					"type": "uint256"
 				}
 			],
@@ -40,13 +40,13 @@
 				{
 					"indexed": false,
 					"internalType": "address",
-					"name": "_address",
+					"name": "",
 					"type": "address"
 				},
 				{
 					"indexed": false,
 					"internalType": "uint256",
-					"name": "total",
+					"name": "",
 					"type": "uint256"
 				}
 			],
@@ -78,14 +78,26 @@
 				{
 					"indexed": false,
 					"internalType": "address",
-					"name": "buyer",
+					"name": "",
 					"type": "address"
 				},
 				{
 					"indexed": false,
 					"internalType": "uint256",
-					"name": "sumReward",
+					"name": "",
 					"type": "uint256"
+				},
+				{
+					"indexed": false,
+					"internalType": "uint256[]",
+					"name": "",
+					"type": "uint256[]"
+				},
+				{
+					"indexed": false,
+					"internalType": "uint256[]",
+					"name": "",
+					"type": "uint256[]"
 				}
 			],
 			"name": "adressReward",
@@ -97,13 +109,13 @@
 				{
 					"indexed": false,
 					"internalType": "address",
-					"name": "_address",
+					"name": "",
 					"type": "address"
 				},
 				{
 					"indexed": false,
 					"internalType": "uint256",
-					"name": "_amount",
+					"name": "",
 					"type": "uint256"
 				}
 			],
@@ -116,13 +128,13 @@
 				{
 					"indexed": false,
 					"internalType": "uint256",
-					"name": "batchId",
+					"name": "",
 					"type": "uint256"
 				},
 				{
 					"indexed": false,
 					"internalType": "uint256",
-					"name": "blocktime",
+					"name": "",
 					"type": "uint256"
 				}
 			],
@@ -133,13 +145,38 @@
 			"inputs": [
 				{
 					"internalType": "uint256",
-					"name": "_amount",
+					"name": "",
 					"type": "uint256"
 				}
 			],
-			"name": "_claim",
-			"outputs": [],
-			"stateMutability": "nonpayable",
+			"name": "_arrId",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"name": "_arrReward",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
 			"type": "function"
 		},
 		{
@@ -207,21 +244,9 @@
 			"type": "function"
 		},
 		{
-			"inputs": [
-				{
-					"internalType": "uint256",
-					"name": "_idloto",
-					"type": "uint256"
-				}
-			],
+			"inputs": [],
 			"name": "checkReward",
-			"outputs": [
-				{
-					"internalType": "uint256",
-					"name": "",
-					"type": "uint256"
-				}
-			],
+			"outputs": [],
 			"stateMutability": "nonpayable",
 			"type": "function"
 		},
@@ -276,9 +301,21 @@
 			"name": "getHistoryList",
 			"outputs": [
 				{
-					"internalType": "uint256[]",
+					"components": [
+						{
+							"internalType": "uint256[]",
+							"name": "lastIdAddress",
+							"type": "uint256[]"
+						},
+						{
+							"internalType": "bool[]",
+							"name": "draw",
+							"type": "bool[]"
+						}
+					],
+					"internalType": "struct BuyTicket.listAddress",
 					"name": "",
-					"type": "uint256[]"
+					"type": "tuple"
 				}
 			],
 			"stateMutability": "view",
@@ -293,30 +330,6 @@
 				}
 			],
 			"name": "getSeedPrice",
-			"outputs": [
-				{
-					"internalType": "uint256",
-					"name": "",
-					"type": "uint256"
-				}
-			],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"inputs": [
-				{
-					"internalType": "address",
-					"name": "",
-					"type": "address"
-				},
-				{
-					"internalType": "uint256",
-					"name": "",
-					"type": "uint256"
-				}
-			],
-			"name": "lastIdAddress",
 			"outputs": [
 				{
 					"internalType": "uint256",
@@ -356,6 +369,19 @@
 				}
 			],
 			"name": "setAddressSeller",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256[6]",
+					"name": "_array",
+					"type": "uint256[6]"
+				}
+			],
+			"name": "setArrReward",
 			"outputs": [],
 			"stateMutability": "nonpayable",
 			"type": "function"
@@ -410,6 +436,19 @@
 			"name": "setSeedPrice",
 			"outputs": [],
 			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "sumReward",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
 			"type": "function"
 		},
 		{

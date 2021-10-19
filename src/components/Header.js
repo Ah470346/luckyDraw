@@ -88,8 +88,8 @@ export const Header = () => {
                                     <img src="assets/images/logo.png" alt=""/>
                                 </a>
                                 <div className="right-area">
-                                    <button className={'custom-button1'} onClick={()=>onClaimETH()}>Claim Ether Test<Spin spinning={loading}></Spin></button>
-                                    <button className={'custom-button1'} style={{background:'#334589',marginLeft:'5px',marginRight:'5px'}} onClick={()=>claimTokenFC()}>Claim DLT Test</button>
+                                    <button className={'custom-button1'} onClick={()=>onClaimETH()}>Claim ETH<Spin spinning={loading}></Spin></button>
+                                    <button className={'custom-button1'} style={{background:'#334589',marginLeft:'5px',marginRight:'5px'}} onClick={()=>claimTokenFC()}>Claim BIL</button>
 
                                     <div className="log-reg-area">
                                         {/*<a href="#" className="custom-button1" data-toggle="modal"*/}

@@ -32,6 +32,7 @@ const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric
 
 const Home = () => {
     const nftAction = useNFTaction();
+    const buyTicketAction = useBuyTicketAction();
     const [amount, setAmount] = useState(1);
     const [nextDraw, setNextDraw] = useState(null);
     const [resetCountdown, setResetCountdown] = useState(false);
@@ -86,6 +87,13 @@ const Home = () => {
         setResetCountdown(true)
     }
 
+    const onCheckNow = () =>{
+        buyTicketAction.checkReward()
+            .then(res=>{
+                console.log(res)
+                // debugger
+            })
+    }
     return (
         <>
         <section className="banner-section">
@@ -155,7 +163,7 @@ const Home = () => {
                                         {/*        <span className={'match-reward-sub'}>Total players this round : {totalPlayerCurrentId}</span>*/}
                                         {/*    </div>*/}
                                         {/*</div>*/}
-                                        <BlockCurrentDetail rewardMoney={currentRewardMoney}/>
+                                        <BlockCurrentDetail rewardMoney={currentRewardMoney} lsWinner={[]}/>
                                         </div>
                                     </div>
                                             </div>
@@ -190,6 +198,7 @@ const Home = () => {
                                 Check Your lotto online, find all the lotto winning numbers and see
                                 if you won the latest lotto jackpots
                             </p>
+                            <button onClick={()=>onCheckNow()}>Check Now</button>
                         </div>
                     </div>
                 </div>
