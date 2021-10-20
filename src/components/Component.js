@@ -19,86 +19,98 @@ export const BlockCurrentDetail = ({rewardMoney}) => {
             <div className={'col-12 row'}>
                 <div className={'col-4'}>
                     <h2 className={'match-first-title'}>Match first 1</h2>
-                    <h2 className={'match-reward'}>{rewardMoney*2/100} DLT</h2>
+                    <h2 className={'match-reward'}>{rewardMoney*2/100} BILLY</h2>
                     {/*<h2 className={'match-reward-sub'}>~ 1000$</h2>*/}
-                    <h2 className={'match-reward-each'}>20DLT each</h2>
-                    <h2 className={'match-reward-count'}>20 Winners</h2>
                 </div>
                 <div className={'col-4'}>
                     <h2 className={'match-first-title'}>Match first 2</h2>
-                    <h2 className={'match-reward'}>{rewardMoney*4/100} DLT</h2>
+                    <h2 className={'match-reward'}>{rewardMoney*4/100} BILLY</h2>
                     {/*<h2 className={'match-reward-sub'}>~ 1000$</h2>*/}
-                    <h2 className={'match-reward-each'}>20DLT each</h2>
-                    <h2 className={'match-reward-count'}>20 Winners</h2>
                 </div>
                 <div className={'col-4'}>
                     <h2 className={'match-first-title'}>Match first 3</h2>
-                    <h2 className={'match-reward'}>{rewardMoney*9/100} DLT</h2>
+                    <h2 className={'match-reward'}>{rewardMoney*9/100} BILLY</h2>
                     {/*<h2 className={'match-reward-sub'}>~ 1000$</h2>*/}
-                    <h2 className={'match-reward-each'}>20DLT each</h2>
-                    <h2 className={'match-reward-count'}>20 Winners</h2>
                 </div>
                 <div className={'col-4'}>
                     <h2 className={'match-first-title'}>Match first 4</h2>
-                    <h2 className={'match-reward'}>{rewardMoney*15/100} DLT</h2>
+                    <h2 className={'match-reward'}>{rewardMoney*15/100} BILLY</h2>
                     {/*<h2 className={'match-reward-sub'}>~ 1000$</h2>*/}
-                    <h2 className={'match-reward-each'}>20DLT each</h2>
-                    <h2 className={'match-reward-count'}>20 Winners</h2>
                 </div>
                 <div className={'col-4'}>
                     <h2 className={'match-first-title'}>Match first 5</h2>
-                    <h2 className={'match-reward'}>{rewardMoney*25/100} DLT</h2>
+                    <h2 className={'match-reward'}>{rewardMoney*25/100} BILLY</h2>
                     {/*<h2 className={'match-reward-sub'}>~ 1000$</h2>*/}
-                    <h2 className={'match-reward-each'}>20DLT each</h2>
-                    <h2 className={'match-reward-count'}>20 Winners</h2>
                 </div>
                 <div className={'col-4'}>
                     <h2 className={'match-first-title'}>Match first 6</h2>
-                    <h2 className={'match-reward'}>{rewardMoney*45/100} DLT</h2>
+                    <h2 className={'match-reward'}>{rewardMoney*45/100} BILLY</h2>
                     {/*<h2 className={'match-reward-sub'}>~ 1000$</h2>*/}
-                    <h2 className={'match-reward-each'}>20DLT each</h2>
-                    <h2 className={'match-reward-count'}>20 Winners</h2>
                 </div>
             </div>
     </>
     )
 }
 
-export const BlockCurrentYourTicket = ({selectedDraw}) => {
-    const wallet = useWallet();
-    const {account} = useWallet();
-    const nftAction = useNFTaction();
-    const [result,setResult] = useState([])
-    const [selectedDate, setSelectedDate] = useState(null);
-    useEffect(()=>{
-        nftAction.getCurrentResult(account,parseInt(selectedDraw))
-            .then(res=>{
-                let lsResult = []
-                for (let i of res) {
-                    let lsTemp = []
-                    for (let j of i) {
-                        lsTemp.push(j.toString())
-                    }
-                    lsResult.push(lsTemp)
-                }
-                setResult(lsResult)
-            })
-        nftAction.returnDatetimeId(selectedDraw)
-            .then(res=>{
-                console.log(res.toString())
-                setSelectedDate(new Date(parseInt(res.toString())*1000).toLocaleDateString())
-            })
-    },[selectedDraw,account])
 
+
+export const BlockDetail = ({rewardMoney,lsWinner}) => {
+    console.log(lsWinner)
     return (
         <>
             <div className={'col-12 row'}>
-
+                <div className={'col-4'}>
+                    <h2 className={'match-first-title'}>Match first 1</h2>
+                    <h2 className={'match-reward'}>{rewardMoney*2/100} BILLY</h2>
+                    {/*<h2 className={'match-reward-sub'}>~ 1000$</h2>*/}
+                    {lsWinner[0] !== '0' ?
+                    <h2 className={'match-reward-each'}>{rewardMoney*2/100/parseInt(lsWinner[0])} each</h2>:null }
+                    <h2 className={'match-reward-count'}>{lsWinner[0]} Winners</h2>
+                </div>
+                <div className={'col-4'}>
+                    <h2 className={'match-first-title'}>Match first 2</h2>
+                    <h2 className={'match-reward'}>{rewardMoney*4/100} BILLY</h2>
+                    {/*<h2 className={'match-reward-sub'}>~ 1000$</h2>*/}
+                    {lsWinner[1] !== '0' ?
+                    <h2 className={'match-reward-each'}>{rewardMoney*4/100/parseInt(lsWinner[1])} each</h2>:null }
+                    <h2 className={'match-reward-count'}>{lsWinner[1]} Winners</h2>
+                </div>
+                <div className={'col-4'}>
+                    <h2 className={'match-first-title'}>Match first 3</h2>
+                    <h2 className={'match-reward'}>{rewardMoney*9/100} BILLY</h2>
+                    {/*<h2 className={'match-reward-sub'}>~ 1000$</h2>*/}
+                    {lsWinner[2] !== '0' ?
+                    <h2 className={'match-reward-each'}>{rewardMoney*9/100/parseInt(lsWinner[2])} each</h2>:null }
+                    <h2 className={'match-reward-count'}>{lsWinner[2]} Winners</h2>
+                </div>
+                <div className={'col-4'}>
+                    <h2 className={'match-first-title'}>Match first 4</h2>
+                    <h2 className={'match-reward'}>{rewardMoney*15/100} BILLY</h2>
+                    {/*<h2 className={'match-reward-sub'}>~ 1000$</h2>*/}
+                    {lsWinner[3] !== '0' ?
+                    <h2 className={'match-reward-each'}>{rewardMoney*15/100/parseInt(lsWinner[3])} each</h2>:null }
+                    <h2 className={'match-reward-count'}>{lsWinner[3]} Winners</h2>
+                </div>
+                <div className={'col-4'}>
+                    <h2 className={'match-first-title'}>Match first 5</h2>
+                    <h2 className={'match-reward'}>{rewardMoney*25/100} BILLY</h2>
+                    {/*<h2 className={'match-reward-sub'}>~ 1000$</h2>*/}
+                    {lsWinner[4] !== '0' ?
+                    <h2 className={'match-reward-each'}>{rewardMoney*25/100/parseInt(lsWinner[4])} each</h2>:null }
+                    <h2 className={'match-reward-count'}>{lsWinner[4]} Winners</h2>
+                </div>
+                <div className={'col-4'}>
+                    <h2 className={'match-first-title'}>Match first 6</h2>
+                    <h2 className={'match-reward'}>{rewardMoney*45/100} BILLY</h2>
+                    {/*<h2 className={'match-reward-sub'}>~ 1000$</h2>*/}
+                    {lsWinner[5] !== '0' ?
+                    <h2 className={'match-reward-each'}>{rewardMoney*45/100/parseInt(lsWinner[5])} each</h2>:null }
+                    <h2 className={'match-reward-count'}>{lsWinner[5]} Winners</h2>
+                </div>
             </div>
     </>
     )
 }
-
 
 
 export const BlockResult = () => {
@@ -107,6 +119,7 @@ export const BlockResult = () => {
     const [lastestDraw, setLastestDraw] = useState(null);
     const [lastestWinningNumber,setLastestWinningNumber] = useState(null)
     const [rewardMoney,setRewardMoney] = useState(0)
+    const [lsWinner,setLsWinner] = useState([])
     const [selectedDate, setSelectedDate] = useState(null);
     const [totalPlayerCurrentId, setTotalPlayerCurrentId] = useState(null);
 
@@ -116,47 +129,73 @@ export const BlockResult = () => {
                 const curId = res
                 setLastestDraw(curId-1)
                 setCurrentDraw(res-1)
-                nftAction.returnTotalrewardId(curId-1)
-                .then(res=>{
-                    setRewardMoney(convertBigNumBer(res))
-                    nftAction.returnTotalAddress(curId-1)
-                    .then(res=>{
-                        setTotalPlayerCurrentId(res.toString())
-                    })
-                })
                 nftAction.returnNumberId(parseInt(res)-1)
                     .then(res=>{
+                        console.log(res)
+                        console.log(res[0])
                         let lsWinning = []
-                        for (let i of res) {
+                        for (let i of res[0]) {
                             lsWinning.push(i.toString())
                         }
                         setLastestWinningNumber(lsWinning)
+                        setRewardMoney(convertBigNumBer(res[1]))
+                        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                        setSelectedDate(new Date(parseInt(res[2].toString())*1000).toLocaleDateString("en-US", options))
+                        let lsWinnerTemp = []
+                        for (let i of res[4]) {
+                            lsWinnerTemp.push(i.toString())
+                        }
+                        setLsWinner(lsWinnerTemp)
+
                     })
+                nftAction.returnTotalAddress(curId-1)
+                    .then(res=>{
+                        setTotalPlayerCurrentId(res.toString())
+                    })
+                // nftAction.returnTotalrewardId(curId-1)
+                // .then(res=>{
+                //     setRewardMoney(convertBigNumBer(res))
+                //     nftAction.returnCountReward(curId-1)
+                //     .then(res=>{
+                //         let lsWinnerTemp = []
+                //         for (let i of res) {
+                //             lsWinnerTemp.push(i.toString())
+                //         }
+                //         setLsWinner(lsWinnerTemp)
+                //     })
+                //     nftAction.returnTotalAddress(curId-1)
+                //     .then(res=>{
+                //         setTotalPlayerCurrentId(res.toString())
+                //     })
+                // })
+
 
             })
     },[])
 
     const fetchSelectedDrawResult = (value) => {
-        nftAction.returnTotalrewardId(value)
-        .then(res=>{
-            setRewardMoney(convertBigNumBer(res))
-            nftAction.returnTotalAddress(value)
-            .then(res=>{
-               setTotalPlayerCurrentId(res.toString())
-            })
-        })
         nftAction.returnNumberId(value)
             .then(res=>{
+                console.log(res)
+                console.log(res[0])
                 let lsWinning = []
-                for (let i of res) {
+                for (let i of res[0]) {
                     lsWinning.push(i.toString())
                 }
                 setLastestWinningNumber(lsWinning)
-            })
-        nftAction.returnDatetimeId(value)
-            .then(res=>{
+                setRewardMoney(convertBigNumBer(res[1]))
                 const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-                setSelectedDate(new Date(parseInt(res.toString())*1000).toLocaleDateString("en-US", options))
+                setSelectedDate(new Date(parseInt(res[2].toString())*1000).toLocaleDateString("en-US", options))
+                let lsWinnerTemp = []
+                for (let i of res[4]) {
+                    lsWinnerTemp.push(i.toString())
+                }
+                setLsWinner(lsWinnerTemp)
+
+            })
+        nftAction.returnTotalAddress(value)
+            .then(res=>{
+                setTotalPlayerCurrentId(res.toString())
             })
     }
 
@@ -215,7 +254,8 @@ export const BlockResult = () => {
                             </div>
                         </div>
                     </div>
-                    <BlockCurrentDetail rewardMoney={rewardMoney}/>
+                    {lsWinner.length > 0 ?
+                    <BlockDetail rewardMoney={rewardMoney} lsWinner={lsWinner}/>:null}
                 </div>
                 <div className="color-area">
                     <div className="top">
@@ -228,7 +268,7 @@ export const BlockResult = () => {
                     </div>
                     <div className="bottom">
                         <span>Est. Jackpot </span>
-                        <h6><img src={'assets/images/logo-coin.png'}/> &nbsp; {rewardMoney}</h6>
+                        <h6><img src={'assets/images/logo-coin.png'}/> &nbsp; ~ {rewardMoney}</h6>
                     </div>
                 </div>
             </div>
@@ -254,19 +294,20 @@ export const BlockResultYourTicket = () => {
     useEffect(()=>{
         buyTicketAction.getHistoryList(account)
             .then(res=>{
-                console.log("history")
-                console.log(res)
-                const lastRound = res[res.length-1].toString()
-                setLastestDraw(parseInt(lastRound))
-                setSelectedDraw(parseInt(lastRound))
+                if (res[0].length > 0 && res[1].length > 0) {
+                    const lastRound = res[0][res[0].length - 1].toString()
+                    setLastestDraw(parseInt(lastRound))
+                    setSelectedDraw(parseInt(lastRound))
+                }
             })
     },[account])
 
     useEffect(()=>{
         nftAction.getCurrentResult(account,parseInt(selectedDraw))
             .then(res=>{
+                console.log(res)
                 let lsResult = []
-                for (let i of res) {
+                for (let i of res[0]) {
                     let lsTemp = []
                     for (let j of i) {
                         lsTemp.push(j.toString())
@@ -275,28 +316,35 @@ export const BlockResultYourTicket = () => {
                 }
                 setResult(lsResult)
             })
-        nftAction.returnDatetimeId(selectedDraw)
-            .then(res=>{
-                console.log(res.toString())
-                setSelectedDate(new Date(parseInt(res.toString())*1000).toLocaleDateString())
-            })
+        // nftAction.returnDatetimeId(selectedDraw)
+        //     .then(res=>{
+        //         setSelectedDate(new Date(parseInt(res.toString())*1000).toLocaleDateString())
+        //     })
     },[selectedDraw,account])
 
 
 
     const fetchSelectedDrawResult = (value) => {
-        nftAction.returnTotalrewardId(value)
-        .then(res=>{
-            setRewardMoney(convertBigNumBer(res))
-            nftAction.returnTotalAddress(value)
+        nftAction.returnNumberId(value)
             .then(res=>{
-               setTotalPlayerCurrentId(res.toString())
+                let lsWinning = []
+                for (let i of res[0]) {
+                    lsWinning.push(i.toString())
+                }
+                setLastestWinningNumber(lsWinning)
             })
-        })
+        // nftAction.returnTotalrewardId(value)
+        // .then(res=>{
+        //     setRewardMoney(convertBigNumBer(res))
+        //     nftAction.returnTotalAddress(value)
+        //     .then(res=>{
+        //        setTotalPlayerCurrentId(res.toString())
+        //     })
+        // })
         nftAction.getCurrentResult(account,parseInt(value))
             .then(res=>{
                 let lsResult = []
-                for (let i of res) {
+                for (let i of res[0]) {
                     let lsTemp = []
                     for (let j of i) {
                         lsTemp.push(j.toString())
@@ -305,19 +353,12 @@ export const BlockResultYourTicket = () => {
                 }
                 setResult(lsResult)
             })
-        nftAction.returnNumberId(value)
-            .then(res=>{
-                let lsWinning = []
-                for (let i of res) {
-                    lsWinning.push(i.toString())
-                }
-                setLastestWinningNumber(lsWinning)
-            })
-        nftAction.returnDatetimeId(value)
-            .then(res=>{
-                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-                setSelectedDate(new Date(parseInt(res.toString())*1000).toLocaleDateString("en-US", options))
-            })
+
+        // nftAction.returnDatetimeId(value)
+        //     .then(res=>{
+        //         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        //         setSelectedDate(new Date(parseInt(res.toString())*1000).toLocaleDateString("en-US", options))
+        //     })
     }
 
     const onInputRoundChange = (e) => {
@@ -368,7 +409,7 @@ export const BlockResultYourTicket = () => {
                                 {lastestWinningNumber && lastestWinningNumber.length > 0 ?
                                      <>
                                     {lastestWinningNumber.map((item, index) =>
-                                        <span>{item}</span>
+                                        <span key={index}>{item}</span>
                                     )}
                                     </>
                                     :
@@ -379,14 +420,14 @@ export const BlockResultYourTicket = () => {
                         </div>
                     </div>:null}
                     <div className="light-area-bottom">
-                        <div className="left row col-12">
-                            <div className="numbers right col-7">
+                        <div className="left col-12 pr-0 pl-0">
+                            <div className="numbers right row col-12">
                                 {result.map((item,index)=>
-                                <>
+                                <div key={index + 'ticketnumber'} className={'col-lg-6 col-sm-12'}>
                                     {item.map((itemTicket,indexTicket)=>
-                                        <span className={'mb-3'}>{itemTicket}</span>
+                                        <span  key={indexTicket + 'ticketnumber' + itemTicket} className={'mb-3'}>{itemTicket}</span>
                                         )}
-                                </>)
+                                </div>)
                                 }
                             </div>
                         </div>
@@ -539,7 +580,7 @@ export const ModalBuyTicket = ({visible,hideModal}) => {
                 hideModal()
             })
     }
-  useEffect(()=> {
+    useEffect(()=> {
           const container = document.getElementsByClassName('input-select-lot');
           for (let i = 0;i < container.length; i++) {
               container[i].addEventListener('keyup',function (e) {
@@ -560,8 +601,6 @@ export const ModalBuyTicket = ({visible,hideModal}) => {
                 .then(setIsApproved);
         }
     }, [account]);
-
-
 
     const approveFC = () => {
         approve().then(res => {

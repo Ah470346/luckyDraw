@@ -555,7 +555,7 @@ template {
 }
 
 .color-theme {
-  color: #5949b3;
+  color: #2F80ED;
 }
 
 .mb--20 {
@@ -578,7 +578,7 @@ template {
   font-weight: 700;
   margin-bottom: 12px;
   display: block;
-  color: #5949b3;
+  color: #2F80ED;
   text-transform: uppercase;
 }
 .section-header .title.ep {
@@ -586,7 +586,7 @@ template {
 }
 .section-header .text {
   display: inline-block;
-  color: #5949b3;
+  color: #2F80ED;
 }
 
 .bg-six {
@@ -731,7 +731,7 @@ template {
   transition: all ease 0.3s;
 }
 .breadcrumb-area .breadcrumb-list li a:hover {
-  color: #5949b3;
+  color: #2F80ED;
 }
 
 /* ==========================================================================
@@ -742,7 +742,7 @@ body {
   margin: 0;
   font-size: 18px;
   line-height: 28px;
-  color: #5949b3;
+  color: #2F80ED;
   overflow-x: hidden;
   font-family: "Comfortaa", cursive;
 }
@@ -753,7 +753,7 @@ h3,
 h4,
 h5,
 h6 {
-  color: #5949b3;
+  color: #2F80ED;
   font-family: "Ubuntu", sans-serif;
 }
 h1 a,
@@ -762,7 +762,7 @@ h3 a,
 h4 a,
 h5 a,
 h6 a {
-  color: #5949b3;
+  color: #2F80ED;
 }
 h1 a:hover,
 h2 a:hover,
@@ -770,7 +770,7 @@ h3 a:hover,
 h4 a:hover,
 h5 a:hover,
 h6 a:hover {
-  color: #5949b3;
+  color: #2F80ED;
 }
 
 a {
@@ -829,7 +829,7 @@ input {
   padding-left: 10px;
 }
 input:focus {
-  border: 1px solid #5949b3;
+  border: 1px solid #2F80ED;
 }
 input[type=submit] {
   cursor: pointer;
@@ -859,7 +859,7 @@ input[type=submit] {
   -webkit-transform: translateY(150px);
   -ms-transform: translateY(150px);
   transform: translateY(150px);
-  background: #5949b3;
+  background: #2F80ED;
   text-align: center;
 }
 .scrollToTop:hover {
@@ -903,7 +903,7 @@ input[type=submit] {
   -webkit-transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-  background: #5949b3;
+  background: #2F80ED;
 }
 .video-button a {
   display: block;
@@ -926,7 +926,7 @@ input[type=submit] {
   left: 0;
   top: 0;
   border-radius: 74px;
-  background-color: #5949b3;
+  background-color: #2F80ED;
   z-index: -10;
 }
 .video-button::before {
@@ -1175,9 +1175,9 @@ input[type=submit] {
   }
 }
 .custom-button1 {
-  background-image: -o-linear-gradient(83deg, #ec1379 0%, #6c0092 100%);
-  background-image: linear-gradient(7deg, #ec1379 0%, #6c0092 100%);
-  border: 1px solid #6c0092;
+  background-image: -o-linear-gradient(83deg, #ec1379 0%, #2F80ED 100%);
+  background-image: linear-gradient(7deg, #ec1379 0%, #2F80ED 100%);
+  border: 1px solid #2F80ED;
   border-radius: 5px;
   -webkit-box-shadow: 0px 3px 2px 0px rgba(32, 29, 30, 0.25);
           box-shadow: 0px 3px 2px 0px rgba(32, 29, 30, 0.25);
@@ -1288,7 +1288,7 @@ input[type=submit] {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  /*padding: 30px 0px 30px;*/
+  padding: 10px 0px 10px;
 }
 .header-top-area .header-top-area-inner .logo img {
   max-width: 215px;
@@ -1428,7 +1428,7 @@ input[type=submit] {
   }
   .header-wrapper .menu li .submenu li a:hover, .header-wrapper .menu li .submenu li a.active {
     padding-left: 10px;
-    color: #5949b3;
+    color: #2F80ED;
   }
   .header-wrapper .menu li .submenu::before {
     position: absolute;
@@ -1548,7 +1548,8 @@ input[type=submit] {
 }
 
 .header-section {
-  background: #6c0092;
+  background: #2F80ED;
+  display: none;
 }
 .header-section.header-active {
   position: fixed;
@@ -1564,6 +1565,7 @@ input[type=submit] {
   animation-duration: 1s;
   -webkit-animation-duration: 1s;
   -moz-animation-duration: 1s;
+  display: block;
 }
 
 .header-bar {
@@ -1695,7 +1697,7 @@ input[type=submit] {
   font-size: 18px;
   line-height: 40px;
   z-index: 9;
-  color: #5949b3;
+  color: #2F80ED;
 }
 .draw-section .draw-slider .owl-nav .owl-prev:hover,
 .draw-section .draw-slider .owl-nav .owl-next:hover {
@@ -1828,9 +1830,14 @@ input[type=submit] {
   margin-bottom: 38px;
   display: block;
   text-align: center;
-  font-weight: 700;
   font-size: 36px;
-  line-height: 46px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 51px;
+  text-align: center;
+  letter-spacing: 0.2em;
+
+  color: #2F80ED;
 }
 .lottery-result .view-all {
   display: inline-block;
@@ -1923,9 +1930,9 @@ input[type=submit] {
   font-weight: 700;
   margin-bottom: 10px;
 }
-.result-list .single-list .light-area .light-area-bottom .left .numbers {
-  display: block;
-}
+/*.result-list .single-list .light-area .light-area-bottom .left .numbers {*/
+/*  display: block;*/
+/*}*/
 .result-list .single-list .light-area .light-area-bottom .left .numbers span {
   width: 36px;
   height: 36px;
@@ -1936,8 +1943,8 @@ input[type=submit] {
   display: inline-block;
   font-size: 18px;
   font-weight: 600;
-  background-image: -o-linear-gradient(4deg, #ec038b 0%, #fb6468 44%, #fbb936 100%);
-  background-image: linear-gradient(86deg, #ec038b 0%, #fb6468 44%, #fbb936 100%);
+  background-image: -o-linear-gradient(180deg, #56CCF2 0%, #2F80ED 100%);
+  background-image: linear-gradient(180deg, #56CCF2 0%, #2F80ED 100%);
   -webkit-box-shadow: 0px 7px 7px 0px rgba(243, 42, 126, 0.23);
           box-shadow: 0px 7px 7px 0px rgba(243, 42, 126, 0.23);
 }
@@ -2046,24 +2053,24 @@ input[type=submit] {
   padding: 0px 20px;
   font-size: 15px;
   height: 50px;
-  color: #5949b3;
+  color: #2F80ED;
   font-weight: 600;
 }
 .check-number .check-box .form-area input::-webkit-input-placeholder, .check-number .check-box .form-area select::-webkit-input-placeholder {
-  color: #5949b3 !important;
+  color: #2F80ED !important;
 }
 .check-number .check-box .form-area input::-moz-placeholder, .check-number .check-box .form-area select::-moz-placeholder {
-  color: #5949b3 !important;
+  color: #2F80ED !important;
 }
 .check-number .check-box .form-area input:-ms-input-placeholder, .check-number .check-box .form-area select:-ms-input-placeholder {
-  color: #5949b3 !important;
+  color: #2F80ED !important;
 }
 .check-number .check-box .form-area input::-ms-input-placeholder, .check-number .check-box .form-area select::-ms-input-placeholder {
-  color: #5949b3 !important;
+  color: #2F80ED !important;
 }
 .check-number .check-box .form-area input::placeholder,
 .check-number .check-box .form-area select::placeholder {
-  color: #5949b3 !important;
+  color: #2F80ED !important;
 }
 .check-number .check-box .form-area .input-round {
   width: 40px;
@@ -2112,8 +2119,8 @@ input[type=submit] {
   -webkit-transform: translateY(-50%);
       -ms-transform: translateY(-50%);
           transform: translateY(-50%);
-  background-image: -o-linear-gradient(83deg, #ec1379 0%, #6c0092 100%);
-  background-image: linear-gradient(7deg, #ec1379 0%, #6c0092 100%);
+  background-image: -o-linear-gradient(83deg, #ec1379 0%, #2F80ED 100%);
+  background-image: linear-gradient(7deg, #ec1379 0%, #2F80ED 100%);
   width: 30px;
   height: 30px;
   text-align: center;
@@ -2175,9 +2182,9 @@ input[type=submit] {
   display: flex;
   overflow: hidden;
   border-radius: 10px;
-  background-image: -webkit-gradient(linear, left top, right top, from(#8a04b9), color-stop(48%, #942fb8), to(#6c0092));
-  background-image: -o-linear-gradient(left, #8a04b9 0%, #942fb8 48%, #6c0092 100%);
-  background-image: linear-gradient(90deg, #8a04b9 0%, #942fb8 48%, #6c0092 100%);
+  background-image: -webkit-gradient(linear, left top, right top, from(#8a04b9), color-stop(48%, #942fb8), to(#2F80ED));
+  background-image: -o-linear-gradient(left, #8a04b9 0%, #942fb8 48%, #2F80ED 100%);
+  background-image: linear-gradient(90deg, #8a04b9 0%, #942fb8 48%, #2F80ED 100%);
   -webkit-box-shadow: 0px 16px 43px 0px rgba(60, 49, 172, 0.19);
           box-shadow: 0px 16px 43px 0px rgba(60, 49, 172, 0.19);
   margin-bottom: 30px;
@@ -2332,8 +2339,8 @@ input[type=submit] {
 .blog-page .post-details .content .main-content .left .meta-list a i {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-image: -o-linear-gradient(83deg, #ec1379 0%, #6c0092 100%);
-  background-image: linear-gradient(7deg, #ec1379 0%, #6c0092 100%);
+  background-image: -o-linear-gradient(83deg, #ec1379 0%, #2F80ED 100%);
+  background-image: linear-gradient(7deg, #ec1379 0%, #2F80ED 100%);
 }
 .blog-page .post-details .content .main-content .left .meta-list span {
   display: block;
@@ -2368,12 +2375,12 @@ input[type=submit] {
 .blog-page .post-details .content .main-content .right .tags-area .tags span {
   font-size: 18px;
   font-weight: 600;
-  color: #5949b3;
+  color: #2F80ED;
 }
 .blog-page .post-details .content .main-content .right .tags-area .tags a {
   font-size: 14px;
   line-height: 24px;
-  color: #5949b3;
+  color: #2F80ED;
 }
 .blog-page .post-details .content .main-content .right .tags-area .tags a::after {
   content: ",";
@@ -2582,7 +2589,7 @@ input[type=submit] {
   font-size: 40px;
   line-height: 50px;
   font-weight: 500;
-  color: #5949b3;
+  color: #2F80ED;
   margin-bottom: 3px;
 }
 .about-counter .counter-area .c-box .text {
@@ -2900,7 +2907,7 @@ input[type=submit] {
   margin-right: 10px;
 }
 .pick-number-area .add-ticket-btn:hover {
-  background: #5949b3;
+  background: #2F80ED;
   color: #fff;
 }
 .pick-number-area .add-ticket-btn:hover i {
@@ -3057,22 +3064,22 @@ input[type=submit] {
   height: 50px;
   padding: 0px 20px;
   border-radius: 10px;
-  color: #5949b3;
+  color: #2F80ED;
 }
 .frequent-number .number-slider .item .single-number input::-webkit-input-placeholder {
-  color: #5949b3;
+  color: #2F80ED;
 }
 .frequent-number .number-slider .item .single-number input::-moz-placeholder {
-  color: #5949b3;
+  color: #2F80ED;
 }
 .frequent-number .number-slider .item .single-number input:-ms-input-placeholder {
-  color: #5949b3;
+  color: #2F80ED;
 }
 .frequent-number .number-slider .item .single-number input::-ms-input-placeholder {
-  color: #5949b3;
+  color: #2F80ED;
 }
 .frequent-number .number-slider .item .single-number input::placeholder {
-  color: #5949b3;
+  color: #2F80ED;
 }
 .frequent-number .number-slider .owl-nav .owl-prev,
 .frequent-number .number-slider .owl-nav .owl-next {
@@ -3087,7 +3094,7 @@ input[type=submit] {
   font-size: 18px;
   line-height: 40px;
   z-index: 9;
-  color: #5949b3;
+  color: #2F80ED;
 }
 .frequent-number .number-slider .owl-nav .owl-prev:hover,
 .frequent-number .number-slider .owl-nav .owl-next:hover {
@@ -3339,7 +3346,7 @@ input[type=submit] {
   position: relative;
   border: 0px;
   height: auto;
-  color: #5949b3;
+  color: #2F80ED;
 }
 .faq .faq-box .faq-collaps-box .accordion .mycard .mycard-header h2 button:focus {
   outline: none;
@@ -3400,7 +3407,7 @@ input[type=submit] {
   -o-transition: all ease 0.3s;
   transition: all ease 0.3s;
   padding: 10px 30px;
-  color: #5949b3;
+  color: #2F80ED;
 }
 .lottery-result.result-page .view-all:hover {
   background: #612afc;
@@ -3442,7 +3449,7 @@ input[type=submit] {
 .log-reg-inner .main-content .form-group label {
   font-size: 18px;
   line-height: 28px;
-  color: #5949b3;
+  color: #2F80ED;
   font-weight: 700;
 }
 .log-reg-inner .main-content .form-group .my-form-control {
@@ -3499,7 +3506,7 @@ input[type=submit] {
   font-size: 16px;
   line-height: 26px;
   font-weight: 700;
-  color: #5949b3;
+  color: #2F80ED;
 }
 .log-reg-inner .main-content .button-wrapper .or-signup a {
   color: #fd8624;
@@ -3509,7 +3516,7 @@ input[type=submit] {
   margin-bottom: 15px;
   font-size: 16px;
   font-weight: 700;
-  color: #5949b3;
+  color: #2F80ED;
   display: block;
   text-align: center;
   position: relative;

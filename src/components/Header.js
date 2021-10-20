@@ -85,19 +85,19 @@ export const Header = () => {
                         <div className="col-lg-12">
                             <div className="header-top-area-inner">
                                 <a href="index.html" className="logo">
-                                    <img src="assets/images/logo.png" alt=""/>
+                                    <img src="assets/images/logo.png" alt=""/> <span>BILLY</span>
                                 </a>
                                 <div className="right-area">
-                                    <button className={'custom-button1'} onClick={()=>onClaimETH()}>Claim Ether Test<Spin spinning={loading}></Spin></button>
-                                    <button className={'custom-button1'} style={{background:'#334589',marginLeft:'5px',marginRight:'5px'}} onClick={()=>claimTokenFC()}>Claim DLT Test</button>
+                                    <button className={'custom-button1 btn-top btn-claim-eth'} onClick={()=>onClaimETH()}>Claim ETH<Spin spinning={loading}></Spin></button>
+                                    <button className={'custom-button1 btn-top btn-claim-bil'} style={{marginLeft:'5px',marginRight:'5px'}} onClick={()=>claimTokenFC()}>Claim BIL</button>
 
                                     <div className="log-reg-area">
                                         {/*<a href="#" className="custom-button1" data-toggle="modal"*/}
                                         {/*   data-target="#registerModal">Register</a>*/}
                                         {wallet.account ?
-                                            <a href="#" className="custom-button2">{wallet.account.substr(0, 5) + "..." + wallet.account.substr(wallet.account.length - 5, wallet.account.length)}</a>
+                                            <a href="#" className="custom-button2 btn-top">{wallet.account.substr(0, 5) + "..." + wallet.account.substr(wallet.account.length - 5, wallet.account.length)}</a>
                                             :
-                                        <a href="#" className="custom-button2" onClick={()=>setIsModalVisible(true)}>Connect</a>}
+                                        <a href="#" className="custom-button2 btn-top" onClick={()=>setIsModalVisible(true)}>Connect Wallet</a>}
                                     </div>
                                     <div className="cart-area">
                                         <div className="icon">

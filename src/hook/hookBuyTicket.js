@@ -27,8 +27,12 @@ export const useBuyTicketAction = () => {
         return openBoxContract.getHistoryList(address)
     }, [openBoxContract])
 
-    const checkReward = useCallback(async (idRound) => {
-        return openBoxContract.checkReward(idRound)
+    const checkReward = useCallback(async () => {
+        return openBoxContract.checkReward()
+    }, [openBoxContract])
+
+    const claimReward = useCallback(async () => {
+        return openBoxContract.claimReward()
     }, [openBoxContract])
 
     return {
@@ -38,6 +42,7 @@ export const useBuyTicketAction = () => {
         openSeed: openSeed,
         claimToken:claimToken,
         getHistoryList:getHistoryList,
-        checkReward:checkReward
+        checkReward:checkReward,
+        claimReward:claimReward
     }
 }

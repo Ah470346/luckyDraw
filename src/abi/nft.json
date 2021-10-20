@@ -154,6 +154,29 @@
 		{
 			"inputs": [
 				{
+					"internalType": "uint256[]",
+					"name": "_each",
+					"type": "uint256[]"
+				},
+				{
+					"internalType": "uint256[]",
+					"name": "_id",
+					"type": "uint256[]"
+				},
+				{
+					"internalType": "address",
+					"name": "_address",
+					"type": "address"
+				}
+			],
+			"name": "_claim",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
 					"internalType": "address",
 					"name": "devaddress",
 					"type": "address"
@@ -219,9 +242,9 @@
 					"type": "uint256"
 				},
 				{
-					"internalType": "uint256",
+					"internalType": "bool",
 					"name": "claimed",
-					"type": "uint256"
+					"type": "bool"
 				}
 			],
 			"stateMutability": "view",
@@ -526,25 +549,6 @@
 					"internalType": "uint256",
 					"name": "_id",
 					"type": "uint256"
-				}
-			],
-			"name": "returnAllowclaimId",
-			"outputs": [
-				{
-					"internalType": "bool",
-					"name": "",
-					"type": "bool"
-				}
-			],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"inputs": [
-				{
-					"internalType": "uint256",
-					"name": "_id",
-					"type": "uint256"
 				},
 				{
 					"internalType": "address",
@@ -552,12 +556,39 @@
 					"type": "address"
 				}
 			],
-			"name": "returnBatchidEachId",
+			"name": "returnBatchidOfAddress",
 			"outputs": [
 				{
-					"internalType": "uint256",
+					"components": [
+						{
+							"internalType": "uint256[][]",
+							"name": "numbers",
+							"type": "uint256[][]"
+						},
+						{
+							"internalType": "uint256[]",
+							"name": "result",
+							"type": "uint256[]"
+						},
+						{
+							"internalType": "uint256",
+							"name": "totalreward",
+							"type": "uint256"
+						},
+						{
+							"internalType": "uint256[6]",
+							"name": "indexreward",
+							"type": "uint256[6]"
+						},
+						{
+							"internalType": "bool",
+							"name": "claimed",
+							"type": "bool"
+						}
+					],
+					"internalType": "struct LotteryNFT.BatchReward",
 					"name": "",
-					"type": "uint256"
+					"type": "tuple"
 				}
 			],
 			"stateMutability": "view",
@@ -590,122 +621,39 @@
 					"type": "uint256"
 				}
 			],
-			"name": "returnCountReward",
-			"outputs": [
-				{
-					"internalType": "uint256[6]",
-					"name": "",
-					"type": "uint256[6]"
-				}
-			],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"inputs": [
-				{
-					"internalType": "uint256",
-					"name": "_id",
-					"type": "uint256"
-				},
-				{
-					"internalType": "address",
-					"name": "_address",
-					"type": "address"
-				}
-			],
-			"name": "returnDateEachId",
-			"outputs": [
-				{
-					"internalType": "uint256",
-					"name": "",
-					"type": "uint256"
-				}
-			],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"inputs": [
-				{
-					"internalType": "uint256",
-					"name": "_id",
-					"type": "uint256"
-				}
-			],
-			"name": "returnDatetimeId",
-			"outputs": [
-				{
-					"internalType": "uint256",
-					"name": "",
-					"type": "uint256"
-				}
-			],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"inputs": [
-				{
-					"internalType": "uint256",
-					"name": "_id",
-					"type": "uint256"
-				},
-				{
-					"internalType": "address",
-					"name": "_address",
-					"type": "address"
-				}
-			],
-			"name": "returnIdAddress",
-			"outputs": [
-				{
-					"internalType": "uint256[][]",
-					"name": "",
-					"type": "uint256[][]"
-				}
-			],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"inputs": [
-				{
-					"internalType": "uint256",
-					"name": "_id",
-					"type": "uint256"
-				},
-				{
-					"internalType": "address",
-					"name": "_address",
-					"type": "address"
-				}
-			],
-			"name": "returnNumberEachId",
-			"outputs": [
-				{
-					"internalType": "uint256[][]",
-					"name": "",
-					"type": "uint256[][]"
-				}
-			],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"inputs": [
-				{
-					"internalType": "uint256",
-					"name": "_id",
-					"type": "uint256"
-				}
-			],
 			"name": "returnNumberId",
 			"outputs": [
 				{
-					"internalType": "uint256[6]",
+					"components": [
+						{
+							"internalType": "uint256[6]",
+							"name": "numbers",
+							"type": "uint256[6]"
+						},
+						{
+							"internalType": "uint256",
+							"name": "totalreward",
+							"type": "uint256"
+						},
+						{
+							"internalType": "uint256",
+							"name": "datetime",
+							"type": "uint256"
+						},
+						{
+							"internalType": "bool",
+							"name": "allowclaim",
+							"type": "bool"
+						},
+						{
+							"internalType": "uint256[6]",
+							"name": "CountReward",
+							"type": "uint256[6]"
+						}
+					],
+					"internalType": "struct LotteryNFT.TicketBatch",
 					"name": "",
-					"type": "uint256[6]"
+					"type": "tuple"
 				}
 			],
 			"stateMutability": "view",
@@ -719,31 +667,29 @@
 					"type": "uint256"
 				}
 			],
-			"name": "returnNumbersTicket",
+			"name": "returnTicketInfo",
 			"outputs": [
 				{
-					"internalType": "uint256[]",
+					"components": [
+						{
+							"internalType": "address",
+							"name": "owner",
+							"type": "address"
+						},
+						{
+							"internalType": "uint256[]",
+							"name": "numbers",
+							"type": "uint256[]"
+						},
+						{
+							"internalType": "uint256",
+							"name": "ticketbatch",
+							"type": "uint256"
+						}
+					],
+					"internalType": "struct LotteryNFT.TicketEach",
 					"name": "",
-					"type": "uint256[]"
-				}
-			],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"inputs": [
-				{
-					"internalType": "uint256",
-					"name": "_index",
-					"type": "uint256"
-				}
-			],
-			"name": "returnOwnerTicket",
-			"outputs": [
-				{
-					"internalType": "address",
-					"name": "",
-					"type": "address"
+					"type": "tuple"
 				}
 			],
 			"stateMutability": "view",
@@ -762,79 +708,34 @@
 					"type": "address"
 				}
 			],
-			"name": "returnResultAddress",
+			"name": "returnTicketOfAddressInBatch",
 			"outputs": [
 				{
-					"internalType": "uint256[]",
+					"components": [
+						{
+							"internalType": "uint256[][]",
+							"name": "numbers",
+							"type": "uint256[][]"
+						},
+						{
+							"internalType": "uint256",
+							"name": "datetime",
+							"type": "uint256"
+						},
+						{
+							"internalType": "uint256",
+							"name": "batchid",
+							"type": "uint256"
+						},
+						{
+							"internalType": "uint256[]",
+							"name": "ticketindex",
+							"type": "uint256[]"
+						}
+					],
+					"internalType": "struct LotteryNFT.TicketInfo",
 					"name": "",
-					"type": "uint256[]"
-				}
-			],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"inputs": [
-				{
-					"internalType": "uint256",
-					"name": "_id",
-					"type": "uint256"
-				},
-				{
-					"internalType": "address",
-					"name": "_address",
-					"type": "address"
-				}
-			],
-			"name": "returnTicketAllReward",
-			"outputs": [
-				{
-					"internalType": "uint256[6]",
-					"name": "",
-					"type": "uint256[6]"
-				}
-			],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"inputs": [
-				{
-					"internalType": "uint256",
-					"name": "_index",
-					"type": "uint256"
-				}
-			],
-			"name": "returnTicketbatchTicket",
-			"outputs": [
-				{
-					"internalType": "uint256",
-					"name": "",
-					"type": "uint256"
-				}
-			],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"inputs": [
-				{
-					"internalType": "uint256",
-					"name": "_id",
-					"type": "uint256"
-				},
-				{
-					"internalType": "address",
-					"name": "_address",
-					"type": "address"
-				}
-			],
-			"name": "returnTicketindexEachId",
-			"outputs": [
-				{
-					"internalType": "uint256[]",
-					"name": "",
-					"type": "uint256[]"
+					"type": "tuple"
 				}
 			],
 			"stateMutability": "view",
@@ -862,49 +763,6 @@
 		{
 			"inputs": [],
 			"name": "returnTotalReward",
-			"outputs": [
-				{
-					"internalType": "uint256",
-					"name": "",
-					"type": "uint256"
-				}
-			],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"inputs": [
-				{
-					"internalType": "uint256",
-					"name": "_id",
-					"type": "uint256"
-				},
-				{
-					"internalType": "address",
-					"name": "_address",
-					"type": "address"
-				}
-			],
-			"name": "returnTotalrewardAddress",
-			"outputs": [
-				{
-					"internalType": "uint256",
-					"name": "",
-					"type": "uint256"
-				}
-			],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"inputs": [
-				{
-					"internalType": "uint256",
-					"name": "_id",
-					"type": "uint256"
-				}
-			],
-			"name": "returnTotalrewardId",
 			"outputs": [
 				{
 					"internalType": "uint256",
@@ -980,19 +838,6 @@
 				}
 			],
 			"name": "setApprovalForAll",
-			"outputs": [],
-			"stateMutability": "nonpayable",
-			"type": "function"
-		},
-		{
-			"inputs": [
-				{
-					"internalType": "uint256[6]",
-					"name": "_array",
-					"type": "uint256[6]"
-				}
-			],
-			"name": "setArrReward",
 			"outputs": [],
 			"stateMutability": "nonpayable",
 			"type": "function"
