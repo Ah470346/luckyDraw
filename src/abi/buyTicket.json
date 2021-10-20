@@ -246,8 +246,14 @@
 		{
 			"inputs": [],
 			"name": "checkReward",
-			"outputs": [],
-			"stateMutability": "nonpayable",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
 			"type": "function"
 		},
 		{
@@ -329,7 +335,7 @@
 					"type": "uint256"
 				}
 			],
-			"name": "getSeedPrice",
+			"name": "getTicketPrice",
 			"outputs": [
 				{
 					"internalType": "uint256",
@@ -357,6 +363,19 @@
 			"inputs": [],
 			"name": "renounceOwnership",
 			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "returnReward",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
 			"stateMutability": "nonpayable",
 			"type": "function"
 		},
@@ -433,22 +452,22 @@
 					"type": "uint256"
 				}
 			],
-			"name": "setSeedPrice",
+			"name": "setTicketPrice",
 			"outputs": [],
 			"stateMutability": "nonpayable",
 			"type": "function"
 		},
 		{
-			"inputs": [],
-			"name": "sumReward",
-			"outputs": [
+			"inputs": [
 				{
-					"internalType": "uint256",
-					"name": "",
-					"type": "uint256"
+					"internalType": "uint256[6]",
+					"name": "_arr",
+					"type": "uint256[6]"
 				}
 			],
-			"stateMutability": "view",
+			"name": "setdrawnLoto",
+			"outputs": [],
+			"stateMutability": "nonpayable",
 			"type": "function"
 		},
 		{

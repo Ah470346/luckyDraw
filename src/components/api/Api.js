@@ -17,7 +17,7 @@ export const getBalance = (wallet) => {
 }
 
 export const convertBigNumBer = (value) => {
-    return parseFloat(ethers.utils.formatUnits(value, "ether").toString()).toFixed(0)
+    return parseFloat(ethers.utils.formatUnits(value, "ether").toString()).toFixed(2)
 }
 
 export const LoadingFC = <img src={"/assets/img/loading.gif"} style={{fontSize:200}}/>

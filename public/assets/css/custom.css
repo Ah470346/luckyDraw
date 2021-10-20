@@ -106,7 +106,7 @@ input[type=number] {
 }
 
 .match-first-title{
-    color: rgb(118, 69, 217);
+    color: #2F80ED;
     font-size: 24px;
     font-weight: 600;
     line-height: 1.5;
@@ -168,9 +168,9 @@ input[type=number] {
 }
 
 .result-list .single-list .light-area .light-area-bottom .left .numbers span{
-    width: 50px;
-    height: 50px;
-    line-height: 50px;
+    width: 45px;
+    height: 45px;
+    line-height: 45px;
     font-size: 26px;
 }
 
@@ -227,4 +227,129 @@ input[type=number] {
 
 .block-connect-wallet button{
     border: none;
+}
+
+.btn-top {
+    background: linear-gradient(180deg, #56CCF2 0%, #2F80ED 100%);
+    border-radius: 12px;
+}
+.btn-claim-bil {
+    background: linear-gradient(180deg, #FDC830 0%, #F37335 100%);
+}
+
+.custom-button1,.custom-button2{
+    border: none;
+}
+button:focus{
+    outline: none;
+    border: none;
+}
+
+
+.box-banner-section-inner{
+    background: linear-gradient(96.09deg, rgba(255, 255, 255, 0.6) 2.52%, rgba(255, 255, 255, 0.36) 96.27%);
+    backdrop-filter: blur(13px);
+    /* Note: backdrop-filter has minimal browser support */
+
+    border-radius: 35px;
+    text-align: center;
+    padding: 50px 0 60px;
+}
+
+.banner-subtitle {
+font-family: Montserrat;
+font-style: normal;
+font-weight: 800;
+font-size: 42px;
+line-height: 51px;
+text-align: center;
+letter-spacing: 0.15em;
+}
+
+.banner-title{
+font-family: Montserrat;
+font-style: normal;
+font-weight: 800;
+font-size: 100px;
+line-height: 122px;
+/* identical to box height */
+
+text-align: center;
+letter-spacing: 0.15em;
+
+text-shadow: 7px 7px 2px #FFFFFF;
+}
+
+.text{
+font-family: Montserrat;
+font-style: normal;
+font-weight: 600;
+font-size: 30px;
+line-height: 37px;
+/* identical to box height */
+
+text-align: center;
+letter-spacing: 0.05em;
+
+color: #FFFFFF;
+
+text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.4);
+}
+
+.banner-section{
+    padding: 70px 0 150px;
+}
+.btn-playing-now {
+    padding: 10px 80px;
+}
+.time-countdown{
+    font-family: Montserrat;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 37px;
+    text-align: center;
+    letter-spacing: 0.04em;
+    color:#56CCF2;
+}
+.lottery-result.result-page{
+    padding-top: 90px;
+    padding-bottom: 0px;
+}
+
+.section-header .title{
+font-family: Montserrat;
+font-style: normal;
+font-weight: 800;
+font-size: 40px;
+line-height: 51px;
+text-align: center;
+letter-spacing: 0.3em;
+
+color: #2F80ED;
+}
+
+.result-page .text{font-family: Montserrat;
+font-style: normal;
+font-weight: normal;
+font-size: 15px;
+line-height: 18px;
+text-align: center;
+letter-spacing: 0.05em;
+
+color: #707A83;
+}
+
+.header-top-area-inner span{
+    font-style: normal;
+font-weight: bold;
+    font-size: 22px;
+    line-height: 27px;
+    /* identical to box height */
+
+    text-align: center;
+    letter-spacing: 0.05em;
+
+    color: #F08721!important;
+
 }

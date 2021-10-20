@@ -19,32 +19,32 @@ export const BlockCurrentDetail = ({rewardMoney}) => {
             <div className={'col-12 row'}>
                 <div className={'col-4'}>
                     <h2 className={'match-first-title'}>Match first 1</h2>
-                    <h2 className={'match-reward'}>{rewardMoney*2/100} DLT</h2>
+                    <h2 className={'match-reward'}>{rewardMoney*2/100} BILLY</h2>
                     {/*<h2 className={'match-reward-sub'}>~ 1000$</h2>*/}
                 </div>
                 <div className={'col-4'}>
                     <h2 className={'match-first-title'}>Match first 2</h2>
-                    <h2 className={'match-reward'}>{rewardMoney*4/100} DLT</h2>
+                    <h2 className={'match-reward'}>{rewardMoney*4/100} BILLY</h2>
                     {/*<h2 className={'match-reward-sub'}>~ 1000$</h2>*/}
                 </div>
                 <div className={'col-4'}>
                     <h2 className={'match-first-title'}>Match first 3</h2>
-                    <h2 className={'match-reward'}>{rewardMoney*9/100} DLT</h2>
+                    <h2 className={'match-reward'}>{rewardMoney*9/100} BILLY</h2>
                     {/*<h2 className={'match-reward-sub'}>~ 1000$</h2>*/}
                 </div>
                 <div className={'col-4'}>
                     <h2 className={'match-first-title'}>Match first 4</h2>
-                    <h2 className={'match-reward'}>{rewardMoney*15/100} DLT</h2>
+                    <h2 className={'match-reward'}>{rewardMoney*15/100} BILLY</h2>
                     {/*<h2 className={'match-reward-sub'}>~ 1000$</h2>*/}
                 </div>
                 <div className={'col-4'}>
                     <h2 className={'match-first-title'}>Match first 5</h2>
-                    <h2 className={'match-reward'}>{rewardMoney*25/100} DLT</h2>
+                    <h2 className={'match-reward'}>{rewardMoney*25/100} BILLY</h2>
                     {/*<h2 className={'match-reward-sub'}>~ 1000$</h2>*/}
                 </div>
                 <div className={'col-4'}>
                     <h2 className={'match-first-title'}>Match first 6</h2>
-                    <h2 className={'match-reward'}>{rewardMoney*45/100} DLT</h2>
+                    <h2 className={'match-reward'}>{rewardMoney*45/100} BILLY</h2>
                     {/*<h2 className={'match-reward-sub'}>~ 1000$</h2>*/}
                 </div>
             </div>
@@ -61,7 +61,7 @@ export const BlockDetail = ({rewardMoney,lsWinner}) => {
             <div className={'col-12 row'}>
                 <div className={'col-4'}>
                     <h2 className={'match-first-title'}>Match first 1</h2>
-                    <h2 className={'match-reward'}>{rewardMoney*2/100} DLT</h2>
+                    <h2 className={'match-reward'}>{rewardMoney*2/100} BILLY</h2>
                     {/*<h2 className={'match-reward-sub'}>~ 1000$</h2>*/}
                     {lsWinner[0] !== '0' ?
                     <h2 className={'match-reward-each'}>{rewardMoney*2/100/parseInt(lsWinner[0])} each</h2>:null }
@@ -69,7 +69,7 @@ export const BlockDetail = ({rewardMoney,lsWinner}) => {
                 </div>
                 <div className={'col-4'}>
                     <h2 className={'match-first-title'}>Match first 2</h2>
-                    <h2 className={'match-reward'}>{rewardMoney*4/100} DLT</h2>
+                    <h2 className={'match-reward'}>{rewardMoney*4/100} BILLY</h2>
                     {/*<h2 className={'match-reward-sub'}>~ 1000$</h2>*/}
                     {lsWinner[1] !== '0' ?
                     <h2 className={'match-reward-each'}>{rewardMoney*4/100/parseInt(lsWinner[1])} each</h2>:null }
@@ -77,7 +77,7 @@ export const BlockDetail = ({rewardMoney,lsWinner}) => {
                 </div>
                 <div className={'col-4'}>
                     <h2 className={'match-first-title'}>Match first 3</h2>
-                    <h2 className={'match-reward'}>{rewardMoney*9/100} DLT</h2>
+                    <h2 className={'match-reward'}>{rewardMoney*9/100} BILLY</h2>
                     {/*<h2 className={'match-reward-sub'}>~ 1000$</h2>*/}
                     {lsWinner[2] !== '0' ?
                     <h2 className={'match-reward-each'}>{rewardMoney*9/100/parseInt(lsWinner[2])} each</h2>:null }
@@ -85,7 +85,7 @@ export const BlockDetail = ({rewardMoney,lsWinner}) => {
                 </div>
                 <div className={'col-4'}>
                     <h2 className={'match-first-title'}>Match first 4</h2>
-                    <h2 className={'match-reward'}>{rewardMoney*15/100} DLT</h2>
+                    <h2 className={'match-reward'}>{rewardMoney*15/100} BILLY</h2>
                     {/*<h2 className={'match-reward-sub'}>~ 1000$</h2>*/}
                     {lsWinner[3] !== '0' ?
                     <h2 className={'match-reward-each'}>{rewardMoney*15/100/parseInt(lsWinner[3])} each</h2>:null }
@@ -93,7 +93,7 @@ export const BlockDetail = ({rewardMoney,lsWinner}) => {
                 </div>
                 <div className={'col-4'}>
                     <h2 className={'match-first-title'}>Match first 5</h2>
-                    <h2 className={'match-reward'}>{rewardMoney*25/100} DLT</h2>
+                    <h2 className={'match-reward'}>{rewardMoney*25/100} BILLY</h2>
                     {/*<h2 className={'match-reward-sub'}>~ 1000$</h2>*/}
                     {lsWinner[4] !== '0' ?
                     <h2 className={'match-reward-each'}>{rewardMoney*25/100/parseInt(lsWinner[4])} each</h2>:null }
@@ -101,7 +101,7 @@ export const BlockDetail = ({rewardMoney,lsWinner}) => {
                 </div>
                 <div className={'col-4'}>
                     <h2 className={'match-first-title'}>Match first 6</h2>
-                    <h2 className={'match-reward'}>{rewardMoney*45/100} DLT</h2>
+                    <h2 className={'match-reward'}>{rewardMoney*45/100} BILLY</h2>
                     {/*<h2 className={'match-reward-sub'}>~ 1000$</h2>*/}
                     {lsWinner[5] !== '0' ?
                     <h2 className={'match-reward-each'}>{rewardMoney*45/100/parseInt(lsWinner[5])} each</h2>:null }
@@ -268,7 +268,7 @@ export const BlockResult = () => {
                     </div>
                     <div className="bottom">
                         <span>Est. Jackpot </span>
-                        <h6><img src={'assets/images/logo-coin.png'}/> &nbsp; {rewardMoney}</h6>
+                        <h6><img src={'assets/images/logo-coin.png'}/> &nbsp; ~ {rewardMoney}</h6>
                     </div>
                 </div>
             </div>
@@ -294,9 +294,11 @@ export const BlockResultYourTicket = () => {
     useEffect(()=>{
         buyTicketAction.getHistoryList(account)
             .then(res=>{
-                const lastRound = res[0][res.length-1].toString()
-                setLastestDraw(parseInt(lastRound))
-                setSelectedDraw(parseInt(lastRound))
+                if (res[0].length > 0 && res[1].length > 0) {
+                    const lastRound = res[0][res[0].length - 1].toString()
+                    setLastestDraw(parseInt(lastRound))
+                    setSelectedDraw(parseInt(lastRound))
+                }
             })
     },[account])
 
@@ -418,10 +420,10 @@ export const BlockResultYourTicket = () => {
                         </div>
                     </div>:null}
                     <div className="light-area-bottom">
-                        <div className="left row col-12">
-                            <div className="numbers right col-7">
+                        <div className="left col-12 pr-0 pl-0">
+                            <div className="numbers right row col-12">
                                 {result.map((item,index)=>
-                                <div key={index + 'ticketnumber'}>
+                                <div key={index + 'ticketnumber'} className={'col-lg-6 col-sm-12'}>
                                     {item.map((itemTicket,indexTicket)=>
                                         <span  key={indexTicket + 'ticketnumber' + itemTicket} className={'mb-3'}>{itemTicket}</span>
                                         )}
@@ -578,7 +580,7 @@ export const ModalBuyTicket = ({visible,hideModal}) => {
                 hideModal()
             })
     }
-  useEffect(()=> {
+    useEffect(()=> {
           const container = document.getElementsByClassName('input-select-lot');
           for (let i = 0;i < container.length; i++) {
               container[i].addEventListener('keyup',function (e) {
@@ -599,8 +601,6 @@ export const ModalBuyTicket = ({visible,hideModal}) => {
                 .then(setIsApproved);
         }
     }, [account]);
-
-
 
     const approveFC = () => {
         approve().then(res => {

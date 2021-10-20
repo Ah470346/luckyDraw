@@ -35,6 +35,7 @@ const Home = () => {
     const buyTicketAction = useBuyTicketAction();
     const [amount, setAmount] = useState(1);
     const [nextDraw, setNextDraw] = useState(null);
+    const [yourReward, setYourReward] = useState(10);
     const [resetCountdown, setResetCountdown] = useState(false);
     const [loading, setLoading] = useState(false);
     const [isShowModalBuyTicket, setIsShowModalBuyTicket] = useState(false);
@@ -91,13 +92,13 @@ const Home = () => {
         buyTicketAction.checkReward()
             .then(res=>{
                 console.log(res)
-                // debugger
+                setYourReward(res.toString())
             })
     }
     return (
         <>
-        <section className="banner-section">
-            <div className="container">
+        <section className="banner-section box-banner-section">
+            <div className="container box-banner-section-inner">
                 <div className="row">
                     <div className="col-12">
                         <p className="banner-subtitle">Exclusive Lottery Mega Jackpot</p>
@@ -105,7 +106,7 @@ const Home = () => {
                             ~ {currentRewardMoney}
                         </h1>
                         <p className="text">Power up for a chance to win in this electrifying instant game!</p>
-                        <a href="#" className="custom-button2" onClick={()=>setIsShowModalBuyTicket(true)}>Start Playing Now</a>
+                        <a href="#" className="custom-button2 btn-top btn-playing-now" onClick={()=>setIsShowModalBuyTicket(true)}>Start Playing Now</a>
                     </div>
                 </div>
             </div>
@@ -114,11 +115,11 @@ const Home = () => {
         <div className="container">
             <div className="row">
                 <div className="col-lg-12">
-                    <div className="steps" style={{display:'block'}}>
-                        <div className="section-header">
-                        <h2 className={'title ep'} style={{fontSize:'36px'}}>Get your tickets now!</h2></div>
+                    {/*<div className="steps" style={{display:'block'}}>*/}
+                        {/*<div className="section-header">*/}
+                        {/*<h2 className={'title ep'} style={{fontSize:'36px'}}>Get your tickets now!</h2></div>*/}
                         {/*<button className="custom-button2" onClick={()=>setIsBuying(true)}>Buy Tickets</button>*/}
-                    </div>
+                    {/*</div>*/}
                     <div className="time-wrapper">
                         <div className="time-counter">
                             <img src="assets/images/clock.png" alt=""/>
@@ -157,7 +158,7 @@ const Home = () => {
                                         {/*<div className={'col-3 left-detail'}>*/}
                                         {/*    <div>*/}
                                         {/*       <span className={'prize-pot'}>Prize pot</span>*/}
-                                        {/*        <h6 className={'match-first-title totalPot'}>~ {rewardMoney} DLT</h6>*/}
+                                        {/*        <h6 className={'match-first-title totalPot'}>~ {rewardMoney} BILLY</h6>*/}
                                         {/*    </div>*/}
                                         {/*    <div>*/}
                                         {/*        <span className={'match-reward-sub'}>Total players this round : {totalPlayerCurrentId}</span>*/}
@@ -175,7 +176,7 @@ const Home = () => {
                                             </div>
                                             <div className="bottom">
                                                 <span>Est. Jackpot </span>
-                                                <h6><img src={'assets/images/logo-coin.png'}/>&nbsp;{currentRewardMoney} DLT</h6>
+                                                <h6><img src={'assets/images/logo-coin.png'}/>&nbsp;{currentRewardMoney} BILLY</h6>
                                             </div>
                                         </div>
                                     </div>
@@ -185,7 +186,7 @@ const Home = () => {
                     </div>
                     </div>
 
-    <div className="lottery-result result-page">
+    <div className="lottery-result result-page pt-1">
         <div className="container mt-5">
             <div className="row justify-content-center">
                 <div className="col-lg-9">
@@ -198,7 +199,8 @@ const Home = () => {
                                 Check Your lotto online, find all the lotto winning numbers and see
                                 if you won the latest lotto jackpots
                             </p>
-                            <button onClick={()=>onCheckNow()}>Check Now</button>
+                            <button className={'btn-top custom-button1'} style={{width:'100%'}} onClick={()=>onCheckNow()}>Check Now</button>
+                            <h1>{yourReward} $</h1>
                         </div>
                     </div>
                 </div>
@@ -206,7 +208,7 @@ const Home = () => {
             <div className="row">
                 <div className="col-lg-12">
                     <div className="result-box">
-                        <h4 className="box-header">Lottery Winning Numbers</h4>
+                        <h4 className="box-header text-uppercase">Lottery Winning Numbers</h4>
                         <div className="result-list">
                             <BlockResult />
                         </div>
@@ -220,7 +222,7 @@ const Home = () => {
             <div className="row">
                 <div className="col-lg-12">
                     <div className="result-box">
-                        <h4 className="box-header">Your ticket</h4>
+                        <h4 className="box-header">CHECK YOUR TICKET</h4>
                         <div className="result-list">
                             <BlockResultYourTicket/>
                         </div>
