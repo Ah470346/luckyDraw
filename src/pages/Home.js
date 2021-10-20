@@ -35,7 +35,7 @@ const Home = () => {
     const buyTicketAction = useBuyTicketAction();
     const [amount, setAmount] = useState(1);
     const [nextDraw, setNextDraw] = useState(null);
-    const [yourReward, setYourReward] = useState(10);
+    const [yourReward, setYourReward] = useState(null);
     const [resetCountdown, setResetCountdown] = useState(false);
     const [loading, setLoading] = useState(false);
     const [isShowModalBuyTicket, setIsShowModalBuyTicket] = useState(false);
@@ -92,7 +92,15 @@ const Home = () => {
         buyTicketAction.checkReward()
             .then(res=>{
                 console.log(res)
-                setYourReward(res.toString())
+                setYourReward(convertBigNumBer(res.toString()))
+            })
+    }
+
+    const onClaimReward = () =>{
+        buyTicketAction.claimReward()
+            .then(res=>{
+                console.log(res)
+                openNotificationWithIcon('success','Info','Success')
             })
     }
     return (
@@ -146,7 +154,7 @@ const Home = () => {
                                                 <div className="left">
                                                     <img src="assets/images/d1.png" alt=""/>
                                                 </div>
-                                                <button className="custom-button2" onClick={()=>setIsShowModalBuyTicket(true)}>Buy Ticket</button>
+                                                <button className="custom-button2 btn-top" onClick={()=>setIsShowModalBuyTicket(true)}>Buy Ticket</button>
                                                 {/*<div className="right">*/}
                                                 {/*    <span>Draw took place on</span>*/}
                                                 {/*    <h6>Saturday April 20, 2020</h6>*/}
@@ -199,8 +207,9 @@ const Home = () => {
                                 Check Your lotto online, find all the lotto winning numbers and see
                                 if you won the latest lotto jackpots
                             </p>
+                            <p></p>
                             <button className={'btn-top custom-button1'} style={{width:'100%'}} onClick={()=>onCheckNow()}>Check Now</button>
-                            <h1>{yourReward} $</h1>
+                            {yourReward || parseInt(yourReward) === 0 ? <h1>You had win {yourReward} $, <button onClick={()=>onClaimReward()} className={'btn-top custom-button1 btn-claim-bil'}>Claim Now</button></h1> : null}
                         </div>
                     </div>
                 </div>
