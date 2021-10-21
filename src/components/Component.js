@@ -274,14 +274,14 @@ export const BlockResult = () => {
                                     )}
                                     </>
                                     :
-                                    null
+                                    <Skeleton active paragraph={{ rows: 0 }}/>
                                 }
 
                             </div>
                         </div>
                     </div>
                     {lsWinner.length > 0 ?
-                    <BlockDetail rewardMoney={rewardMoney} lsWinner={lsWinner}/>:null}
+                    <BlockDetail rewardMoney={rewardMoney} lsWinner={lsWinner}/>:<Skeleton active paragraph={{ rows: 6 }}/>}
                 </div>
                 <div className="color-area">
                     <div className="top">
@@ -393,7 +393,7 @@ export const BlockResultYourTicket = () => {
 
     const onInputRoundChange = (e) => {
         if (e.charCode >= 48 && e.charCode <= 57) {
-        if (0 < parseInt(e.key) && parseInt(e.key) <= parseInt(lastestDraw+1)) {
+        if (0 < parseInt(e.key) && parseInt(e.key) <= parseInt(lastestDraw)) {
             setSelectedDraw(e.key)
             fetchSelectedDrawResult(e.key)
         }
@@ -454,6 +454,9 @@ export const BlockResultYourTicket = () => {
                     <div className="light-area-bottom">
                         <div className="left col-12 pr-0 pl-0">
                             <div className="numbers right row col-12">
+                                {result.length > 0 ?
+
+                                <>
                                 {result.map((item,index)=>
                                 <div key={index + 'ticketnumber'} className={'col-lg-6 col-sm-12'}>
                                     {item.map((itemTicket,indexTicket)=>
@@ -461,6 +464,9 @@ export const BlockResultYourTicket = () => {
                                         )}
                                 </div>)
                                 }
+                                </>
+                                    :
+                                    <Skeleton active />}
                             </div>
                         </div>
                     </div>
@@ -544,6 +550,13 @@ export const ModalBuyTicket = ({visible,hideModal,fetchNewUserTicket}) => {
                 console.log("fail")
             }
         }
+        const onQuickPick = () =>{
+            const newLsNumber = getRandomTicket()
+            setLsNumber(newLsNumber)
+            const newLsTicket1 = [...lsTicket]
+            newLsTicket1[indexTicket] = newLsNumber
+            setLsTicket(newLsTicket1)
+        }
         return (
             <>
                 <div className={lsTicket.length > 1 ? "col-lg-12 col-md-12" : "col-lg-12 col-md-12"}  key={'boxsingle' + indexTicket}>
@@ -558,7 +571,7 @@ export const ModalBuyTicket = ({visible,hideModal,fetchNewUserTicket}) => {
 
                                 </div>
                             )}
-                            <button className="custom-button1 ml-3" style={{fontSize:'30px'}} onClick={()=>setLsNumber(getRandomTicket())}><i className="fas fa-magic"></i></button>
+                            <button className="custom-button1 ml-3" style={{fontSize:'30px'}} onClick={()=>onQuickPick()}><i className="fas fa-magic"></i></button>
                             {lsTicket.length > 1 ? <button className="custom-button2 ml-1" style={{fontSize:'30px'}} onClick={()=>callbackRemoveTicket(indexTicket)}><i className="fas fa-minus"></i></button> :null }
                             {lsTicket && lsTicket.length < 5 ?
                             <button className="custom-button2 custom-button-add-ticket ml-1" style={{fontSize:'30px'}} onClick={()=>addTicket()}><i className="fas fa-plus"></i></button> :null}
