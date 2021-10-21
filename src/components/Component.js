@@ -482,6 +482,7 @@ export const ModalBuyTicket = ({visible,hideModal}) => {
     const {approve, isApprove} = useERC20Action();
     const [lsTicket,setLsTicket] = useState([getRandomTicket()])
     const [loading, setLoading] = useState(false)
+    const [loadingApprove, setLoadingApprove] = useState(false)
     const buyTicketAction = useBuyTicketAction();
     const {nftContract} = useNFTaction();
     const [price, setPrice] = useState(100);
@@ -519,10 +520,10 @@ export const ModalBuyTicket = ({visible,hideModal}) => {
 
                                 </div>
                             )}
-                            <button className="custom-button1 ml-3" onClick={()=>setLsNumber(getRandomTicket())}><i className="fas fa-magic"></i></button>
-                            {lsTicket.length > 1 ? <button className="custom-button2 ml-1" onClick={()=>callbackRemoveTicket(indexTicket)}><i className="fas fa-minus"></i></button> :null }
+                            <button className="custom-button1 ml-3" style={{fontSize:'30px'}} onClick={()=>setLsNumber(getRandomTicket())}><i className="fas fa-magic"></i></button>
+                            {lsTicket.length > 1 ? <button className="custom-button2 ml-1" style={{fontSize:'30px'}} onClick={()=>callbackRemoveTicket(indexTicket)}><i className="fas fa-minus"></i></button> :null }
                             {lsTicket && lsTicket.length < 5 ?
-                            <button className="custom-button2 custom-button-add-ticket ml-1" onClick={()=>addTicket()}><i className="fas fa-plus"></i></button> :null}
+                            <button className="custom-button2 custom-button-add-ticket ml-1" style={{fontSize:'30px'}} onClick={()=>addTicket()}><i className="fas fa-plus"></i></button> :null}
                         </ul>
                     </div>
                 </div>
@@ -603,14 +604,27 @@ export const ModalBuyTicket = ({visible,hideModal}) => {
     }, [account]);
 
     const approveFC = () => {
+        setLoadingApprove(true)
         approve().then(res => {
             res.wait().then(res=>{
                 setIsApproved(true)
+                setLoadingApprove(false)
+            })
+            .catch(err => {
+                const message = handledErrorAction(err).message
+                openNotificationWithIcon('error','Error',message)
+                setLoadingApprove(false)
             })
         })
+            .catch(err => {
+                const message = handledErrorAction(err).message
+                openNotificationWithIcon('error','Error',message)
+                setLoadingApprove(false)
+            })
     }
     const handleCancel = () => {
         hideModal()
+        setLsTicket([getRandomTicket()])
     }
 
     return (
@@ -672,7 +686,7 @@ export const ModalBuyTicket = ({visible,hideModal}) => {
                                 }}>{
                                     isApproved ?
                                         <Spin spinning={loading}>Buy Tickets</Spin> :
-                                        "Approve"
+                                        <Spin spinning={loadingApprove}>Approve</Spin>
                                 }</button>
                             </div>
                         </div>

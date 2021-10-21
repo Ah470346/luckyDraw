@@ -28,17 +28,18 @@
     line-height: 30px;
     font-weight: 600;
     background: #ededff;
-    background-image: -o-linear-gradient(4deg, #ec038b 0%, #fb6468 44%, #fbb936 100%);
+    background-image: -o-linear-gradient(
+180deg, #56CCF2 0%, #2F80ED 100%);;
     background-image: linear-gradient(
-86deg, #ec038b 0%, #fb6468 44%, #fbb936 100%);
+180deg, #56CCF2 0%, #2F80ED 100%);
     -webkit-box-shadow: 0px 7px 7px 0px rgb(243 42 126 / 23%);
     box-shadow: 0px 7px 7px 0px rgb(243 42 126 / 23%);
     color: #fff;
     border-radius: 50%;
     border: none;
     display: inline-block;
-    font-size: 14px;
     cursor: pointer;
+    font-size: 25px;
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -329,27 +330,29 @@ letter-spacing: 0.3em;
 color: #2F80ED;
 }
 
-.result-page .text{font-family: Montserrat;
-font-style: normal;
-font-weight: normal;
-font-size: 15px;
-line-height: 18px;
-text-align: center;
-letter-spacing: 0.05em;
-
-color: #707A83;
+.result-page .text{
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 18px;
+    text-align: center;
+    letter-spacing: 0.05em;
+    color: #707A83;
 }
 
 .header-top-area-inner span{
     font-style: normal;
-font-weight: bold;
+    font-weight: bold;
     font-size: 22px;
     line-height: 27px;
     /* identical to box height */
-
     text-align: center;
     letter-spacing: 0.05em;
-
     color: #F08721!important;
 
+}
+
+.pick-number-area .cart-summary{
+    background-image: url("/assets/images/result-bg.jpg");
 }

@@ -6,11 +6,13 @@ import {useERC20Action} from "../hook/hookErc20";
 import {openNotificationWithIcon, sendEther} from "./api/Api";
 import {ethers} from "ethers";
 import {useBuyTicketAction} from "../hook/hookBuyTicket";
+import {handledErrorAction} from "../utils/handleError";
 
 
 export const Header = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [loadingClaimBil, setLoadingClaimBil] = useState(false);
     const wallet = useWallet();
     const account = wallet.account;
     const {balanceOf} = useERC20Action();
@@ -71,10 +73,17 @@ export const Header = () => {
         })
     }
     const claimTokenFC = () => {
+        setLoadingClaimBil(true)
         claimToken()
             .then(res=>{
-                console.log(res)
+                setLoadingClaimBil(false)
             })
+            .catch(err => {
+                    const message = handledErrorAction(err).message
+                    openNotificationWithIcon('error', 'Error', message)
+                    setLoadingClaimBil(false)
+                }
+            )
     }
     return (
         <>
@@ -88,8 +97,8 @@ export const Header = () => {
                                     <img src="assets/images/logo.png" alt=""/> <span>BILLY</span>
                                 </a>
                                 <div className="right-area">
-                                    <button className={'custom-button1 btn-top btn-claim-eth'} onClick={()=>onClaimETH()}>Claim ETH<Spin spinning={loading}></Spin></button>
-                                    <button className={'custom-button1 btn-top btn-claim-bil'} style={{marginLeft:'5px',marginRight:'5px'}} onClick={()=>claimTokenFC()}>Claim BIL</button>
+                                    <button className={'custom-button1 btn-top btn-claim-eth'} onClick={()=>onClaimETH()}>Claim BNB<Spin spinning={loading}></Spin></button>
+                                    <button className={'custom-button1 btn-top btn-claim-bil'} style={{marginLeft:'5px',marginRight:'5px'}} onClick={()=>claimTokenFC()}>Claim BIL <Spin spinning={loadingClaimBil}></Spin></button>
 
                                     <div className="log-reg-area">
                                         {/*<a href="#" className="custom-button1" data-toggle="modal"*/}

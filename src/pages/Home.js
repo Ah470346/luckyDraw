@@ -111,7 +111,7 @@ const Home = () => {
                     <div className="col-12">
                         <p className="banner-subtitle">Exclusive Lottery Mega Jackpot</p>
                         <h1 className="banner-title">
-                            ~ {currentRewardMoney}
+                            ~ {currentRewardMoney} BILLY
                         </h1>
                         <p className="text">Power up for a chance to win in this electrifying instant game!</p>
                         <a href="#" className="custom-button2 btn-top btn-playing-now" onClick={()=>setIsShowModalBuyTicket(true)}>Start Playing Now</a>
