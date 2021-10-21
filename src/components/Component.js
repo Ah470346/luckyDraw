@@ -224,10 +224,12 @@ export const BlockResult = () => {
     }
 
     const onInputRoundChange = (e) => {
+        if (e.charCode >= 48 && e.charCode <= 57) {
         if (0 < parseInt(e.target.value) && parseInt(e.target.value) <= parseInt(lastestDraw)) {
             setCurrentDraw(e.target.value)
             fetchSelectedDrawResult(e.target.value)
         }
+    }
     }
     useEffect(()=>{
         fetchSelectedDrawResult(currentDraw)
@@ -239,8 +241,8 @@ export const BlockResult = () => {
                     <div className="light-area-top">
                         <div className="left">
                             <img src="assets/images/d1.png" alt=""/>
-                                <h4>Round <input pattern="^[0-9]+$" inputMode="numeric" id="round-id" name="round-id"
-                                                 scale="lg" className="input-number-inner" autoComplete={'off'} value={currentDraw} onChange={(e)=>onInputRoundChange(e)}/></h4>
+                                <h4>Round <input pattern="[0-9]{1}" inputMode="numeric" id="round-id" name="round-id"
+                                                 scale="lg" className="input-number-inner" autoComplete={'off'} value={currentDraw} onKeyPress={(e)=>onInputRoundChange(e)}/></h4>
                         </div>
                         <div className="right">
                             {currentDraw > 1 ?
@@ -406,7 +408,7 @@ export const BlockResultYourTicket = () => {
                     <div className="light-area-top">
                         <div className="left">
                             <img src="assets/images/d1.png" alt=""/>
-                                <h4>Round <input pattern="^[0-9]+$" inputMode="numeric" id="round-id" name="round-id"
+                                <h4>Round <input pattern="[0-9]{1}" inputMode="numeric" id="round-id" name="round-id"
                                                  scale="lg" className="input-number-inner" autoComplete={'off'} value={selectedDraw} onChange={(e)=>onInputRoundChange(e)}/></h4>
                         </div>
                         <div className="right">
@@ -503,7 +505,6 @@ function* shuffle(array) {
 }
 
 export const ModalBuyTicket = ({visible,hideModal,fetchNewUserTicket}) => {
-    const wallet = useWallet();
     const {account} = useWallet();
     const {approve, isApprove} = useERC20Action();
     const [lsTicket,setLsTicket] = useState([getRandomTicket()])
