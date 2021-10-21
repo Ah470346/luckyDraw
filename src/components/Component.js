@@ -225,9 +225,9 @@ export const BlockResult = () => {
 
     const onInputRoundChange = (e) => {
         if (e.charCode >= 48 && e.charCode <= 57) {
-        if (0 < parseInt(e.target.value) && parseInt(e.target.value) <= parseInt(lastestDraw)) {
-            setCurrentDraw(e.target.value)
-            fetchSelectedDrawResult(e.target.value)
+        if (0 < parseInt(e.key) && parseInt(e.key) <= parseInt(lastestDraw)) {
+            setCurrentDraw(e.key)
+            fetchSelectedDrawResult(e.key)
         }
     }
     }
@@ -392,11 +392,13 @@ export const BlockResultYourTicket = () => {
     }
 
     const onInputRoundChange = (e) => {
-        if (0 < parseInt(e.target.value) <= parseInt(lastestDraw)) {
-            setSelectedDraw(e.target.value)
-            fetchSelectedDrawResult(e.target.value)
+        if (e.charCode >= 48 && e.charCode <= 57) {
+        if (0 < parseInt(e.key) && parseInt(e.key) <= parseInt(lastestDraw+1)) {
+            setSelectedDraw(e.key)
+            fetchSelectedDrawResult(e.key)
         }
 
+    }
     }
     useEffect(()=>{
         fetchSelectedDrawResult(selectedDraw)
@@ -409,7 +411,7 @@ export const BlockResultYourTicket = () => {
                         <div className="left">
                             <img src="assets/images/d1.png" alt=""/>
                                 <h4>Round <input pattern="[0-9]{1}" inputMode="numeric" id="round-id" name="round-id"
-                                                 scale="lg" className="input-number-inner" autoComplete={'off'} value={selectedDraw} onChange={(e)=>onInputRoundChange(e)}/></h4>
+                                                 scale="lg" className="input-number-inner" autoComplete={'off'} value={selectedDraw} onKeyPress={(e)=>onInputRoundChange(e)}/></h4>
                         </div>
                         <div className="right">
                             {selectedDraw > 1 ?
@@ -472,10 +474,10 @@ export const BlockResultYourTicket = () => {
                         <h6>{selectedDate}</h6></>:null }
                     </div>
                     <div className="bottom">
-                        <span>Total players this round</span>
-                        <h6>{totalPlayerCurrentId}</h6>
-                        <span>Est. Jackpot </span>
-                        <h6><img src={'assets/images/logo-coin.png'}/> &nbsp; {rewardMoney}</h6>
+                        <span>Total your ticket this round</span>
+                        <h6>{result.length}</h6>
+                        {/*<span>Est. Jackpot </span>*/}
+                        {/*<h6><img src={'assets/images/logo-coin.png'}/> &nbsp; {rewardMoney}</h6>*/}
                     </div>
                 </div>
             </div>
