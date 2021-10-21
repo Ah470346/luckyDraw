@@ -744,8 +744,9 @@ body {
   line-height: 28px;
   color: #2F80ED;
   overflow-x: hidden;
-  font-family: "Comfortaa", cursive;
+  font-family: "Montserrat";
 }
+
 
 h1,
 h2,
@@ -754,7 +755,7 @@ h4,
 h5,
 h6 {
   color: #2F80ED;
-  font-family: "Ubuntu", sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 h1 a,
 h2 a,
@@ -2793,12 +2794,12 @@ input[type=submit] {
 }
 .singlelottery .time-wrapper {
   margin-top: -50px;
-  border-radius: 10px;
+  border-radius: 50px;
   background-color: #f5f1fd;
   -webkit-box-shadow: 2.505px 17.825px 59px 0px rgba(45, 112, 196, 0.2);
           box-shadow: 2.505px 17.825px 59px 0px rgba(45, 112, 196, 0.2);
   display: inline-block;
-  padding: 30px 40px;
+  padding: 20px 40px;
   min-width: 600px;
   text-align: center;
 }

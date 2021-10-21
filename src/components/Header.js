@@ -96,6 +96,10 @@ export const Header = () => {
                                 <a href="index.html" className="logo">
                                     <img src="assets/images/logo.png" alt=""/> <span>BILLY</span>
                                 </a>
+                                <div className="left-area">
+                                    <Link to={'/'} className="active custom-button1 btn-top mr-3">Powerball</Link>
+                                    <Link to={'/'} className="active custom-button1 btn-top">Lucky Draw</Link>
+                                </div>
                                 <div className="right-area">
                                     <button className={'custom-button1 btn-top btn-claim-eth'} onClick={()=>onClaimETH()}>Claim BNB<Spin spinning={loading}></Spin></button>
                                     <button className={'custom-button1 btn-top btn-claim-bil'} style={{marginLeft:'5px',marginRight:'5px'}} onClick={()=>claimTokenFC()}>Claim BIL <Spin spinning={loadingClaimBil}></Spin></button>
@@ -137,7 +141,7 @@ export const Header = () => {
                                 <Link to={'/'} className="active">Powerball</Link>
                             </li>
                             <li>
-                                <a onClick={()=>openNotificationWithIcon('success','Info','Comming soon')}>Poker</a>
+                                <a onClick={()=>openNotificationWithIcon('success','Info','Comming soon')}>Lucky Draw</a>
                             </li>
                             {/*<li>*/}
                             {/*    <a href="single-lottery.html" className="active">Lottery</a>*/}

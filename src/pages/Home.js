@@ -89,10 +89,16 @@ const Home = () => {
     }
 
     const onCheckNow = () =>{
-        buyTicketAction.checkReward()
+        buyTicketAction.checkReward(account)
             .then(res=>{
                 console.log(res)
-                setYourReward(convertBigNumBer(res.toString()))
+                console.log(convertBigNumBer(res.toString()))
+                if (parseFloat(convertBigNumBer(res.toString())) > 0) {
+                    setYourReward(parseFloat(convertBigNumBer(res.toString())))
+                }
+                else {
+                    openNotificationWithIcon('error','Info','Good luck next time !!!')
+                }
             })
     }
 
@@ -101,7 +107,11 @@ const Home = () => {
             .then(res=>{
                 console.log(res)
                 openNotificationWithIcon('success','Info','Success')
+                setYourReward(null)
             })
+    }
+    const fetchNewUserTicket = () => {
+        window.location.reload()
     }
     return (
         <>
@@ -148,33 +158,17 @@ const Home = () => {
                         <div className="row">
                             <div className="col-lg-12">
                                 <div className="result-list">
-                                    <div className="single-list" style={{borderBottom:'1px solid #e0e0e0'}}>
+                                    <div className="single-list">
                                         <div className="light-area">
-                                            <div className="light-area-top">
-                                                <div className="left">
-                                                    <img src="assets/images/d1.png" alt=""/>
-                                                </div>
-                                                <button className="custom-button2 btn-top" onClick={()=>setIsShowModalBuyTicket(true)}>Buy Ticket</button>
-                                                {/*<div className="right">*/}
-                                                {/*    <span>Draw took place on</span>*/}
-                                                {/*    <h6>Saturday April 20, 2020</h6>*/}
-                                                {/*</div>*/}
-                                            </div>
                                             <div className="light-area-bottom">
                                                 <div className={'col-lg-12'}>
-                                        <div className={'row'}>
-                                        {/*<div className={'col-3 left-detail'}>*/}
-                                        {/*    <div>*/}
-                                        {/*       <span className={'prize-pot'}>Prize pot</span>*/}
-                                        {/*        <h6 className={'match-first-title totalPot'}>~ {rewardMoney} BILLY</h6>*/}
-                                        {/*    </div>*/}
-                                        {/*    <div>*/}
-                                        {/*        <span className={'match-reward-sub'}>Total players this round : {totalPlayerCurrentId}</span>*/}
-                                        {/*    </div>*/}
-                                        {/*</div>*/}
-                                        <BlockCurrentDetail rewardMoney={currentRewardMoney} lsWinner={[]}/>
-                                        </div>
-                                    </div>
+                                                    <div className={'row'}>
+                                                        <BlockCurrentDetail rewardMoney={currentRewardMoney} lsWinner={[]}/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="light-area-top box-buy-ticket">
+                                                <button className="custom-button2 btn-top" onClick={()=>setIsShowModalBuyTicket(true)}>Buy Ticket</button>
                                             </div>
                                         </div>
                                         <div className="color-area">
@@ -184,7 +178,7 @@ const Home = () => {
                                             </div>
                                             <div className="bottom">
                                                 <span>Est. Jackpot </span>
-                                                <h6><img src={'assets/images/logo-coin.png'}/>&nbsp;{currentRewardMoney} BILLY</h6>
+                                                <h6><img src={'assets/images/logo-coin.png'}/>&nbsp; ~ {currentRewardMoney} BILLY</h6>
                                             </div>
                                         </div>
                                     </div>
@@ -209,7 +203,7 @@ const Home = () => {
                             </p>
                             <p></p>
                             <button className={'btn-top custom-button1'} style={{width:'100%'}} onClick={()=>onCheckNow()}>Check Now</button>
-                            {yourReward || parseInt(yourReward) === 0 ? <h1>You had win {yourReward} $, <button onClick={()=>onClaimReward()} className={'btn-top custom-button1 btn-claim-bil'}>Claim Now</button></h1> : null}
+                            {yourReward ? <h1>You had win {yourReward} $, <button onClick={()=>onClaimReward()} className={'btn-top custom-button1 btn-claim-bil'}>Claim Now</button></h1> : null}
                         </div>
                     </div>
                 </div>
@@ -226,9 +220,7 @@ const Home = () => {
             </div>
 
 
-
-
-            <div className="row">
+            <div className="row mt-5">
                 <div className="col-lg-12">
                     <div className="result-box">
                         <h4 className="box-header">CHECK YOUR TICKET</h4>
@@ -243,7 +235,7 @@ const Home = () => {
     </div>
 
     </section>
-            <ModalBuyTicket visible={isShowModalBuyTicket} hideModal={()=>setIsShowModalBuyTicket(false)}/>
+            <ModalBuyTicket visible={isShowModalBuyTicket} hideModal={()=>setIsShowModalBuyTicket(false)} fetchNewUserTicket={()=>fetchNewUserTicket()}/>
     </>
     );
 };
