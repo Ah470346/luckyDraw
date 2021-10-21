@@ -202,7 +202,7 @@ const Home = () => {
                                 if you won the latest lotto jackpots
                             </p>
                             <p></p>
-                            <button className={'btn-top custom-button1'} style={{width:'100%'}} onClick={()=>onCheckNow()}>Check Now</button>
+                            <button className={'btn-top custom-button1'} style={{width:'100%',paddingTop:'10px',paddingBottom:'10px',fontSize:'25px'}} onClick={()=>onCheckNow()}>Check Now</button>
                             {yourReward ? <h1>You had win {yourReward} $, <button onClick={()=>onClaimReward()} className={'btn-top custom-button1 btn-claim-bil'}>Claim Now</button></h1> : null}
                         </div>
                     </div>
@@ -220,7 +220,7 @@ const Home = () => {
             </div>
 
 
-            <div className="row mt-5">
+            <div className="row mt-5 mb-5">
                 <div className="col-lg-12">
                     <div className="result-box">
                         <h4 className="box-header">CHECK YOUR TICKET</h4>
