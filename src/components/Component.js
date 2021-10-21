@@ -499,12 +499,21 @@ export const ModalBuyTicket = ({visible,hideModal}) => {
         const [lsNumber, setLsNumber] = useState(lsTicket[indexTicket])
         const newLsTicket = [...lsTicket]
         const onInputChange = (e,index) => {
-            if (e.target.value) {
-            let currentValue = [...lsNumber]
-            currentValue[index] = parseInt(e.target.value)
-            setLsNumber(currentValue)
-            newLsTicket[indexTicket] = currentValue
-            setLsTicket(newLsTicket)}
+            if (e.charCode >= 48 && e.charCode <= 57) {
+                console.log("change")
+                let currentValue = [...lsNumber]
+                console.log("lsNumberOld",currentValue)
+                currentValue[index] = e.charCode - 48
+                console.log("lsNumberNew",currentValue)
+                setLsNumber(currentValue)
+                newLsTicket[indexTicket] = currentValue
+                console.log("new Ticket",newLsTicket)
+                setLsTicket(newLsTicket)
+                console.log(currentValue)
+            }
+            else {
+                console.log("fail")
+            }
         }
         return (
             <>
@@ -515,7 +524,7 @@ export const ModalBuyTicket = ({visible,hideModal}) => {
                             {lsNumber.map((item, index) =>
                                 <div key={'abc'+index} style={{display:'inline-block'}}>
                                 <li>
-                                    <span><input className={'input-select-lot'} maxLength={'1'} pattern="[0-9]{1}" onChange={(e)=>onInputChange(e,index)} value={lsNumber[index]} min={0} max={9}/></span>
+                                    <span><input className={'input-select-lot'} maxLength={'1'} pattern="[0-9]{1}" onKeyPress={e => onInputChange(e, index) } value={lsNumber[index]} min={0} max={9}/></span>
                                 </li>
 
                                 </div>
@@ -532,13 +541,7 @@ export const ModalBuyTicket = ({visible,hideModal}) => {
         )
     }
 
-      const container = document.getElementsByClassName('input-select-lot');
-      for (let i = 0;i < container.length; i++) {
-          container[i].addEventListener('keyup',function (e) {
-              if (['0','1','2','3','4','5','6','7','8','9'].includes(e.key)){
-              this.value = e.key}
-          })
-          }
+
     const BoxTicket = ({lsTicket,callbackRemoveTicket}) => {
         return (
             <>
@@ -581,15 +584,7 @@ export const ModalBuyTicket = ({visible,hideModal}) => {
                 hideModal()
             })
     }
-    useEffect(()=> {
-          const container = document.getElementsByClassName('input-select-lot');
-          for (let i = 0;i < container.length; i++) {
-              container[i].addEventListener('keyup',function (e) {
-              if (['0','1','2','3','4','5','6','7','8','9'].includes(e.key)){
-                this.value = e.key}
-              })
-          }
-      },[lsTicket])
+
     useEffect(()=>{
             buyTicketAction.getTicketPrice()
         .then(res => {
