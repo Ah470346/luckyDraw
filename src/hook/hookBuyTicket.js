@@ -27,8 +27,8 @@ export const useBuyTicketAction = () => {
         return openBoxContract.getHistoryList(address)
     }, [openBoxContract])
 
-    const checkReward = useCallback(async () => {
-        return openBoxContract.checkReward()
+    const checkReward = useCallback(async (address) => {
+        return openBoxContract.checkReward(address)
     }, [openBoxContract])
 
     const claimReward = useCallback(async () => {

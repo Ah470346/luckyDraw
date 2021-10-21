@@ -258,7 +258,7 @@ button:focus{
 }
 
 .banner-subtitle {
-font-family: Montserrat;
+font-family: Montserrat!important;
 font-style: normal;
 font-weight: 800;
 font-size: 42px;
@@ -268,7 +268,7 @@ letter-spacing: 0.15em;
 }
 
 .banner-title{
-font-family: Montserrat;
+font-family: Montserrat!important;
 font-style: normal;
 font-weight: 800;
 font-size: 100px;
@@ -282,7 +282,7 @@ text-shadow: 7px 7px 2px #FFFFFF;
 }
 
 .text{
-font-family: Montserrat;
+font-family: Montserrat!important;
 font-style: normal;
 font-weight: 600;
 font-size: 30px;
@@ -304,7 +304,7 @@ text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.4);
     padding: 10px 80px;
 }
 .time-countdown{
-    font-family: Montserrat;
+    font-family: Montserrat!important;
     font-style: italic;
     font-weight: 600;
     font-size: 30px;
@@ -319,7 +319,7 @@ text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.4);
 }
 
 .section-header .title{
-font-family: Montserrat;
+font-family: Montserrat!important;
 font-style: normal;
 font-weight: 800;
 font-size: 40px;
@@ -331,7 +331,7 @@ color: #2F80ED;
 }
 
 .result-page .text{
-    font-family: Montserrat;
+    font-family: Montserrat!important;
     font-style: normal;
     font-weight: normal;
     font-size: 15px;
@@ -355,4 +355,40 @@ color: #2F80ED;
 
 .pick-number-area .cart-summary{
     background-image: url("/assets/images/result-bg.jpg");
+}
+
+.header-section.header-active a{
+    color: #fff;
+    border-radius: 9px;
+    background: linear-gradient(180deg, #56CCF2 0%, #2F80ED 100%);
+}
+
+.header-section.header-active{
+    background: #fff;
+}
+
+.box-buy-ticket{
+    justify-content: center!important;
+    border-bottom: none!important;
+    padding-top: 20px;
+}
+
+.box-buy-ticket button{
+padding: 10px 55px;
+}
+
+.box-detail-result-inner{
+    padding: 5px 10px;
+    background: #F5F9FF;
+    border-radius: 22px;
+}
+.time-countdown span{
+    color: #2F80ED!important;
+}
+.lottery-result.result-page{
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.result-list .single-list .color-area .bottom h6{
+    font-size: 35px;
 }
