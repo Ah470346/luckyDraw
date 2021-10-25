@@ -24,10 +24,122 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
     return <span>{hours.toString().padStart(2, '0')}:{minutes.toString().padStart(2, '0')}:{seconds.toString().padStart(2, '0')}</span>;
   }
 };
+function* shuffle(array) {
 
+    var i = array.length;
+
+    while (i--) {
+        yield array.splice(Math.floor(Math.random() * (i + 1)), 1)[0];
+    }
+
+}
+
+function getRandomInt() {
+  return Math.floor(Math.random() * 9);
+}
 
 
 const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
+const BoxDrawnLoto = ()=>{
+    const [result1,setResult1] = useState(getRandomInt())
+    const [result1True,setResult1True] = useState(false)
+    const [result2True,setResult2True] = useState(false)
+    const [result3True,setResult3True] = useState(false)
+    const [result4True,setResult4True] = useState(false)
+    const [result5True,setResult5True] = useState(false)
+    const [result6True,setResult6True] = useState(false)
+    const [result2,setResult2] = useState(getRandomInt())
+    const [result3,setResult3] = useState(getRandomInt())
+    const [result4,setResult4] = useState(getRandomInt())
+    const [result5,setResult5] = useState(getRandomInt())
+    const [result6,setResult6] = useState(getRandomInt())
+    const [id1,setId1] = useState()
+    const [id2,setId2] = useState()
+    const [id3,setId3] = useState()
+    const [id4,setId4] = useState()
+    const [id5,setId5] = useState()
+    const [id6,setId6] = useState()
+
+    useEffect(()=>{
+     const id11 = setInterval(() => {
+        if (result1True === false) {
+            setResult1(getRandomInt())
+        }},100)
+        setId1(id11);
+     const id22 = setInterval(()=>{
+          if (result2True === false) {
+            setResult2(getRandomInt())
+        }
+     },100)
+         setId2(id22);
+      const id33 = setInterval(()=>{
+          if (result3True === false) {
+            setResult3(getRandomInt())
+        }
+     },100)
+         setId3(id33);
+   const id44 = setInterval(()=>{
+          if (result4True === false) {
+            setResult4(getRandomInt())
+        }
+     },100)
+         setId4(id44);
+    const id55 = setInterval(()=>{
+          if (result5True === false) {
+            setResult5(getRandomInt())
+        }
+     },100)
+         setId5(id55);
+     const id66 = setInterval(()=>{
+          if (result6True === false) {
+            setResult6(getRandomInt())
+        }
+     },100)
+         setId6(id66);
+    },[]);
+
+
+    const setResult = () => {
+        console.log("ok");
+        setTimeout(()=>{
+            setResult1(5)
+        clearInterval(id1);
+        },3000)
+        setTimeout(()=>{
+             setResult2(8)
+        clearInterval(id2);
+        },6000)
+        setTimeout(()=>{
+             setResult3(8)
+        clearInterval(id3);
+        },9000)
+        setTimeout(()=>{
+             setResult4(8)
+        clearInterval(id4);
+        },12000)
+        setTimeout(()=>{
+             setResult5(8)
+        clearInterval(id5);
+        },15000)
+        setTimeout(()=>{
+             setResult6(8)
+        clearInterval(id6);
+        },18000)
+
+    }
+    return (
+        <div className="numbersdraw">
+            <span>{result1}</span>
+            <span>{result2}</span>
+            <span>{result3}</span>
+            <span>{result4}</span>
+            <span>{result5}</span>
+            <span>{result6}</span>
+            <button onClick={()=>setResult()}>Test</button>
+        </div>
+    )
+}
 
 
 const Home = () => {
@@ -35,8 +147,10 @@ const Home = () => {
     const buyTicketAction = useBuyTicketAction();
     const [amount, setAmount] = useState(1);
     const [nextDraw, setNextDraw] = useState(null);
+    const [nextDrawPre, setNextDrawPre] = useState(null);
     const [yourReward, setYourReward] = useState(null);
     const [resetCountdown, setResetCountdown] = useState(false);
+    const [isShowCountDownDraw, setIsShowCountDownDraw] = useState(true);
     const [loading, setLoading] = useState(false);
     const [isShowModalBuyTicket, setIsShowModalBuyTicket] = useState(false);
     const [isShowDetail, setIsShowDetail] = useState(false);
@@ -54,31 +168,33 @@ const Home = () => {
         setIsShowDetail(!currentDetail)
     }
 
-    useEffect(()=>{
-        const currentTime = new Date();
-        const nextDate = new Date(new Date().setDate(currentTime.getDate()+1))
-        if (currentTime.getHours() > 12) {
-            setNextDraw(nextDate.setHours(12,0,0))
-        }
-        // if (currentTime.getHours() > 7) {
-        //     setNextDraw(currentTime.setHours(19,0,0))
-        // }
-        else {
-            setNextDraw(currentTime.setHours(12,0,0))
-        }
-    },[]);
+    // useEffect(()=>{
+    //     const currentTime = new Date();
+    //     const nextDate = new Date(new Date().setDate(currentTime.getDate()+1))
+    //     if (currentTime.getHours() > 12) {
+    //         setNextDraw(nextDate.setHours(12,0,0))
+    //     }
+    //     // if (currentTime.getHours() > 7) {
+    //     //     setNextDraw(currentTime.setHours(19,0,0))
+    //     // }
+    //     else {
+    //         setNextDraw(currentTime.setHours(12,0,0))
+    //     }
+    // },[]);
 
     useEffect(()=>{
         const currentTime = new Date();
-        const nextDate = new Date(new Date().setDate(currentTime.getDate()+1))
+        const nextDate = new Date(new Date().setDate(currentTime.getDate()))
         if (currentTime.getHours() > 12) {
-            setNextDraw(nextDate.setHours(12,0,0))
+            setNextDraw(nextDate.setHours(17,33,0))
+            setNextDrawPre(nextDate.setHours(17,32,0))
         }
         // if (currentTime.getHours() > 7) {
         //     setNextDraw(currentTime.setHours(19,0,0))
         // }
         else {
-            setNextDraw(currentTime.setHours(12,0,0))
+            setNextDraw(currentTime.setHours(14,45,0))
+            setNextDrawPre(nextDate.setHours(14,44,0))
         }
         setResetCountdown(false)
     },[resetCountdown]);
@@ -113,18 +229,30 @@ const Home = () => {
     const fetchNewUserTicket = () => {
         window.location.reload()
     }
+
+    const onCountDown = ()=>{
+        console.log("reset")
+        setIsShowCountDownDraw(true)
+        console.log("done")
+    }
     return (
         <>
         <section className="banner-section box-banner-section">
             <div className="container box-banner-section-inner">
                 <div className="row">
                     <div className="col-12">
-                        <p className="banner-subtitle">Exclusive Lottery Mega Jackpot</p>
+                        <p className="banner-subtitle">{!isShowCountDownDraw ? "Exclusive Lottery Mega Jackpot" : "The lucky number is"}</p>
+                         {!isShowCountDownDraw ?
+                             <>
                         <h1 className="banner-title">
                             ~ {currentRewardMoney} BILLY
                         </h1>
-                        <p className="text">Power up for a chance to win in this electrifying instant game!</p>
-                        <a href="#" className="custom-button2 btn-top btn-playing-now" onClick={()=>setIsShowModalBuyTicket(true)}>Start Playing Now</a>
+                         <p className="text">Power up for a chance to win in this electrifying instant game!</p>
+                             </>
+
+                              :
+                                <BoxDrawnLoto /> }
+                        {!isShowCountDownDraw ? <a href="#" className="custom-button2 btn-top btn-playing-now" onClick={()=>setIsShowModalBuyTicket(true)}>Start Playing Now</a> :null}
                     </div>
                 </div>
             </div>
@@ -145,7 +273,22 @@ const Home = () => {
                                 <p className="time-countdown">
                                 {nextDraw && resetCountdown === false ?
                                 <>
-                                    <Countdown date={nextDraw} renderer={renderer} onComplete={()=>resetNextDraw()}/> <span>until the draw</span>
+                                    {!isShowCountDownDraw ?
+                                        <>
+                                    <Countdown date={nextDraw} renderer={renderer} onComplete={()=>resetNextDraw()}/> <span>until the countdown</span></>
+                                        :
+                                    <><Countdown date={nextDraw} renderer={renderer} onComplete={()=>resetNextDraw()}/> <span>until the draw</span></>}
+
+                                </>:null}</p>
+
+
+                        </div>
+                        <div>
+                            <p className="time-countdown" style={{display:'none'}}>
+                                {nextDraw && resetCountdown === false ?
+                                <>
+
+                                    <Countdown date={nextDrawPre}  onComplete={()=>onCountDown()}/> <span>until the draw</span>
                                 </>:null}</p>
                         </div>
                     </div>
