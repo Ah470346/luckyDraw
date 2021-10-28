@@ -57,22 +57,22 @@ export default function Footer() {
                         <div className="col-lg-6 align-self-center">
                             <ul className="footer-social-links">
                                 <li>
-                                    <a href="#">
+                                    <a href="/">
                                         <i className="fab fa-twitter"></i>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="/">
                                         <i className="fab fa-facebook-f"></i>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="/">
                                         <i className="fab fa-instagram"></i>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="/">
                                         <i className="fab fa-dribbble"></i>
                                     </a>
                                 </li>

@@ -1,4 +1,3 @@
-import {ethers} from "ethers";
 
 export const handleTxHash = (txData, account, buyTicketContract) => {
     const {transactionHash, events, from} = txData

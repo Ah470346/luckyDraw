@@ -8,8 +8,7 @@ import Luckydraw from "./pages/LuckyDraw";
 const BaseRouter = () => (
   <Hoc>
     <Route exact path="/" component={Home}/>
-    <Route exact path="/results" component={Results}/>
-    <Route exact path="/luckydraw" component={Luckydraw} check={true}/>
+    <Route exact path="/luckydraw" component={Luckydraw}/>
   </Hoc>
 );
 

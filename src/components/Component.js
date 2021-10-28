@@ -75,7 +75,7 @@ export const BlockDetail = ({rewardMoney,lsWinner}) => {
     return (
         <>
             <div className={'col-12 row box-detail-result'}>
-                <div className={'col-4 mt-3 mb-3'}>
+                <div className={'col-12 col-sm-6 col-lg-4 col-xl-4 mt-3 mb-3'}>
                     <div className={'box-detail-result-inner'}>
                     <h2 className={'match-first-title'}>Match first 1</h2>
                     <h2 className={'match-reward'}>{(rewardMoney*2/100).toFixed(3)} BILLY</h2>
@@ -85,7 +85,7 @@ export const BlockDetail = ({rewardMoney,lsWinner}) => {
                     <h2 className={'match-reward-count'}>{lsWinner[0]} Winners</h2>
                     </div>
                 </div>
-                <div className={'col-4 mt-3 mb-3'}>
+                <div className={'col-12 col-sm-6 col-lg-4 col-xl-4 mt-3 mb-3'}>
                     <div className={'box-detail-result-inner'}>
                     <h2 className={'match-first-title'}>Match first 2</h2>
                     <h2 className={'match-reward'}>{(rewardMoney*4/100).toFixed(3)} BILLY</h2>
@@ -95,7 +95,7 @@ export const BlockDetail = ({rewardMoney,lsWinner}) => {
                     <h2 className={'match-reward-count'}>{lsWinner[1]} Winners</h2>
                 </div>
                 </div>
-                <div className={'col-4 mt-3 mb-3'}>
+                <div className={'col-12 col-sm-6 col-lg-4 col-xl-4 mt-3 mb-3'}>
                     <div className={'box-detail-result-inner'}>
                     <h2 className={'match-first-title'}>Match first 3</h2>
                     <h2 className={'match-reward'}>{(rewardMoney*9/100).toFixed(3)} BILLY</h2>
@@ -105,7 +105,7 @@ export const BlockDetail = ({rewardMoney,lsWinner}) => {
                     <h2 className={'match-reward-count'}>{lsWinner[2]} Winners</h2>
                 </div>
                 </div>
-                <div className={'col-4 mt-3 mb-3'}>
+                <div className={'col-12 col-sm-6 col-lg-4 col-xl-4 mt-3 mb-3'}>
                     <div className={'box-detail-result-inner'}>
                     <h2 className={'match-first-title'}>Match first 4</h2>
                     <h2 className={'match-reward'}>{(rewardMoney*15/100).toFixed(3)} BILLY</h2>
@@ -115,7 +115,7 @@ export const BlockDetail = ({rewardMoney,lsWinner}) => {
                     <h2 className={'match-reward-count'}>{lsWinner[3]} Winners</h2>
                 </div>
                 </div>
-                <div className={'col-4 mt-3 mb-3'}>
+                <div className={'col-12 col-sm-6 col-lg-4 col-xl-4 mt-3 mb-3'}>
                     <div className={'box-detail-result-inner'}>
                     <h2 className={'match-first-title'}>Match first 5</h2>
                     <h2 className={'match-reward'}>{(rewardMoney*25/100).toFixed(3)} BILLY</h2>
@@ -125,7 +125,7 @@ export const BlockDetail = ({rewardMoney,lsWinner}) => {
                     <h2 className={'match-reward-count'}>{lsWinner[4]} Winners</h2>
                 </div>
                 </div>
-                <div className={'col-4 mt-3 mb-3'}>
+                <div className={'col-12 col-sm-6 col-lg-4 col-xl-4 mt-3 mb-3'}>
                     <div className={'box-detail-result-inner'}>
                     <h2 className={'match-first-title'}>Match first 6</h2>
                     <h2 className={'match-reward'}>{(rewardMoney*45/100).toFixed(3)} BILLY</h2>
@@ -226,8 +226,8 @@ export const BlockResult = () => {
                     <div className="light-area-top">
                         <div className="left">
                             <img src="assets/images/d1.png" alt=""/>
-                                <h4>Round <input pattern="[0-9]{1}" inputMode="numeric" id="round-id" name="round-id"
-                                                 scale="lg" className="input-number-inner" autoComplete={'off'} value={currentDraw} onKeyPress={(e)=>onInputRoundChange(e)}/></h4>
+                                <h4>Round <input pattern="[0-9]{1}" inputMode="numeric" onChange={(e)=>console.log(e.target.value)} id="round-id" name="round-id"
+                                                 scale="lg" className="input-number-inner" autoComplete={'off'} value={currentDraw|| 0} onKeyPress={(e)=>onInputRoundChange(e)}/></h4>
                         </div>
                         <div className="right">
                             {currentDraw > 1 ?
@@ -302,7 +302,6 @@ export const BlockResultYourTicket = () => {
     useEffect(()=>{
         buyTicketAction.getHistoryList(account)
             .then(res=>{
-                console.log(res)
                 if (res[0].length > 0 && res[1].length > 0) {
                     const lastRound = res[0][res[0].length - 1].toString()
                     setLastestDraw(parseInt(lastRound))
@@ -413,8 +412,8 @@ export const BlockResultYourTicket = () => {
                     <div className="light-area-top">
                         <div className="left">
                             <img src="assets/images/d1.png" alt=""/>
-                                <h4>Round <input pattern="[0-9]{1}" inputMode="numeric" id="round-id" name="round-id"
-                                                 scale="lg" className="input-number-inner" autoComplete={'off'} value={selectedDraw} onKeyPress={(e)=>onInputRoundChange(e)}/></h4>
+                                <h4>Round <input pattern="[0-9]{1}" inputMode="numeric" id="round-id" name="round-id" onChange={e=>console.log(e.target.value)}
+                                                 scale="lg" className="input-number-inner" autoComplete={'off'} value={selectedDraw||0} onKeyPress={(e)=>onInputRoundChange(e)}/></h4>
                         </div>
                         <div className="right">
                             {selectedDraw > 1 ?
@@ -463,7 +462,7 @@ export const BlockResultYourTicket = () => {
                                     <>
                                     {result.map((item,index)=>
 
-                                    <BoxItemTicket item={item} index={index} winningNumber={lastestWinningNumber}/>)
+                                    <BoxItemTicket item={item} index={index} winningNumber={lastestWinningNumber} key={index+item}/>)
 
                                     }
                                     </>
@@ -542,16 +541,11 @@ export const ModalBuyTicket = ({visible,hideModal,fetchNewUserTicket}) => {
         const newLsTicket = [...lsTicket]
         const onInputChange = (e,index) => {
             if (e.charCode >= 48 && e.charCode <= 57) {
-                console.log("change")
                 let currentValue = [...lsNumber]
-                console.log("lsNumberOld",currentValue)
                 currentValue[index] = e.charCode - 48
-                console.log("lsNumberNew",currentValue)
                 setLsNumber(currentValue)
                 newLsTicket[indexTicket] = currentValue
-                console.log("new Ticket",newLsTicket)
                 setLsTicket(newLsTicket)
-                console.log(currentValue)
             }
             else {
                 console.log("fail")
