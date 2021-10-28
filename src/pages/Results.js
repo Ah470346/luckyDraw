@@ -3,16 +3,9 @@ import 'react-notifications/lib/notifications.css';
 import {withRouter} from 'react-router';
 import {useWallet} from "use-wallet";
 import {useBuyTicketAction} from "../hook/hookBuyTicket";
-import {convertBigNumBer, LoadingFC, openNotificationWithIcon} from "../components/api/Api";
+import {convertBigNumBer} from "../components/api/Api";
 import {useERC20Action} from "../hook/hookErc20";
-import {Spin} from "antd";
-import {Container} from "react-bootstrap";
-import {handledErrorAction} from "../utils/handleError";
-import {contractAddress} from "../utils/contract";
-import Countdown from "react-countdown";
-import { Form, Input, Button, Radio } from 'antd';
 import {useNFTaction} from "../hook/hookNFT";
-import {BigNumber} from "ethers";
 
 function* shuffle(array) {
 

@@ -53,9 +53,6 @@ export const useNFTaction = () => {
      return await nftContract.returnNumberId(currentId)
     }, [nftContract])
 
-    // const returnDatetimeId = useCallback(async (currentId)=> {
-    //  return await nftContract.returnDatetimeId(currentId)
-    // }, [nftContract])
 
     const returnTotalAddress = useCallback(async (currentId)=> {
      return await nftContract.returnTotalAddress(currentId)
@@ -63,6 +60,10 @@ export const useNFTaction = () => {
 
     const returnCountReward = useCallback(async (currentId)=> {
      return await nftContract.returnCountReward(currentId)
+    }, [nftContract])
+
+    const checkDrawNow = useCallback(async ()=> {
+     return await nftContract.checkDrawNow()
     }, [nftContract])
 
 
@@ -81,6 +82,7 @@ export const useNFTaction = () => {
         // returnDatetimeId:returnDatetimeId,
         // returnTotalrewardId:returnTotalrewardId,
         returnTotalAddress:returnTotalAddress,
-        returnCountReward:returnCountReward
+        returnCountReward:returnCountReward,
+        checkDrawNow:checkDrawNow
     }
 }
