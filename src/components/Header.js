@@ -105,7 +105,7 @@ export const Header = () => {
                                 </a>
                                 <div className="left-area">
                                     <Link to={'/'} className="active custom-button1 btn-top mr-3">Powerball</Link>
-                                    <a onClick={()=>openNotificationWithIcon('success','Info','Comming soon')} className="active custom-button1 btn-top">Lucky Draw</a>
+                                    <Link to={'/luckydraw'} className="active custom-button1 btn-top">Lucky Draw</Link>
                                 </div>
                                 <div className="right-area">
                                     <button className={'custom-button1 btn-top btn-claim-eth'} onClick={()=>onClaimETH()}>Claim BNB<Spin spinning={loading}></Spin></button>

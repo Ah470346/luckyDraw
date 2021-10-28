@@ -343,9 +343,9 @@ export const BlockResultYourTicket = () => {
 
             }
         return (
-             <div key={index + 'ticketnumber'} className={'col-lg-6 col-sm-12'}>
+             <div key={index + 'ticketnumber'} className={'col-lg-6 col-sm-12'} style={checkWinTicket(item,winningNumber) ? {border:'1px solid #ff0000'} : null}>
                     {item.map((itemTicket,indexTicket)=>
-                    <span key={indexTicket + 'ticketnumber' + itemTicket} className={'mb-3'} style={checkWinTicket(item,winningNumber) ? {background:'#ff0000'} : null}>{itemTicket}</span>
+                    <span key={indexTicket + 'ticketnumber' + itemTicket} className={'mb-3'} style={checkWinTicket(item,winningNumber) && winningNumber[indexTicket] === itemTicket ? {background:'#ff0000'} : null}>{itemTicket}</span>
                     )}
                 </div>)
     }
@@ -615,10 +615,10 @@ export const ModalBuyTicket = ({visible,hideModal,fetchNewUserTicket}) => {
                     let e = handleTxHash(result, account, nftContract)
                     console.log("result",e)
                     setLoading(false)
-                    setLsTicket([['?','?','?','?','?','?']])
+                    setLsTicket([getRandomTicket()])
                     openNotificationWithIcon('success','Success','Transaction Success')
                     hideModal()
-                    fetchNewUserTicket()
+                    // fetchNewUserTicket()
                 })
                 .catch(error => {
                         const message = handledErrorAction(error).message
