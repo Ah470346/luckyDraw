@@ -20,8 +20,22 @@ export const useERC20Action = () => {
             })
     })
 
+    const isApproveLK = useCallback(async ()=> {
+        return await coopaERC20Contract.allowance(account, contractAddress.LK)
+            .then(res=> {
+                if(res < BigNumber.from(10).pow(30)){
+                    return false
+                }
+                return true
+            })
+    })
+
     const approve = useCallback(async ()=> {
         return await coopaERC20Contract.approve(contractAddress.buyTicket, BigNumber.from(10).pow(60))
+    }, [coopaERC20Contract, signer])
+
+    const approveLK = useCallback(async ()=> {
+        return await coopaERC20Contract.approve(contractAddress.LK, BigNumber.from(10).pow(60))
     }, [coopaERC20Contract, signer])
 
     const isApproveMarket = useCallback(async ()=> {
@@ -43,6 +57,8 @@ export const useERC20Action = () => {
     }, [coopaERC20Contract, signer])
 
     return {
+        isApproveLK:isApproveLK,
+        approveLK:approveLK,
         coopaERC20Contract: coopaERC20Contract,
         isApprove: isApprove,
         approve: approve,

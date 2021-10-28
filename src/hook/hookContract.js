@@ -4,6 +4,8 @@ import MarketABi from "../abi/market.json"
 import openBoxABi from "../abi/buyTicket.json"
 import battleABi from "../abi/battle.json"
 import erc20ABI from "../abi/ecr20.json"
+import LKABI from "../abi/luckydraw.json"
+import LKNFTABI from "../abi/luckydrawnft.json"
 import {contractAddress} from "../utils/contract";
 import {useProvider} from "./hook";
 import {multiCall} from "../utils/multicall";
@@ -32,6 +34,12 @@ export const useBattlecontract = (signer) => {
 
 export const useCoopaToken = (signer) => {
   return useContract(contractAddress.Token, erc20ABI, signer)
+}
+export const useLuckyDraw = (signer) => {
+  return useContract(contractAddress.LK, LKABI, signer)
+}
+export const useLuckyDrawNFT = (signer) => {
+  return useContract(contractAddress.nftLK, LKNFTABI, signer)
 }
 
 export const useMultiCall = (abi,calls) => {
