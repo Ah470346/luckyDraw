@@ -6,7 +6,7 @@ export default configureStore({
         serializableCheck: false
     }),
     reducer: {
-        eth: ethReducer
+        eth: ethReducer,
     },
     devTools: true,
 });

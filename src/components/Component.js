@@ -611,7 +611,7 @@ export const ModalBuyTicket = ({visible,hideModal,fetchNewUserTicket}) => {
                     setLsTicket([['?','?','?','?','?','?']])
                     openNotificationWithIcon('success','Success','Transaction Success')
                     hideModal()
-                    fetchNewUserTicket()
+                    // fetchNewUserTicket()
                 })
                 .catch(error => {
                         const message = handledErrorAction(error).message

@@ -1,0 +1,808 @@
+.wrap-page {
+    width: 100%;
+    height: auto;
+}
+
+.wrap-page .banner-luckydraw {
+    margin: 0 !important;
+    width: 100%;
+    height: 100%;
+    padding: 48px 60px;
+    background: url("../images/banner-luckydraw.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+.wrap-page .banner-luckydraw .waiting {
+    height: 100%;
+    background: linear-gradient(96.09deg, rgba(255, 255, 255, 0.6) 2.52%, rgba(255, 255, 255, 0.36) 96.27%);
+    backdrop-filter: blur(30px);
+    /* Note: backdrop-filter has minimal browser support */
+
+    border-radius: 35px;
+}
+
+.wrap-page .banner-luckydraw  .txt {
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 25px;
+    line-height: 30px;
+    color: #434D56;
+    margin: 0;
+}
+
+.wrap-page .banner-luckydraw .txt span {
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 25px;
+    line-height: 30px;
+    color: #428cef;
+}
+
+.wrap-page .banner-luckydraw .waiting .waiting-header {
+    display: flex;
+    padding: 0 50px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 10%;
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(4px);
+    /* Note: backdrop-filter has minimal browser support */
+
+    border-radius: 35px 35px 0px 0px;
+}
+
+.wrap-page .banner-luckydraw .waiting .waiting-header .left {
+    display: flex;
+    flex-direction: row;
+}
+
+.wrap-page .banner-luckydraw .waiting .waiting-header .left {
+    display: flex;
+    flex-direction: row;
+}
+
+.wrap-page .banner-luckydraw .waiting .waiting-content {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 90%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    padding-top: 60px;
+    padding-bottom: 10px;
+}
+
+
+.wrap-page .banner-luckydraw .waiting .waiting-content.result {
+    display: flex;
+    justify-content: flex-start;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+.wrap-page .banner-luckydraw .waiting .waiting-content.result .congratulation {
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 800;
+    font-size: 65px;
+    line-height: 79px;
+    text-align: center;
+    letter-spacing: 0.05em;
+
+    color: #F37335;
+    /* border: 3px solid #FFFFFF; */
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.4);
+}
+
+
+.wrap-page .banner-luckydraw .waiting .waiting-content.result .id-ticket {
+    width: 525.89px;
+    height: 143.62px;
+    background: linear-gradient(0.44deg, rgba(0, 0, 0, 0.55) 10.24%, rgba(0, 0, 0, 0.385) 114.16%);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;    
+    padding: 0px 50px;
+}
+
+.wrap-page .banner-luckydraw .waiting .waiting-content.result .id-ticket .avt {
+    width: 90.55px;
+    height: 90.55px;
+    background: #FFAFAF;
+    border-radius: 50%;
+    border: 3px solid white;
+    background-image: url("../images/main.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-right: 40px;
+}
+
+.wrap-page .banner-luckydraw .waiting .waiting-content.result .id-ticket .id p:first-child{
+    color: #F3C214;
+    font-size: 34px;
+    font-weight: bold;
+}
+
+.wrap-page .banner-luckydraw .waiting .waiting-content.result .id-ticket .id p:last-child{
+    color: white;
+    font-size: 32px;
+}
+
+.wrap-page .banner-luckydraw .waiting .waiting-content.result .id-ticket .id p:last-child span{
+    color: white;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.wrap-page .banner-luckydraw .waiting .waiting-content.result > p:last-child{
+    color: #434D56;
+    font-size: 30px;
+}
+
+.wrap-page .banner-luckydraw .waiting .waiting-content .reward-title{
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 800;
+    font-size: 40px;
+    line-height: 48px;
+    text-align: center;
+    letter-spacing: 0.15em;
+
+    color: #FFFFFF;
+
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.4);
+
+}
+
+.wrap-page .banner-luckydraw .waiting .waiting-content p {
+    margin: 0;
+}
+.wrap-page .banner-luckydraw .waiting .waiting-content .reward{
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 800;
+    font-size: 95px;
+    line-height: 105px;
+    /* identical to box height */
+
+    text-align: center;
+    letter-spacing: 0.15em;
+
+    background:linear-gradient(180deg, #F5AF19 20.1%, #F12711 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; 
+
+    filter: drop-shadow(7px 7px 2px #FFFFFF);
+}
+
+.wrap-page .banner-luckydraw .waiting .waiting-content small{
+    font-size: 52px;
+    font-weight: 700;
+}
+
+
+.wrap-page .banner-luckydraw .waiting .waiting-content .note {
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 35px;
+    /* identical to box height */
+
+    text-align: center;
+    letter-spacing: 0.05em;
+
+    color: #FFFFFF;
+
+    margin-bottom: 100px;
+
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.4);
+}
+
+.wrap-page .banner-luckydraw .waiting .waiting-content .buy {
+    background: linear-gradient(180deg, #56CCF2 0%, #3C98EF 100%);
+    box-shadow: 0px 12px 13px rgba(47, 128, 237, 0.25);
+    border: none;
+    border-radius: 20px;
+    width: 35%;
+    height: 70px;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 37px;
+    /* identical to box height */
+
+    text-align: center;
+    letter-spacing: 0.04em;
+
+    color: #FFFFFF;
+}
+
+.wrap-page .banner-luckydraw .waiting .waiting-content .buy  svg{
+    margin-left: 15px;
+}
+
+/* ---------------------------------------------------------------------------------- Information */
+
+.wrap-page .wrap-information {
+    width: 100%;
+    height: 100%;
+}
+
+.wrap-page .wrap-information .information {
+    width: 100%;
+    height: 100%;
+    margin: 0!important;
+}
+
+
+.wrap-page .wrap-information .total-player {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(96.09deg, rgba(255, 255, 255, 0.6) 2.52%, rgba(255, 255, 255, 0.36) 96.27%);
+    backdrop-filter: blur(30px);
+    /* Note: backdrop-filter has minimal browser support */
+
+    border-radius: 35px;
+    text-align: center;
+}
+
+.wrap-page .wrap-information  span {
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 27px;
+    line-height: 35px;
+    color: #428cef;
+    margin-top: 20px;
+}
+
+
+
+
+.wrap-page .wrap-information .total-ticket {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(96.09deg, rgba(255, 255, 255, 0.6) 2.52%, rgba(255, 255, 255, 0.36) 96.27%);
+    backdrop-filter: blur(30px);
+    /* Note: backdrop-filter has minimal browser support */
+
+    border-radius: 35px;  
+    text-align: center;
+}
+
+
+.wrap-page .wrap-information .my-ticket {
+    background: linear-gradient(96.09deg, rgba(255, 255, 255, 0.6) 2.52%, rgba(255, 255, 255, 0.36) 96.27%);
+    backdrop-filter: blur(30px);
+    /* Note: backdrop-filter has minimal browser support */
+
+    border-radius: 35px;
+    height: 100%;
+}
+
+.wrap-page .wrap-information .my-ticket .header {
+    height: 15%;
+    padding: 0 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(4px);
+    /* Note: backdrop-filter has minimal browser support */
+
+    border-radius: 35px 35px 0px 0px;
+}
+
+
+.wrap-page .wrap-information .my-ticket .content {
+    height: 85%;
+    width: 100%;
+    padding: 30px;
+
+}
+
+.wrap-page .wrap-information .my-ticket .content .list-ticket {
+    height: 75%;
+}
+
+.wrap-page .wrap-information .my-ticket .content .list-ticket ul {
+    height: 100%;
+    overflow: auto;
+    padding-right: 40px;
+}
+
+.wrap-page .wrap-information .my-ticket .content .list-ticket ul li {
+    width: 100%;
+    height: 70px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.wrap-page .wrap-information .my-ticket .content .list-ticket .ball{
+    width: 68px;
+    height: 70px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(180deg, #56CCF2 0%, #2F80ED 100%);
+    border-radius: 50%;
+
+    font-family: Montserrat;
+    font-style: normal;
+    font-size: 34px;
+    line-height: 40px;
+    text-align: center;
+    letter-spacing: 0.04em;
+    color: #FFFFFF;
+
+}
+
+
+.wrap-page .wrap-information .my-ticket .content .buy-ticket {
+    height: 25%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+
+.wrap-page .wrap-information .my-ticket .content button{
+    background: linear-gradient(180deg, #56CCF2 0%, #3C98EF 100%);
+    box-shadow: 0px 12px 13px rgba(47, 128, 237, 0.25);
+    border-radius: 20px;
+    border: none;
+    height: 65px;
+
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 25px;
+    line-height: 30px;
+    text-align: center;
+    letter-spacing: 0.04em;
+
+    color: #FFFFFF;
+
+}
+
+@media only screen and (max-width: 1812px) {
+    .wrap-page .wrap-information .my-ticket .content .list-ticket .ball{
+        width: 60px;
+        height: 65px;
+    }
+
+    .wrap-page .wrap-information .my-ticket .content .list-ticket ul li {
+        height: 65px;
+    }
+}
+
+
+@media only screen and (max-width: 1652px){
+    .wrap-page .wrap-information .my-ticket .content button{
+        font-size: 22px;
+        line-height: 25px;
+    
+    }
+
+    .wrap-page .wrap-information .my-ticket .content .list-ticket .ball{
+        width: 55px;
+        height: 60px;
+    }
+
+    .wrap-page .wrap-information .my-ticket .content .list-ticket ul li {
+        height: 60px;
+    }
+    .wrap-page .banner-luckydraw{
+        padding: 20px 20px;
+    }
+    .wrap-page .banner-luckydraw  .txt {
+        font-size: 23px;
+        line-height: 25px;
+    }
+
+    .wrap-page .banner-luckydraw  span {
+        font-size: 23px;
+        line-height: 25px;
+    }
+
+    .wrap-page .banner-luckydraw .waiting .waiting-content .reward{
+        font-size: 80px;
+        line-height: 100px;
+        letter-spacing: 0.15em;
+    }
+
+    .wrap-page .banner-luckydraw .waiting .waiting-content small{
+        font-size: 50px;
+        font-weight: 700;
+    }
+
+    .wrap-page .banner-luckydraw .waiting .waiting-content .reward-title{
+        font-size: 38px;
+        line-height: 45px;
+    }
+
+
+    .wrap-page .banner-luckydraw .waiting .waiting-content .buy {
+        font-size: 26px;
+    }
+    
+}
+
+
+@media only screen and (max-width: 1475px){
+    .wrap-page .banner-luckydraw{
+        padding: 20px 20px;
+    }
+    .wrap-page .wrap-information .my-ticket .content .list-ticket ul {
+        padding-right: 10px;
+    }
+    
+
+}
+
+@media only screen and (max-width: 1385px){
+    .wrap-page .banner-luckydraw{
+        height: 750px;
+        padding: 20px 20px;
+    }
+
+    .wrap-page .wrap-information .my-ticket .content {
+        height: 85%;
+        width: 100%;
+        padding-bottom: 10px;
+    
+    }
+
+    .wrap-page .wrap-information .my-ticket .content .list-ticket .ball{
+        width: 45px;
+        height: 50px;
+    }
+
+    .wrap-page .wrap-information .my-ticket .content .list-ticket ul li {
+        height: 50px;
+    }
+}
+
+@media only screen and (max-width: 1185px){
+    .wrap-page .banner-luckydraw{
+        height: 730px;
+        padding: 20px 20px;
+    }
+
+    .wrap-page .banner-luckydraw .waiting .txt {
+        font-size: 20px;
+        line-height: 25px;
+    }
+
+    .wrap-page .banner-luckydraw .waiting span {
+        font-size: 20px;
+        line-height: 25px;
+    }
+
+    .wrap-page .banner-luckydraw .waiting .waiting-content .reward{
+        font-size: 75px;
+        line-height: 100px;
+        letter-spacing: 0.15em;
+    }
+
+    .wrap-page .banner-luckydraw .waiting .waiting-content small{
+        font-size: 44px;
+        font-weight: 700;
+    }
+
+    .wrap-page .banner-luckydraw .waiting .waiting-content .reward-title{
+        font-size: 34px;
+        line-height: 45px;
+    }
+
+
+    .wrap-page .banner-luckydraw .waiting .waiting-content .buy {
+        font-size: 24px;
+    }
+
+    .wrap-page .banner-luckydraw .waiting .waiting-content .note {
+        font-size: 26px;
+    }
+}
+
+@media only screen and (max-width: 992px){
+    .wrap-page .banner-luckydraw{
+        height: 700px;
+        padding: 20px 20px;
+    }
+
+
+    .wrap-page .banner-luckydraw .waiting .waiting-content {
+        padding-top: 20px;
+        padding-bottom: 10px;
+    }
+
+    .wrap-page .banner-luckydraw .waiting .waiting-content .reward{
+        font-size: 70px;
+        line-height: 85px;
+        letter-spacing: 0.15em;
+    }
+
+    .wrap-page .banner-luckydraw .waiting .waiting-content small{
+        font-size: 40px;
+        font-weight: 700;
+    }
+
+    .wrap-page .banner-luckydraw .waiting .waiting-content .reward-title{
+        font-size: 32px;
+        line-height: 40px;
+    }
+
+    .wrap-page .banner-luckydraw .waiting .waiting-content .note {
+        font-size: 24px;
+        margin-bottom: 60px;
+    }
+
+}
+
+@media only screen and (max-width: 765px){
+    .wrap-page .banner-luckydraw{
+        height: 600px;
+        padding: 15px 15px;
+    }
+}
+
+@media only screen and (max-width: 665px){
+    .wrap-page .banner-luckydraw{
+        height: 520px;
+        padding: 15px 15px;
+    }
+}
+
+
+/* width */
+::-webkit-scrollbar {
+    width: 7px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #82D2FF; 
+    border-radius: 15px;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #FFFFFF;
+    border-radius: 15px;
+    transition: all ease 0.2s;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #dce0e2; 
+  }
+
+
+ .modal-lucky .ant-modal-close {
+    position: absolute;
+    width: 60px;
+    right: 20px;
+  }
+
+  .modal-lucky .ant-modal-close-x {
+      font-size: 22px;
+  }
+
+
+  .modal-lucky .ant-modal-close-x,.modal-lucky .ant-modal-close{
+    display: block;
+}
+
+
+.modal-lucky .ant-modal-close-icon {
+    margin-top: 10px;
+}
+
+.modal-lucky .ant-modal-title {
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 37px;
+    /* identical to box height */
+
+
+    color: #434D56;
+
+}
+
+/* -----------------------------------------------------------------------------modal */
+
+.modal-lucky .ant-modal-content{
+    border-radius: 32px;
+}
+
+.modal-lucky .ant-modal-header {
+    border-radius: 32px 32px 0 0;
+    padding-left: 40px;
+}
+
+.modal-lucky .ant-modal-footer {
+    display: none;
+}
+
+.modal-lucky .ant-modal-body {
+    border-radius: 0px 0px 32px 32px;
+
+    padding: 24px 40px 70px 40px !important;
+}
+
+
+.modal-lucky .input-number {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-lucky .input-number p {
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 25px;
+    line-height: 30px;
+    margin: 0;
+
+    color: #434D56;
+
+}
+
+.modal-lucky .input-number input {
+    width: 122px;
+    height: 52px;
+    background: #F3F3F3;
+    border-radius: 11px;
+    outline: none;
+    border: none;
+    font-size: 25px;
+    text-align: center;
+    padding: 0 ;
+}
+
+.modal-lucky .detail-ticket {
+    position: relative;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    padding: 40px 30px 70px 30px;
+    background: url("../images/background-buy.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    border-radius: 20px;
+}
+
+.modal-lucky  p {
+    margin: 0;
+}
+
+.modal-lucky .total, .modal-lucky .price ,.modal-lucky .total-price {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0 15px 0;
+}
+
+.modal-lucky hr {
+    border-color: rgba(256, 256, 256, 0.3);
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+.modal-lucky .detail-ticket > p {
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 27px;
+
+    color: #FFFFFF;
+    margin-bottom: 40px;
+}
+
+.modal-lucky .detail-ticket span {
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 25px;
+    line-height: 30px;
+    text-align: right;
+
+    color: #FFFFFF;
+}
+
+
+.modal-lucky .total > p, .modal-lucky .price > p ,.modal-lucky .total-price > p {
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 22px;
+    line-height: 27px;
+    /* identical to box height */
+
+
+    color: #FFFFFF;
+}
+
+.modal-lucky .price > p > span {
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 22px;
+
+    color: #14E510;
+}
+
+
+.modal-lucky .total-price p {
+    font-size: 25px;
+    line-height: 30px;
+}
+
+.modal-lucky .detail-ticket button{
+    position: absolute;
+    height: 65px;
+    width: 80%;
+    border: none;
+    background: linear-gradient(180deg, #56CCF2 0%, #3C98EF 100%);
+    box-shadow: 0px 12px 13px rgba(47, 128, 237, 0.25);
+    border-radius: 20px;
+    bottom: -33px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 25px;
+    line-height: 30px;
+    text-align: center;
+    letter-spacing: 0.04em;
+
+    color: #FFFFFF;
+
+}
+
+
+
+
+
+
+
+
+
