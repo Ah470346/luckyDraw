@@ -7,9 +7,14 @@ import {openNotificationWithIcon, sendEther} from "./api/Api";
 import {ethers} from "ethers";
 import {useBuyTicketAction} from "../hook/hookBuyTicket";
 import {handledErrorAction} from "../utils/handleError";
+import{useSelector,useDispatch} from "react-redux";
+import {changeMoney} from "../redux/reloadMoney";
 
 
 export const Header = () => {
+    const dispatch = useDispatch();
+    const balanceCPA = useSelector((state)=> state.money);
+    const setBalanceCPA = (money) => dispatch(changeMoney(money));
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [loading, setLoading] = useState(false);
     const [loadingClaimBil, setLoadingClaimBil] = useState(false);
@@ -17,7 +22,7 @@ export const Header = () => {
     const account = wallet.account;
     const {balanceOf} = useERC20Action();
     const {claimToken} = useBuyTicketAction();
-    const [balanceCPA, setBalanceCPA] = useState(null);
+    // const [balanceCPA, setBalanceCPA] = useState(null);
     const [isModalConnectedVisible, setIsModalConnectedVisible] = useState(false);
     const walletConnectFC = (value) => {
         wallet.connect(value);
@@ -76,7 +81,9 @@ export const Header = () => {
         setLoadingClaimBil(true)
         claimToken()
             .then(res=>{
-                setLoadingClaimBil(false)
+                console.log(res)
+                res.wait().then((res)=>{fetchBallance();setLoadingClaimBil(false);})
+
             })
             .catch(err => {
                     const message = handledErrorAction(err).message
@@ -123,7 +130,7 @@ export const Header = () => {
                                         </svg>
                                         </div>
                                         <div className="amount">
-                                            <h4 className="mony">{balanceCPA ? balanceCPA.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0}</h4>
+                                            <h4 className="mony">{balanceCPA.money ? balanceCPA.money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0}</h4>
                                             {/*<p>To checkout</p>*/}
                                         </div>
                                     </div>
@@ -141,7 +148,7 @@ export const Header = () => {
                                 <Link to={'/'} className="active">Powerball</Link>
                             </li>
                             <li>
-                                <a onClick={()=>openNotificationWithIcon('success','Info','Comming soon')}>Lucky Draw</a>
+                                <Link to={'/luckydraw'}>Lucky Draw</Link>
                             </li>
                             {/*<li>*/}
                             {/*    <a href="single-lottery.html" className="active">Lottery</a>*/}

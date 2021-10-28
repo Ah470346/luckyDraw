@@ -10,8 +10,8 @@ export const useBuyTicketAction = () => {
         return openBoxContract.ticketprice()
     }, [openBoxContract])
 
-    const buyTicket = useCallback(async (lsTicket) => {
-        return openBoxContract.buyTicket(lsTicket)
+    const buyTicket = useCallback(async (lsTicket,address) => {
+        return openBoxContract.buyTicket(lsTicket,address)
     }, [openBoxContract])
 
     const claimToken = useCallback(async () => {
@@ -35,6 +35,18 @@ export const useBuyTicketAction = () => {
         return openBoxContract.claimReward()
     }, [openBoxContract])
 
+    const drawnLoto = useCallback(async () => {
+        return openBoxContract.drawnLoto()
+    }, [openBoxContract])
+
+    const returnBlockTime = useCallback(async () => {
+        return openBoxContract.returnBlockTime()
+    }, [openBoxContract])
+
+    const returnListDrawHours = useCallback(async () => {
+        return openBoxContract.returnListDrawHours()
+    }, [openBoxContract])
+
     return {
         openBoxContract: openBoxContract,
         getTicketPrice: getTicketPrice,
@@ -43,6 +55,9 @@ export const useBuyTicketAction = () => {
         claimToken:claimToken,
         getHistoryList:getHistoryList,
         checkReward:checkReward,
-        claimReward:claimReward
+        claimReward:claimReward,
+        drawnLoto:drawnLoto,
+        returnBlockTime:returnBlockTime,
+        getTimeDraw:returnListDrawHours
     }
 }

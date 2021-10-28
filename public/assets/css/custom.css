@@ -399,15 +399,16 @@ padding: 10px 55px;
 }
 
 .numbersdraw span{
-    width: 55px;
-    height: 55px;
-    line-height: 55px;
-    font-size: 26px;
+    width: 120px;
+    height: 120px;
+    line-height: 120px;
+    font-size: 65px;
+    font-size: 45px;
     text-align: center;
+    margin: 10px;
     border-radius: 50%;
     color: #333;
     display: inline-block;
-    font-size: 18px;
     font-weight: 600;
 /*    background-image: -o-linear-gradient(180deg, #56CCF2 0%, #2F80ED 100%);*/
 /*    background-image: linear-gradient(*/
@@ -416,4 +417,20 @@ padding: 10px 55px;
     background-size: 100% 100%;
     -webkit-box-shadow: 0px 7px 7px 0px rgb(243 42 126 / 23%);
     box-shadow: 0px 7px 7px 0px rgb(243 42 126 / 23%);
+}
+
+.bg-result-draw {
+    background-image: url('/assets/images/bida2.png') !important;
+}
+
+.find-the-winner{
+    font-style: normal;
+    text-transform: uppercase;
+    font-weight: 800;
+    font-size: 65px;
+    line-height: 79px;
+    text-align: center;
+    letter-spacing: 0.05em;
+    color: #F08721;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.4);
 }

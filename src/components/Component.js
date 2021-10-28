@@ -13,46 +13,51 @@ import {useBuyTicketAction} from "../hook/hookBuyTicket";
 import {useWallet} from "use-wallet";
 import {useERC20Action} from "../hook/hookErc20";
 
+
+const checkerWinningNumber = (e) => {
+    return e.every(v => v === "0")
+}
+
 export const BlockCurrentDetail = ({rewardMoney}) => {
     return (
         <>
             <div className={'col-12 row'}>
-                <div className={'col-4 mt-3 mb-3'}>
+                <div className={'col-12 col-sm-6 col-lg-4 col-xl-4 mt-3 mb-3'}>
                     <div className={'box-detail-result-inner'}>
                     <h2 className={'match-first-title'}>Match first 1</h2>
                     <h2 className={'match-reward'}>{(rewardMoney*2/100).toFixed(3)} BILLY</h2>
                     {/*<h2 className={'match-reward-sub'}>~ 1000$</h2>*/}
                 </div>
                 </div>
-                <div className={'col-4 mt-3 mb-3'}>
+                <div className={'col-12 col-sm-6 col-lg-4 col-xl-4 mt-3 mb-3'}>
                     <div className={'box-detail-result-inner'}>
                     <h2 className={'match-first-title'}>Match first 2</h2>
                     <h2 className={'match-reward'}>{(rewardMoney*4/100).toFixed(3)} BILLY</h2>
                     {/*<h2 className={'match-reward-sub'}>~ 1000$</h2>*/}
                 </div>
                 </div>
-                <div className={'col-4 mt-3 mb-3'}>
+                <div className={'col-12 col-sm-6 col-lg-4 col-xl-4 mt-3 mb-3'}>
                     <div className={'box-detail-result-inner'}>
                     <h2 className={'match-first-title'}>Match first 3</h2>
                     <h2 className={'match-reward'}>{(rewardMoney*9/100).toFixed(3)} BILLY</h2>
                     {/*<h2 className={'match-reward-sub'}>~ 1000$</h2>*/}
                 </div>
                 </div>
-                <div className={'col-4 mt-3 mb-3'}>
+                <div className={'col-12 col-sm-6 col-lg-4 col-xl-4 mt-3 mb-3'}>
                     <div className={'box-detail-result-inner'}>
                     <h2 className={'match-first-title'}>Match first 4</h2>
                     <h2 className={'match-reward'}>{(rewardMoney*15/100).toFixed(3)} BILLY</h2>
                     {/*<h2 className={'match-reward-sub'}>~ 1000$</h2>*/}
                 </div>
                 </div>
-                <div className={'col-4 mt-3 mb-3'}>
+                <div className={'col-12 col-sm-6 col-lg-4 col-xl-4 mt-3 mb-3'}>
                     <div className={'box-detail-result-inner'}>
                     <h2 className={'match-first-title'}>Match first 5</h2>
                     <h2 className={'match-reward'}>{(rewardMoney*25/100).toFixed(3)} BILLY</h2>
                     {/*<h2 className={'match-reward-sub'}>~ 1000$</h2>*/}
                 </div>
                 </div>
-                <div className={'col-4 mt-3 mb-3'}>
+                <div className={'col-12 col-sm-6 col-lg-4 col-xl-4 mt-3 mb-3'}>
                     <div className={'box-detail-result-inner'}>
                     <h2 className={'match-first-title'}>Match first 6</h2>
                     <h2 className={'match-reward'}>{(rewardMoney*45/100).toFixed(3)} BILLY</h2>
@@ -67,7 +72,6 @@ export const BlockCurrentDetail = ({rewardMoney}) => {
 
 
 export const BlockDetail = ({rewardMoney,lsWinner}) => {
-    console.log(lsWinner)
     return (
         <>
             <div className={'col-12 row box-detail-result'}>
@@ -155,8 +159,6 @@ export const BlockResult = () => {
                 setCurrentDraw(res-1)
                 nftAction.returnNumberId(parseInt(res)-1)
                     .then(res=>{
-                        console.log(res)
-                        console.log(res[0])
                         let lsWinning = []
                         for (let i of res[0]) {
                             lsWinning.push(i.toString())
@@ -176,32 +178,12 @@ export const BlockResult = () => {
                     .then(res=>{
                         setTotalPlayerCurrentId(res.toString())
                     })
-                // nftAction.returnTotalrewardId(curId-1)
-                // .then(res=>{
-                //     setRewardMoney(convertBigNumBer(res))
-                //     nftAction.returnCountReward(curId-1)
-                //     .then(res=>{
-                //         let lsWinnerTemp = []
-                //         for (let i of res) {
-                //             lsWinnerTemp.push(i.toString())
-                //         }
-                //         setLsWinner(lsWinnerTemp)
-                //     })
-                //     nftAction.returnTotalAddress(curId-1)
-                //     .then(res=>{
-                //         setTotalPlayerCurrentId(res.toString())
-                //     })
-                // })
-
-
             })
     },[])
 
     const fetchSelectedDrawResult = (value) => {
         nftAction.returnNumberId(value)
             .then(res=>{
-                console.log(res)
-                console.log(res[0])
                 let lsWinning = []
                 for (let i of res[0]) {
                     lsWinning.push(i.toString())
@@ -231,6 +213,9 @@ export const BlockResult = () => {
         }
     }
     }
+
+
+
     useEffect(()=>{
         fetchSelectedDrawResult(currentDraw)
     },[currentDraw])
@@ -267,7 +252,7 @@ export const BlockResult = () => {
                             <p className={'left col-5'}>Winning Numbers:</p>
 
                             <div className="numbers right col-7">
-                                {lastestWinningNumber && lastestWinningNumber.length > 0 ?
+                                {lastestWinningNumber && lastestWinningNumber.length > 0 && !checkerWinningNumber(lastestWinningNumber) ?
                                      <>
                                     {lastestWinningNumber.map((item, index) =>
                                         <span key={'wininingnumber' + index}>{item}</span>
@@ -317,6 +302,7 @@ export const BlockResultYourTicket = () => {
     useEffect(()=>{
         buyTicketAction.getHistoryList(account)
             .then(res=>{
+                console.log(res)
                 if (res[0].length > 0 && res[1].length > 0) {
                     const lastRound = res[0][res[0].length - 1].toString()
                     setLastestDraw(parseInt(lastRound))
@@ -328,7 +314,6 @@ export const BlockResultYourTicket = () => {
     useEffect(()=>{
         nftAction.getCurrentResult(account,parseInt(selectedDraw))
             .then(res=>{
-                console.log(res)
                 let lsResult = []
                 for (let i of res[0]) {
                     let lsTemp = []
@@ -345,7 +330,25 @@ export const BlockResultYourTicket = () => {
         //     })
     },[selectedDraw,account])
 
+    const BoxItemTicket = ({item,index,winningNumber})=>{
+            const checkWinTicket = (item,winningNumber) => {
+                let isWinner = false
+                 if (!checkerWinningNumber(lastestWinningNumber)) {
+                    if (item[0] === winningNumber[0]) {
+                        isWinner = true
+                    }
+                    return isWinner
+                }
+                 else {return false}
 
+            }
+        return (
+             <div key={index + 'ticketnumber'} className={'col-lg-6 col-sm-12'}>
+                    {item.map((itemTicket,indexTicket)=>
+                    <span key={indexTicket + 'ticketnumber' + itemTicket} className={'mb-3'} style={checkWinTicket(item,winningNumber) ? {background:'#ff0000'} : null}>{itemTicket}</span>
+                    )}
+                </div>)
+    }
 
     const fetchSelectedDrawResult = (value) => {
         nftAction.returnNumberId(value)
@@ -431,14 +434,14 @@ export const BlockResultYourTicket = () => {
 
                         </div>
                     </div>
-                    {selectedDraw < lastestDraw ?
+                    {selectedDraw <= lastestDraw ?
                     <div className="light-area-bottom">
 
                         <div className="left row col-12">
                             <p className={'left col-5'}>Winning Numbers:</p>
 
                             <div className="numbers right col-7">
-                                {lastestWinningNumber && lastestWinningNumber.length > 0 ?
+                                {lastestWinningNumber && lastestWinningNumber.length > 0 && !checkerWinningNumber(lastestWinningNumber)?
                                      <>
                                     {lastestWinningNumber.map((item, index) =>
                                         <span key={index}>{item}</span>
@@ -454,19 +457,23 @@ export const BlockResultYourTicket = () => {
                     <div className="light-area-bottom">
                         <div className="left col-12 pr-0 pl-0">
                             <div className="numbers right row col-12">
-                                {result.length > 0 ?
-
+                                {lastestWinningNumber && selectedDraw <= lastestDraw ?
                                 <>
-                                {result.map((item,index)=>
-                                <div key={index + 'ticketnumber'} className={'col-lg-6 col-sm-12'}>
-                                    {item.map((itemTicket,indexTicket)=>
-                                        <span  key={indexTicket + 'ticketnumber' + itemTicket} className={'mb-3'}>{itemTicket}</span>
-                                        )}
-                                </div>)
-                                }
+                                    {result.length > 0 ?
+                                    <>
+                                    {result.map((item,index)=>
+
+                                    <BoxItemTicket item={item} index={index} winningNumber={lastestWinningNumber}/>)
+
+                                    }
+                                    </>
+                                        :
+                                        <Skeleton active />}
                                 </>
-                                    :
-                                    <Skeleton active />}
+                                :
+                                    null
+
+                                }
                             </div>
                         </div>
                     </div>
@@ -600,7 +607,7 @@ export const ModalBuyTicket = ({visible,hideModal,fetchNewUserTicket}) => {
     }
     const buyTicket = () => {
         setLoading(true)
-        buyTicketAction.buyTicket(lsTicket)
+        buyTicketAction.buyTicket(lsTicket,account)
             .then(res => {
                 console.log(res)
                 res.wait().then(result => {

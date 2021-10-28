@@ -3,19 +3,14 @@ import 'react-notifications/lib/notifications.css';
 import {withRouter} from 'react-router';
 import {useWallet} from "use-wallet";
 import {useBuyTicketAction} from "../hook/hookBuyTicket";
-import {convertBigNumBer, LoadingFC, openNotificationWithIcon, sendEther} from "../components/api/Api";
-import {useERC20Action} from "../hook/hookErc20";
-import {Skeleton, Spin} from "antd";
-import {Container} from "react-bootstrap";
-import {handledErrorAction} from "../utils/handleError";
-import {contractAddress} from "../utils/contract";
+import {convertBigNumBer, openNotificationWithIcon} from "../components/api/Api";
 import Countdown from "react-countdown";
-import { Form, Input, Button, Radio } from 'antd';
-import {useNFTcontract} from "../hook/hookContract";
-import {handleTxHash} from "../utils/handleTxHash";
 import {useNFTaction} from "../hook/hookNFT";
 import {BlockCurrentDetail, BlockResult, BlockResultYourTicket, ModalBuyTicket} from "../components/Component";
-import {ethers} from "ethers";
+import {useERC20Action} from "../hook/hookErc20";
+import {useDispatch, useSelector} from "react-redux";
+import {changeMoney} from "../redux/reloadMoney";
+import {changeSumReward} from "../redux/reloadSumReward";
 
 const renderer = ({ hours, minutes, seconds, completed }) => {
   if (completed) {
@@ -41,7 +36,8 @@ function getRandomInt() {
 
 const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
-const BoxDrawnLoto = ()=>{
+const BoxDrawnLoto = ({isStartDraw, setIsHaveWinner})=>{
+    const nftAction = useNFTaction()
     const [result1,setResult1] = useState(getRandomInt())
     const [result1True,setResult1True] = useState(false)
     const [result2True,setResult2True] = useState(false)
@@ -60,6 +56,32 @@ const BoxDrawnLoto = ()=>{
     const [id4,setId4] = useState()
     const [id5,setId5] = useState()
     const [id6,setId6] = useState()
+
+
+    useEffect(async()=>{
+        if (isStartDraw) {
+            console.log("tessssssssssssssssss")
+            let nextVal
+            while (true) {
+            const id = await nftAction.checkDrawNow();
+                console.log(id)
+                if (id===true) {
+                    nftAction.getCurrentDraw()
+                        .then(res=>{
+                            nftAction.returnNumberId(parseInt(res.toString())-1)
+                                .then(res=>{
+                                    let lsResult = []
+                                    for (let i of res[0]) {
+                                        lsResult.push(i.toString())
+                                    }
+                                    setResult(lsResult)
+                                })
+                        })
+                    break
+                }
+            }
+        }
+    },[isStartDraw])
 
     useEffect(()=>{
      const id11 = setInterval(() => {
@@ -100,43 +122,51 @@ const BoxDrawnLoto = ()=>{
     },[]);
 
 
-    const setResult = () => {
+    const setResult = (values) => {
         console.log("ok");
         setTimeout(()=>{
-            setResult1(5)
+            setResult1(values[0])
+            setResult1True(true)
         clearInterval(id1);
         },3000)
         setTimeout(()=>{
-             setResult2(8)
+             setResult2(values[1])
+            setResult2True(true)
         clearInterval(id2);
         },6000)
         setTimeout(()=>{
-             setResult3(8)
+             setResult3(values[2])
+            setResult3True(true)
         clearInterval(id3);
         },9000)
         setTimeout(()=>{
-             setResult4(8)
+             setResult4(values[3])
+            setResult4True(true)
         clearInterval(id4);
         },12000)
         setTimeout(()=>{
-             setResult5(8)
+             setResult5(values[4])
+            setResult5True(true)
         clearInterval(id5);
         },15000)
         setTimeout(()=>{
-             setResult6(8)
+             setResult6(values[5])
+            setResult6True(true)
         clearInterval(id6);
+        },18000)
+        setTimeout(()=>{
+            setIsHaveWinner()
         },18000)
 
     }
     return (
         <div className="numbersdraw">
-            <span>{result1}</span>
-            <span>{result2}</span>
-            <span>{result3}</span>
-            <span>{result4}</span>
-            <span>{result5}</span>
-            <span>{result6}</span>
-            <button onClick={()=>setResult()}>Test</button>
+            <span className={result1True ? 'bg-result-draw' : null}>{result1}</span>
+            <span className={result2True ? 'bg-result-draw' : null}>{result2}</span>
+            <span className={result3True ? 'bg-result-draw' : null}>{result3}</span>
+            <span className={result4True ? 'bg-result-draw' : null}>{result4}</span>
+            <span className={result5True ? 'bg-result-draw' : null}>{result5}</span>
+            <span className={result6True ? 'bg-result-draw' : null}>{result6}</span>
         </div>
     )
 }
@@ -144,19 +174,28 @@ const BoxDrawnLoto = ()=>{
 
 const Home = () => {
     const nftAction = useNFTaction();
+    const {balanceOf} = useERC20Action();
+    const dispatch = useDispatch();
+    const balanceCPA = useSelector((state)=> state.money);
+    const setBalanceCPA = (money) => dispatch(changeMoney(money));
+    const currentRewardMoney = useSelector((state)=> state.sumReward);
+    const setCurrentRewardMoney = (reward) => dispatch(changeSumReward(reward));
     const buyTicketAction = useBuyTicketAction();
     const [amount, setAmount] = useState(1);
     const [nextDraw, setNextDraw] = useState(null);
     const [nextDrawPre, setNextDrawPre] = useState(null);
     const [yourReward, setYourReward] = useState(null);
     const [resetCountdown, setResetCountdown] = useState(false);
-    const [isShowCountDownDraw, setIsShowCountDownDraw] = useState(true);
+    const [isShowCountDownDraw, setIsShowCountDownDraw] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [isHaveWinner, setIsHaveWinner] = useState(false);
+    const [isStartDraw, setStartDraw] = useState(false);
+    const [isDrawing, setIsDrawing] = useState(false);
     const [isShowModalBuyTicket, setIsShowModalBuyTicket] = useState(false);
     const [isShowDetail, setIsShowDetail] = useState(false);
-    const [currentRewardMoney,setCurrentRewardMoney] = useState(0)
+    // const [currentRewardMoney,setCurrentRewardMoney] = useState(0)
+
     const [result,setResult] = useState([])
-    const wallet = useWallet();
     const {account} = useWallet();
     useEffect(() => {
         nftAction.returnTotalReward()
@@ -183,20 +222,48 @@ const Home = () => {
     // },[]);
 
     useEffect(()=>{
-        const currentTime = new Date();
-        const nextDate = new Date(new Date().setDate(currentTime.getDate()))
-        if (currentTime.getHours() > 12) {
-            setNextDraw(nextDate.setHours(17,33,0))
-            setNextDrawPre(nextDate.setHours(17,32,0))
-        }
-        // if (currentTime.getHours() > 7) {
-        //     setNextDraw(currentTime.setHours(19,0,0))
-        // }
-        else {
-            setNextDraw(currentTime.setHours(14,45,0))
-            setNextDrawPre(nextDate.setHours(14,44,0))
-        }
-        setResetCountdown(false)
+        buyTicketAction.returnBlockTime()
+            .then(res=>{
+            const currentTime = new Date(res.toString()*1000);
+            const timeCheck = new Date(res.toString()*1000);
+            const nextDate = new Date(new Date(res.toString()*1000).setDate(currentTime.getDate()+1))
+            buyTicketAction.getTimeDraw()
+                .then(res=>{
+                    console.log(res[0].toString())
+                    console.log(res[1].toString())
+                    const time1 = new Date(timeCheck.setHours(res[0].toString(),0,0))
+                    const time2 = new Date(timeCheck.setHours(res[1].toString(),0,0))
+                    console.log(currentTime.getHours())
+                    console.log(time1)
+                    console.log(time2)
+                    if (currentTime > time2) {
+                        console.log("time 2")
+                        setNextDraw(nextDate.setHours(res[0].toString(),0,0))
+                        console.log(nextDate.setHours(res[0].toString()-1,59,0))
+                        setNextDrawPre(nextDate.setHours(res[0].toString()-1,59,0))
+                    }
+                    else if (currentTime > time1)
+                    {
+                        setNextDraw(currentTime.setHours(res[1].toString(),0,0))
+                        setNextDrawPre(currentTime.setHours(res[1].toString()-1,59,0))
+                    }
+                    else {
+                        console.log("ok")
+                        setNextDraw(currentTime.setHours(res[0].toString(),0,0))
+                        setNextDrawPre(currentTime.setHours(res[0].toString()-1,59,0))
+                    }
+                     setResetCountdown(false)
+                })
+
+            // if (currentTime.getHours() > 7) {
+            //     setNextDraw(currentTime.setHours(19,0,0))
+            // }
+
+            // setNextDraw(currentTime.getTime() + 10000)
+            // setNextDrawPre(currentTime.getTime() + 9000)
+
+            })
+
     },[resetCountdown]);
 
 
@@ -208,7 +275,6 @@ const Home = () => {
         buyTicketAction.checkReward(account)
             .then(res=>{
                 console.log(res)
-                console.log(convertBigNumBer(res.toString()))
                 if (parseFloat(convertBigNumBer(res.toString())) > 0) {
                     setYourReward(parseFloat(convertBigNumBer(res.toString())))
                 }
@@ -222,18 +288,49 @@ const Home = () => {
         buyTicketAction.claimReward()
             .then(res=>{
                 console.log(res)
-                openNotificationWithIcon('success','Info','Success')
-                setYourReward(null)
+                res.wait().then(res=>{
+                    openNotificationWithIcon('success','Info','Success')
+                    setYourReward(null)
+                    fetchNewUserTicket()
+                })
             })
     }
     const fetchNewUserTicket = () => {
-        window.location.reload()
+        balanceOf(account).then(res=>{
+            console.log((res.toString()/(10e17)).toFixed(0))
+            setBalanceCPA((res.toString()/(10e17)).toFixed(0))
+        })
+            .catch(err=>{
+                console.log(err)
+            })
+        nftAction.returnTotalReward()
+        .then(res=>{
+            setCurrentRewardMoney(convertBigNumBer(res))})
     }
 
     const onCountDown = ()=>{
         console.log("reset")
         setIsShowCountDownDraw(true)
         console.log("done")
+    }
+    const onStartDraw = () =>{
+        console.log("start")
+        nftAction.returnNumberId(1)
+            .then(res=>{
+                let lsWinning = []
+                for (let i of res[0]) {
+                    lsWinning.push(i.toString())
+                }
+            })
+        setStartDraw(true)
+        setIsDrawing(true)
+    }
+
+    const DrawnLoto = () => {
+        buyTicketAction.drawnLoto()
+            .then(res=> {
+                console.log(res)
+            })
     }
     return (
         <>
@@ -245,14 +342,21 @@ const Home = () => {
                          {!isShowCountDownDraw ?
                              <>
                         <h1 className="banner-title">
-                            ~ {currentRewardMoney} BILLY
+                            ~ {currentRewardMoney.sumReward} BILLY
                         </h1>
                          <p className="text">Power up for a chance to win in this electrifying instant game!</p>
                              </>
 
                               :
-                                <BoxDrawnLoto /> }
-                        {!isShowCountDownDraw ? <a href="#" className="custom-button2 btn-top btn-playing-now" onClick={()=>setIsShowModalBuyTicket(true)}>Start Playing Now</a> :null}
+                                <BoxDrawnLoto isStartDraw={isStartDraw} setIsHaveWinner={()=>setIsHaveWinner(true)}/> }
+                        {!isShowCountDownDraw ?
+                            <a href="#" className="custom-button2 btn-top btn-playing-now" onClick={()=>setIsShowModalBuyTicket(true)}>Start Playing Now</a>
+                            :
+                            <>
+                            <h1 className={'find-the-winner'}>{isDrawing && !isHaveWinner ? "Finding The Winner ..." : null}</h1>
+                            <h1 className={'find-the-winner'}>{isHaveWinner ? "Congratulation Winner" : null}</h1>
+                            </>
+                        }
                     </div>
                 </div>
             </div>
@@ -266,18 +370,18 @@ const Home = () => {
                         {/*<h2 className={'title ep'} style={{fontSize:'36px'}}>Get your tickets now!</h2></div>*/}
                         {/*<button className="custom-button2" onClick={()=>setIsBuying(true)}>Buy Tickets</button>*/}
                     {/*</div>*/}
+                    {!isDrawing ?
                     <div className="time-wrapper">
                         <div className="time-counter">
                             <img src="assets/images/clock.png" alt=""/>
-                                {/*<p className="time-countdown" data-countdown="01/01/2021"></p>*/}
                                 <p className="time-countdown">
                                 {nextDraw && resetCountdown === false ?
                                 <>
                                     {!isShowCountDownDraw ?
                                         <>
-                                    <Countdown date={nextDraw} renderer={renderer} onComplete={()=>resetNextDraw()}/> <span>until the countdown</span></>
+                                    <Countdown date={nextDraw} renderer={renderer} onComplete={()=>resetNextDraw(true)}/> <span>until the Draw</span></>
                                         :
-                                    <><Countdown date={nextDraw} renderer={renderer} onComplete={()=>resetNextDraw()}/> <span>until the draw</span></>}
+                                    <><Countdown date={nextDraw} renderer={renderer} onComplete={()=>onStartDraw()}/> <span>until the draw</span></>}
 
                                 </>:null}</p>
 
@@ -285,13 +389,15 @@ const Home = () => {
                         </div>
                         <div>
                             <p className="time-countdown" style={{display:'none'}}>
-                                {nextDraw && resetCountdown === false ?
+                                {nextDrawPre && resetCountdown === false ?
                                 <>
 
                                     <Countdown date={nextDrawPre}  onComplete={()=>onCountDown()}/> <span>until the draw</span>
                                 </>:null}</p>
                         </div>
                     </div>
+                        : null
+                    }
                 </div>
             </div>
         </div>
@@ -306,7 +412,7 @@ const Home = () => {
                                             <div className="light-area-bottom">
                                                 <div className={'col-lg-12'}>
                                                     <div className={'row'}>
-                                                        <BlockCurrentDetail rewardMoney={currentRewardMoney} lsWinner={[]}/>
+                                                        <BlockCurrentDetail rewardMoney={currentRewardMoney.sumReward} lsWinner={[]}/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -321,7 +427,7 @@ const Home = () => {
                                             </div>
                                             <div className="bottom">
                                                 <span>Est. Jackpot </span>
-                                                <h6><img src={'assets/images/logo-coin.png'}/>&nbsp; ~ {currentRewardMoney} BILLY</h6>
+                                                <h6><img src={'assets/images/logo-coin.png'}/>&nbsp; ~ {currentRewardMoney.sumReward} BILLY</h6>
                                             </div>
                                         </div>
                                     </div>
@@ -337,6 +443,7 @@ const Home = () => {
                 <div className="col-lg-9">
                     <div className="content">
                         <div className="section-header">
+                            <button onClick={()=>DrawnLoto()}>Xổ số</button>
                             <h2 className="title">
                                 Latest Lottery results
                             </h2>

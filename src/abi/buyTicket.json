@@ -114,6 +114,12 @@
 				},
 				{
 					"indexed": false,
+					"internalType": "address",
+					"name": "",
+					"type": "address"
+				},
+				{
+					"indexed": false,
 					"internalType": "uint256",
 					"name": "",
 					"type": "uint256"
@@ -168,7 +174,45 @@
 					"type": "uint256"
 				}
 			],
+			"name": "_arrHourDraw",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
 			"name": "_arrId",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"name": "_arrMinute",
 			"outputs": [
 				{
 					"internalType": "uint256",
@@ -204,6 +248,11 @@
 					"internalType": "uint256[][]",
 					"name": "ticketlist",
 					"type": "uint256[][]"
+				},
+				{
+					"internalType": "address",
+					"name": "_addget",
+					"type": "address"
 				}
 			],
 			"name": "buyTicket",
@@ -282,22 +331,10 @@
 			"type": "function"
 		},
 		{
-			"inputs": [
-				{
-					"internalType": "uint256[][]",
-					"name": "ticketlist",
-					"type": "uint256[][]"
-				}
-			],
-			"name": "checkTicket",
-			"outputs": [
-				{
-					"internalType": "uint256[]",
-					"name": "",
-					"type": "uint256[]"
-				}
-			],
-			"stateMutability": "view",
+			"inputs": [],
+			"name": "checkTimeToBuy",
+			"outputs": [],
+			"stateMutability": "nonpayable",
 			"type": "function"
 		},
 		{
@@ -356,6 +393,57 @@
 			"inputs": [
 				{
 					"internalType": "uint256",
+					"name": "_blocktime",
+					"type": "uint256"
+				}
+			],
+			"name": "getHourNow",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "pure",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "getLastDraw",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "_blocktime",
+					"type": "uint256"
+				}
+			],
+			"name": "getMinuteNow",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "pure",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
 					"name": "_price",
 					"type": "uint256"
 				}
@@ -389,6 +477,32 @@
 			"name": "renounceOwnership",
 			"outputs": [],
 			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "returnBlockTime",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "returnListDrawHours",
+			"outputs": [
+				{
+					"internalType": "uint256[]",
+					"name": "",
+					"type": "uint256[]"
+				}
+			],
+			"stateMutability": "view",
 			"type": "function"
 		},
 		{
@@ -439,6 +553,19 @@
 				}
 			],
 			"name": "setClaim",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "_loopHours",
+					"type": "uint256"
+				}
+			],
+			"name": "setLoopHours",
 			"outputs": [],
 			"stateMutability": "nonpayable",
 			"type": "function"
@@ -503,12 +630,64 @@
 		{
 			"inputs": [
 				{
+					"internalType": "uint256[]",
+					"name": "_arrhours",
+					"type": "uint256[]"
+				}
+			],
+			"name": "setTimeDraw",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256[]",
+					"name": "_arrminute",
+					"type": "uint256[]"
+				}
+			],
+			"name": "set_arrMinute",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
 					"internalType": "uint256[6]",
 					"name": "_arr",
 					"type": "uint256[6]"
 				}
 			],
 			"name": "setdrawnLoto",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "_loopHours",
+					"type": "uint256"
+				}
+			],
+			"name": "setlastDraw",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "_loopHours",
+					"type": "uint256"
+				}
+			],
+			"name": "setlastDrawTest",
 			"outputs": [],
 			"stateMutability": "nonpayable",
 			"type": "function"
