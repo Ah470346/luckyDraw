@@ -19,15 +19,6 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
     return <span>{hours.toString().padStart(2, '0')}:{minutes.toString().padStart(2, '0')}:{seconds.toString().padStart(2, '0')}</span>;
   }
 };
-function* shuffle(array) {
-
-    var i = array.length;
-
-    while (i--) {
-        yield array.splice(Math.floor(Math.random() * (i + 1)), 1)[0];
-    }
-
-}
 
 function getRandomInt() {
   return Math.floor(Math.random() * 9);
@@ -61,7 +52,6 @@ const BoxDrawnLoto = ({isStartDraw, setIsHaveWinner})=>{
     useEffect(async()=>{
         if (isStartDraw) {
             console.log("tessssssssssssssssss")
-            let nextVal
             while (true) {
             const id = await nftAction.checkDrawNow();
                 console.log(id)
@@ -176,12 +166,10 @@ const Home = () => {
     const nftAction = useNFTaction();
     const {balanceOf} = useERC20Action();
     const dispatch = useDispatch();
-    const balanceCPA = useSelector((state)=> state.money);
     const setBalanceCPA = (money) => dispatch(changeMoney(money));
     const currentRewardMoney = useSelector((state)=> state.sumReward);
     const setCurrentRewardMoney = (reward) => dispatch(changeSumReward(reward));
     const buyTicketAction = useBuyTicketAction();
-    const [amount, setAmount] = useState(1);
     const [nextDraw, setNextDraw] = useState(null);
     const [nextDrawPre, setNextDrawPre] = useState(null);
     const [yourReward, setYourReward] = useState(null);
@@ -192,20 +180,14 @@ const Home = () => {
     const [isStartDraw, setStartDraw] = useState(false);
     const [isDrawing, setIsDrawing] = useState(false);
     const [isShowModalBuyTicket, setIsShowModalBuyTicket] = useState(false);
-    const [isShowDetail, setIsShowDetail] = useState(false);
-    // const [currentRewardMoney,setCurrentRewardMoney] = useState(0)
 
-    const [result,setResult] = useState([])
     const {account} = useWallet();
     useEffect(() => {
         nftAction.returnTotalReward()
         .then(res=>{
             setCurrentRewardMoney(convertBigNumBer(res))})
     }, [])
-    const toggleDetail =()=>{
-        const currentDetail = isShowDetail
-        setIsShowDetail(!currentDetail)
-    }
+
 
     // useEffect(()=>{
     //     const currentTime = new Date();
@@ -297,7 +279,6 @@ const Home = () => {
     }
     const fetchNewUserTicket = () => {
         balanceOf(account).then(res=>{
-            console.log((res.toString()/(10e17)).toFixed(0))
             setBalanceCPA((res.toString()/(10e17)).toFixed(0))
         })
             .catch(err=>{
