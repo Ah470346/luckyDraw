@@ -179,7 +179,7 @@ const Luckydraw = () => {
                                             {showResult && <span>00:00:00</span>}
                                         </div>
                                     </div>
-                                    <button onClick={()=> {
+                                    {/* <button onClick={()=> {
                                         if(totalPlayer == 0){
                                             XoSo().then(res=> {console.log(res)});
                                         } else{
@@ -199,7 +199,7 @@ const Luckydraw = () => {
                                             console.log(res)
                                             )}
                                         }
-                                        }>Xo So</button>
+                                        }>Xo So</button> */}
                                     <div className='right'>
                                         <div className='txt wrap-balance'>Balance: <span >{money ? money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","): 0} $</span></div>
                                     </div>
