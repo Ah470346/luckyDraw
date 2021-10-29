@@ -46,7 +46,39 @@ export const useLKaction = () => {
         return await LKContract.returntimeDraw();
     }, [LKContract]);
 
+    const XoSo = useCallback(async () => {
+        return await LKContract.drawnLoto();
+    }, [LKContract]);
+
+
+    const getCurrentTime = useCallback(async () => {
+        return await LKContract.returnBlocktime();
+    }, [LKContract]);
+
+
+    const checkReward = useCallback(async (addr) => {
+        return await LKContract.checkReward(addr);
+    }, [LKContract]);
+
+    const claimReward = useCallback(async () => {
+        return await LKContract.claimReward();
+    }, [LKContract]);
+
+    const resetTime = useCallback(async () => {
+        return await LKContract.resetDrawTime();
+    }, [LKContract]);
+
+    const getHistory = useCallback(async (wave) => {
+        return await LKContract.returnMapAddressEachId(wave);
+    }, [LKContract]);
+
     return {
+        getHistory:getHistory,
+        resetTime:resetTime,
+        checkReward:checkReward,
+        claimReward:claimReward,
+        getCurrentTime:getCurrentTime,
+        XoSo:XoSo,
         getLastTime:getLastTime,
         getRequireTime:getRequireTime,
         getTime:getTime,

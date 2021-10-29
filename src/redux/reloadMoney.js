@@ -14,7 +14,6 @@ export const changeMoney = (money) =>{
 const Reducer = (state = initState,action) =>{
     switch(action.type){
         case  CHANGE_MONEY:
-            console.log(action.payload)
             return {
                 money:action.payload
             }

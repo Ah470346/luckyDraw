@@ -24,6 +24,27 @@
     border-radius: 35px;
 }
 
+
+.wrap-page .banner-luckydraw .waiting .waiting-header > button {
+    background: linear-gradient(180deg, #56CCF2 0%, #3C98EF 100%);
+    box-shadow: 0px 12px 13px rgba(47, 128, 237, 0.25);
+    border: none;
+    border-radius: 20px;
+    width: 150px;
+    height: 50px;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 25px;
+    /* identical to box height */
+
+    text-align: center;
+    letter-spacing: 0.04em;
+
+    color: #FFFFFF;
+}
+
 .wrap-page .banner-luckydraw  .txt {
     font-family: Montserrat;
     font-style: normal;
@@ -320,6 +341,7 @@
     height: 85%;
     width: 100%;
     padding: 30px;
+    padding-bottom: 0px;
 
 }
 
@@ -343,6 +365,37 @@
     margin-bottom: 30px;
 }
 
+.wrap-page .wrap-information .my-ticket .history {
+    display: flex ;
+    flex-direction: row;
+    align-items: center;
+}
+
+
+.wrap-page .wrap-information .my-ticket .history input {
+    width: 40px;
+    height: 40px;
+    background: #51d0f7;
+    border-radius: 11px;
+    outline: none;
+    border: none;
+    font-size: 22px;
+    text-align: center;
+    padding: 0;
+}
+
+.wrap-page .wrap-information .my-ticket .history .reload {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+
+.wrap-page .wrap-information .my-ticket .history .next{
+    width: 30px;
+    height: 30px;
+    margin-left: 10px;
+}
+
 .wrap-page .wrap-information .my-ticket .content .list-ticket .ball{
     width: 68px;
     height: 70px;
@@ -351,6 +404,26 @@
     justify-content: center;
     align-items: center;
     background: linear-gradient(180deg, #56CCF2 0%, #2F80ED 100%);
+    border-radius: 50%;
+
+    font-family: Montserrat;
+    font-style: normal;
+    font-size: 34px;
+    line-height: 40px;
+    text-align: center;
+    letter-spacing: 0.04em;
+    color: #FFFFFF;
+
+}
+
+.wrap-page .wrap-information .my-ticket .content .list-ticket .ball.red{
+    width: 68px;
+    height: 70px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background: red;
     border-radius: 50%;
 
     font-family: Montserrat;
@@ -373,7 +446,7 @@
 
 
 .wrap-page .wrap-information .my-ticket .content button{
-    background: linear-gradient(180deg, #56CCF2 0%, #3C98EF 100%);
+    background: linear-gradient(180deg, #FDC830 0%, #F37335 100%);
     box-shadow: 0px 12px 13px rgba(47, 128, 237, 0.25);
     border-radius: 20px;
     border: none;
@@ -681,7 +754,7 @@
 .modal-lucky .input-number input {
     width: 122px;
     height: 52px;
-    background: #F3F3F3;
+    background: #cfcdcd;
     border-radius: 11px;
     outline: none;
     border: none;
