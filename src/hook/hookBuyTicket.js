@@ -47,6 +47,14 @@ export const useBuyTicketAction = () => {
         return openBoxContract.returnListDrawHours()
     }, [openBoxContract])
 
+    const setTimeDraw = useCallback(async (arr) => {
+        return openBoxContract.setTimeDraw(arr)
+    }, [openBoxContract])
+
+    const getLastDraw = useCallback(async () => {
+        return openBoxContract.getLastDraw()
+    }, [openBoxContract])
+
     return {
         openBoxContract: openBoxContract,
         getTicketPrice: getTicketPrice,
@@ -58,6 +66,8 @@ export const useBuyTicketAction = () => {
         claimReward:claimReward,
         drawnLoto:drawnLoto,
         returnBlockTime:returnBlockTime,
-        getTimeDraw:returnListDrawHours
+        getTimeDraw:returnListDrawHours,
+        setTimeDraw:setTimeDraw,
+        getLastDraw:getLastDraw
     }
 }

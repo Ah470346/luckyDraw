@@ -27,9 +27,10 @@ function getRandomInt() {
 
 const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
-const BoxDrawnLoto = ({isStartDraw, setIsHaveWinner})=>{
+const BoxDrawnLoto = ({isStartDraw, setIsHaveWinner,setIsShowCountDownDraw,isShowCountDownDraw})=>{
     const nftAction = useNFTaction()
     const [result1,setResult1] = useState(getRandomInt())
+    const [isDone,setIsDone] = useState(false)
     const [result1True,setResult1True] = useState(false)
     const [result2True,setResult2True] = useState(false)
     const [result3True,setResult3True] = useState(false)
@@ -48,6 +49,20 @@ const BoxDrawnLoto = ({isStartDraw, setIsHaveWinner})=>{
     const [id5,setId5] = useState()
     const [id6,setId6] = useState()
 
+
+    useEffect(async ()=>{
+        if (isDone) {
+           while (true) {
+               const id = await nftAction.checkDrawNow();
+               console.log(id)
+               if (id===false) {
+                   setIsShowCountDownDraw(false)
+                   window.location.reload()
+                   break
+               }
+           }
+        }
+    },[isDone])
 
     useEffect(async()=>{
         if (isStartDraw) {
@@ -72,6 +87,9 @@ const BoxDrawnLoto = ({isStartDraw, setIsHaveWinner})=>{
             }
         }
     },[isStartDraw])
+
+
+
 
     useEffect(()=>{
      const id11 = setInterval(() => {
@@ -147,6 +165,10 @@ const BoxDrawnLoto = ({isStartDraw, setIsHaveWinner})=>{
         setTimeout(()=>{
             setIsHaveWinner()
         },18000)
+        setTimeout(()=>{
+            setIsDone(true)
+        },20000)
+
 
     }
     return (
@@ -205,9 +227,14 @@ const Home = () => {
     // },[]);
 
     useEffect(()=>{
+        // buyTicketAction.returnBlockTime()
+        //     .then(res=>{
+        //         console.log(res.toString())})
         buyTicketAction.returnBlockTime()
             .then(res=>{
+            console.log(res.toString())
             const currentTime = new Date(res.toString()*1000);
+                console.log(currentTime)
             const timeCheck = new Date(res.toString()*1000);
             const nextDate = new Date(new Date(res.toString()*1000).setDate(currentTime.getDate()+1))
             buyTicketAction.getTimeDraw()
@@ -315,6 +342,7 @@ const Home = () => {
                 console.log(res)
             })
     }
+
     return (
         <>
         <section className="banner-section box-banner-section">
@@ -325,13 +353,13 @@ const Home = () => {
                          {!isShowCountDownDraw ?
                              <>
                         <h1 className="banner-title">
-                            ~ {currentRewardMoney.sumReward} BILLY
+                            ~ {currentRewardMoney.sumReward} $
                         </h1>
                          <p className="text">Power up for a chance to win in this electrifying instant game!</p>
                              </>
 
                               :
-                                <BoxDrawnLoto isStartDraw={isStartDraw} setIsHaveWinner={()=>setIsHaveWinner(true)}/> }
+                                <BoxDrawnLoto isStartDraw={isStartDraw} setIsHaveWinner={()=>setIsHaveWinner(true)} setIsShowCountDownDraw={setIsShowCountDownDraw} isShowCountDownDraw={isShowCountDownDraw}/> }
                         {!isShowCountDownDraw ?
                             <a href="#" className="custom-button2 btn-top btn-playing-now" onClick={()=>setIsShowModalBuyTicket(true)}>Start Playing Now</a>
                             :
@@ -410,7 +438,7 @@ const Home = () => {
                                             </div>
                                             <div className="bottom">
                                                 <span>Est. Jackpot </span>
-                                                <h6><img src={'assets/images/logo-coin.png'}/>&nbsp; ~ {currentRewardMoney.sumReward} BILLY</h6>
+                                                <h6><img src={'assets/images/logo-coin.png'}/>&nbsp; ~ {currentRewardMoney.sumReward} $</h6>
                                             </div>
                                         </div>
                                     </div>
@@ -426,7 +454,8 @@ const Home = () => {
                 <div className="col-lg-9">
                     <div className="content">
                         <div className="section-header">
-                            <button onClick={()=>DrawnLoto()}>Xổ số</button>
+                            {/*<button onClick={()=>DrawnLoto()}>Xổ số</button>*/}
+                            {/*<button onClick={()=>buyTicketAction.setTimeDraw([16,17])}>Change Time</button>*/}
                             <h2 className="title">
                                 Latest Lottery results
                             </h2>
