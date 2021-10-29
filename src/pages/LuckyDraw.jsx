@@ -179,24 +179,27 @@ const Luckydraw = () => {
                                             {showResult && <span>00:00:00</span>}
                                         </div>
                                     </div>
-                                    {/* <button onClick={()=> {
+                                    <button onClick={()=> {
                                         if(totalPlayer == 0){
-                                            XoSo().then(res=> {res.wait().then(res=> fetch(true,true))});
+                                            XoSo().then(res=> {console.log(res)});
                                         } else{
-                                            XoSo().then(res => res.wait().then(res =>{
-                                                getWave().then((res)=>{
-                                                    setWave(res.toString());
-                                                    if(Number(res.toString()) ===1){
-                                                        getResult(Number(res.toString())).then(res=> {setFinalResult(res[4].toString().padStart(4,"0"));
-                                                    setClear(true)});
-                                                    } else {
-                                                        getResult(Number(res.toString())-1).then(res=> {setFinalResult(res[4].toString().padStart(4,"0"));
-                                                    setClear(true)});
-                                                    }                                 
-                                                });
-                                            }))}
+                                            XoSo().then(res => 
+                                            //     res.wait().then(res =>{
+                                            //     getWave().then((res)=>{
+                                            //         setWave(res.toString());
+                                            //         if(Number(res.toString()) ===1){
+                                            //             getResult(Number(res.toString())).then(res=> {setFinalResult(res[4].toString().padStart(4,"0"));
+                                            //         setClear(true)});
+                                            //         } else {
+                                            //             getResult(Number(res.toString())-1).then(res=> {setFinalResult(res[4].toString().padStart(4,"0"));
+                                            //         setClear(true)});
+                                            //         }                                 
+                                            //     });
+                                            // })
+                                            console.log(res)
+                                            )}
                                         }
-                                        }>Xo So</button> */}
+                                        }>Xo So</button>
                                     <div className='right'>
                                         <div className='txt wrap-balance'>Balance: <span >{money ? money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","): 0} $</span></div>
                                     </div>
@@ -209,7 +212,7 @@ const Luckydraw = () => {
                                 </div>}
                               { showResult && finalResult && <div className='waiting-content result'>
                                     <p className='congratulation'>CONGRATULATION!!</p>
-                                    <Background clear={clear} setClear={setClear} num1={finalResult[0]} num2={finalResult[1]} num3={finalResult[2]} num4={finalResult[3]} wave={wave} setShowResult={setShowResult}  fetch={fetch}>
+                                    <Background clear={clear} setClear={setClear}  wave={wave} setShowResult={setShowResult}  fetch={fetch}>
                                     </Background>
                                     {/* <div className='id-ticket'>
                                         <div className='avt'>
