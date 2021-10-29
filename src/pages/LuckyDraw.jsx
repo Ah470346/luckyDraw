@@ -58,7 +58,7 @@ const Luckydraw = () => {
                 if(wallet.account){
                     getMyTicket(res.toString()).then(res => {setMyTickets(res)} );
                 }
-                getResult(Number(res.toString())-1).then(res=> {setFinalResult(res[4].toString().padStart(4,"0"));});
+                getResult(Number(res.toString())-1).then(res=> {setFinalResult(res[4].toString().padStart(4,"0"));console.log(res);});
             });
         }
         getReward().then((res)=>{setReward((res.toString()/(10e17)).toFixed(0))});
@@ -72,7 +72,10 @@ const Luckydraw = () => {
     useEffect(()=>{
         fetch(false);
     },[wallet.account]);
-    console.log(historyResult);
+    if(finalResult !== null){
+        console.log(finalResult);
+        console.log(finalResult[0],finalResult[1],finalResult[2],finalResult[3]);
+    }
     useEffect(()=>{
         isApproveLK().then((res)=> {setIsApprove(res)}).catch((e)=>console.log(e));
     },[isApprove,wallet.account]);
@@ -166,7 +169,7 @@ const Luckydraw = () => {
                                             {showResult && <span>00:00:00</span>}
                                         </div>
                                     </div>
-                                    <button onClick={()=> {
+                                    {/* <button onClick={()=> {
                                         if(totalPlayer == 0){
                                            resetTime().then(res =>{
                                                res.wait().then(res=>{
@@ -187,9 +190,9 @@ const Luckydraw = () => {
                                                 });
                                             }))}
                                         }
-                                        }>Xo So</button>
+                                        }>Xo So</button> */}
                                     <div className='right'>
-                                        <div className='txt wrap-balance'>Balance: <span >{money !== null ? money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","): 0} $</span></div>
+                                        <div className='txt wrap-balance'>Balance: <span >{money ? money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","): 0} $</span></div>
                                     </div>
                                 </div>
                               { !showResult && <div className='waiting-content'>
