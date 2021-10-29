@@ -248,6 +248,13 @@
     },
     {
         "inputs": [],
+        "name": "resetDrawTime",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
         "name": "returnBlocktime",
         "outputs": [
             {

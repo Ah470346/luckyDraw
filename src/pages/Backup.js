@@ -237,7 +237,7 @@ const Home = () => {
                         </h2>
                         <ul className="extra-padding">
                             <li>
-                                <a href="index.html">
+                                <a href="/">
                                     &nbsp;
                                 </a>
                             </li>

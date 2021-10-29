@@ -538,6 +538,19 @@
 			"type": "function"
 		},
 		{
+			"inputs": [],
+			"name": "returnAddressId",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
 			"inputs": [
 				{
 					"internalType": "uint256",
@@ -592,6 +605,30 @@
 			"inputs": [
 				{
 					"internalType": "uint256",
+					"name": "_index",
+					"type": "uint256"
+				},
+				{
+					"internalType": "address",
+					"name": "_add",
+					"type": "address"
+				}
+			],
+			"name": "returnCheckAddressId",
+			"outputs": [
+				{
+					"internalType": "bool",
+					"name": "",
+					"type": "bool"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
 					"name": "_id",
 					"type": "uint256"
 				}
@@ -602,6 +639,19 @@
 					"internalType": "uint256[6]",
 					"name": "",
 					"type": "uint256[6]"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "returnListAddressId",
+			"outputs": [
+				{
+					"internalType": "address[]",
+					"name": "",
+					"type": "address[]"
 				}
 			],
 			"stateMutability": "view",
@@ -648,6 +698,25 @@
 					"internalType": "struct BillyNFT.TicketBatch",
 					"name": "",
 					"type": "tuple"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "_index",
+					"type": "uint256"
+				}
+			],
+			"name": "returnRewardIndexBatchId",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
 				}
 			],
 			"stateMutability": "view",

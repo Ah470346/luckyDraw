@@ -25,42 +25,42 @@ export const BlockCurrentDetail = ({rewardMoney}) => {
                 <div className={'col-12 col-sm-6 col-lg-4 col-xl-4 mt-3 mb-3'}>
                     <div className={'box-detail-result-inner'}>
                     <h2 className={'match-first-title'}>Match first 1</h2>
-                    <h2 className={'match-reward'}>{(rewardMoney*2/100).toFixed(3)} BILLY</h2>
+                    <h2 className={'match-reward'}>{(rewardMoney*2/100).toFixed(3)} $</h2>
                     {/*<h2 className={'match-reward-sub'}>~ 1000$</h2>*/}
                 </div>
                 </div>
                 <div className={'col-12 col-sm-6 col-lg-4 col-xl-4 mt-3 mb-3'}>
                     <div className={'box-detail-result-inner'}>
                     <h2 className={'match-first-title'}>Match first 2</h2>
-                    <h2 className={'match-reward'}>{(rewardMoney*4/100).toFixed(3)} BILLY</h2>
+                    <h2 className={'match-reward'}>{(rewardMoney*4/100).toFixed(3)} $</h2>
                     {/*<h2 className={'match-reward-sub'}>~ 1000$</h2>*/}
                 </div>
                 </div>
                 <div className={'col-12 col-sm-6 col-lg-4 col-xl-4 mt-3 mb-3'}>
                     <div className={'box-detail-result-inner'}>
                     <h2 className={'match-first-title'}>Match first 3</h2>
-                    <h2 className={'match-reward'}>{(rewardMoney*9/100).toFixed(3)} BILLY</h2>
+                    <h2 className={'match-reward'}>{(rewardMoney*9/100).toFixed(3)} $</h2>
                     {/*<h2 className={'match-reward-sub'}>~ 1000$</h2>*/}
                 </div>
                 </div>
                 <div className={'col-12 col-sm-6 col-lg-4 col-xl-4 mt-3 mb-3'}>
                     <div className={'box-detail-result-inner'}>
                     <h2 className={'match-first-title'}>Match first 4</h2>
-                    <h2 className={'match-reward'}>{(rewardMoney*15/100).toFixed(3)} BILLY</h2>
+                    <h2 className={'match-reward'}>{(rewardMoney*15/100).toFixed(3)} $</h2>
                     {/*<h2 className={'match-reward-sub'}>~ 1000$</h2>*/}
                 </div>
                 </div>
                 <div className={'col-12 col-sm-6 col-lg-4 col-xl-4 mt-3 mb-3'}>
                     <div className={'box-detail-result-inner'}>
                     <h2 className={'match-first-title'}>Match first 5</h2>
-                    <h2 className={'match-reward'}>{(rewardMoney*25/100).toFixed(3)} BILLY</h2>
+                    <h2 className={'match-reward'}>{(rewardMoney*25/100).toFixed(3)} $</h2>
                     {/*<h2 className={'match-reward-sub'}>~ 1000$</h2>*/}
                 </div>
                 </div>
                 <div className={'col-12 col-sm-6 col-lg-4 col-xl-4 mt-3 mb-3'}>
                     <div className={'box-detail-result-inner'}>
                     <h2 className={'match-first-title'}>Match first 6</h2>
-                    <h2 className={'match-reward'}>{(rewardMoney*45/100).toFixed(3)} BILLY</h2>
+                    <h2 className={'match-reward'}>{(rewardMoney*45/100).toFixed(3)} $</h2>
                     {/*<h2 className={'match-reward-sub'}>~ 1000$</h2>*/}
                 </div>
                 </div>
@@ -78,17 +78,17 @@ export const BlockDetail = ({rewardMoney,lsWinner}) => {
                 <div className={'col-12 col-sm-6 col-lg-4 col-xl-4 mt-3 mb-3'}>
                     <div className={'box-detail-result-inner'}>
                     <h2 className={'match-first-title'}>Match first 1</h2>
-                    <h2 className={'match-reward'}>{(rewardMoney*2/100).toFixed(3)} BILLY</h2>
+                    <h2 className={'match-reward'}>{(rewardMoney*2/100).toFixed(3)} $</h2>
                     {/*<h2 className={'match-reward-sub'}>~ 1000$</h2>*/}
                     {lsWinner[0] !== '0' ?
-                    <h2 className={'match-reward-each'}>{rewardMoney*2/100/parseInt(lsWinner[0])} each</h2>:<br/> }
+                    <h2 className={'match-reward-each'}>{(rewardMoney*2/100/parseInt(lsWinner[0])).toFixed(3)} each</h2>:<br/> }
                     <h2 className={'match-reward-count'}>{lsWinner[0]} Winners</h2>
                     </div>
                 </div>
                 <div className={'col-12 col-sm-6 col-lg-4 col-xl-4 mt-3 mb-3'}>
                     <div className={'box-detail-result-inner'}>
                     <h2 className={'match-first-title'}>Match first 2</h2>
-                    <h2 className={'match-reward'}>{(rewardMoney*4/100).toFixed(3)} BILLY</h2>
+                    <h2 className={'match-reward'}>{(rewardMoney*4/100).toFixed(3)} $</h2>
                     {/*<h2 className={'match-reward-sub'}>~ 1000$</h2>*/}
                     {lsWinner[1] !== '0' ?
                     <h2 className={'match-reward-each'}>{(rewardMoney*4/100/parseInt(lsWinner[1])).toFixed(3)} each</h2>:<br/> }
@@ -98,7 +98,7 @@ export const BlockDetail = ({rewardMoney,lsWinner}) => {
                 <div className={'col-12 col-sm-6 col-lg-4 col-xl-4 mt-3 mb-3'}>
                     <div className={'box-detail-result-inner'}>
                     <h2 className={'match-first-title'}>Match first 3</h2>
-                    <h2 className={'match-reward'}>{(rewardMoney*9/100).toFixed(3)} BILLY</h2>
+                    <h2 className={'match-reward'}>{(rewardMoney*9/100).toFixed(3)} $</h2>
                     {/*<h2 className={'match-reward-sub'}>~ 1000$</h2>*/}
                     {lsWinner[2] !== '0' ?
                     <h2 className={'match-reward-each'}>{(rewardMoney*9/100/parseInt(lsWinner[2])).toFixed(3)} each</h2>:<br/> }
@@ -108,30 +108,30 @@ export const BlockDetail = ({rewardMoney,lsWinner}) => {
                 <div className={'col-12 col-sm-6 col-lg-4 col-xl-4 mt-3 mb-3'}>
                     <div className={'box-detail-result-inner'}>
                     <h2 className={'match-first-title'}>Match first 4</h2>
-                    <h2 className={'match-reward'}>{(rewardMoney*15/100).toFixed(3)} BILLY</h2>
+                    <h2 className={'match-reward'}>{(rewardMoney*15/100).toFixed(3)} $</h2>
                     {/*<h2 className={'match-reward-sub'}>~ 1000$</h2>*/}
                     {lsWinner[3] !== '0' ?
-                    <h2 className={'match-reward-each'}>{rewardMoney*15/100/parseInt(lsWinner[3])} each</h2>:<br/> }
+                    <h2 className={'match-reward-each'}>{(rewardMoney*15/100/parseInt(lsWinner[3])).toFixed(3)} each</h2>:<br/> }
                     <h2 className={'match-reward-count'}>{lsWinner[3]} Winners</h2>
                 </div>
                 </div>
                 <div className={'col-12 col-sm-6 col-lg-4 col-xl-4 mt-3 mb-3'}>
                     <div className={'box-detail-result-inner'}>
                     <h2 className={'match-first-title'}>Match first 5</h2>
-                    <h2 className={'match-reward'}>{(rewardMoney*25/100).toFixed(3)} BILLY</h2>
+                    <h2 className={'match-reward'}>{(rewardMoney*25/100).toFixed(3)} $</h2>
                     {/*<h2 className={'match-reward-sub'}>~ 1000$</h2>*/}
                     {lsWinner[4] !== '0' ?
-                    <h2 className={'match-reward-each'}>{rewardMoney*25/100/parseInt(lsWinner[4])} each</h2>:<br/> }
+                    <h2 className={'match-reward-each'}>{(rewardMoney*25/100/parseInt(lsWinner[4])).toFixed(3)} each</h2>:<br/> }
                     <h2 className={'match-reward-count'}>{lsWinner[4]} Winners</h2>
                 </div>
                 </div>
                 <div className={'col-12 col-sm-6 col-lg-4 col-xl-4 mt-3 mb-3'}>
                     <div className={'box-detail-result-inner'}>
                     <h2 className={'match-first-title'}>Match first 6</h2>
-                    <h2 className={'match-reward'}>{(rewardMoney*45/100).toFixed(3)} BILLY</h2>
+                    <h2 className={'match-reward'}>{(rewardMoney*45/100).toFixed(3)} $</h2>
                     {/*<h2 className={'match-reward-sub'}>~ 1000$</h2>*/}
                     {lsWinner[5] !== '0' ?
-                    <h2 className={'match-reward-each'}>{rewardMoney*45/100/parseInt(lsWinner[5])} each</h2>:<br/> }
+                    <h2 className={'match-reward-each'}>{(rewardMoney*45/100/parseInt(lsWinner[5])).toFixed(3)} each</h2>:<br/> }
                     <h2 className={'match-reward-count'}>{lsWinner[5]} Winners</h2>
                 </div>
                 </div>
@@ -341,10 +341,22 @@ export const BlockResultYourTicket = () => {
                  else {return false}
 
             }
+            const checkHightLight = (item,winningNumber) => {
+                let lsCheck = []
+                for (let i in item) {
+                    if (item[i] === winningNumber[i] && lsCheck.indexOf(false) === -1) {
+                        lsCheck.push(true)
+                    }
+                    else {
+                        lsCheck.push(false)
+                    }
+                }
+                return lsCheck
+            }
         return (
-             <div key={index + 'ticketnumber'} className={'col-lg-6 col-sm-12'} style={checkWinTicket(item,winningNumber) ? {border:'1px solid #ff0000'} : null}>
+             <div key={index + 'ticketnumber'} className={'col-lg-6 col-sm-12'}>
                     {item.map((itemTicket,indexTicket)=>
-                    <span key={indexTicket + 'ticketnumber' + itemTicket} className={'mb-3'} style={checkWinTicket(item,winningNumber) && winningNumber[indexTicket] === itemTicket ? {background:'#ff0000'} : null}>{itemTicket}</span>
+                    <span key={indexTicket + 'ticketnumber' + itemTicket} className={'mb-3'} style={checkWinTicket(item,winningNumber) && checkHightLight(item,winningNumber)[indexTicket] && winningNumber[indexTicket] === itemTicket ? {background:'#ff0000'} : null}>{itemTicket}</span>
                     )}
                 </div>)
     }

@@ -101,7 +101,7 @@ export const Header = () => {
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="header-top-area-inner">
-                                <a href="index.html" className="logo">
+                                <a href="/" className="logo">
                                     <img src="assets/images/logo.png" alt=""/> <span>BILLY</span>
                                 </a>
                                 <div className="left-area">
@@ -110,7 +110,7 @@ export const Header = () => {
                                 </div>
                                 <div className="right-area">
                                     <button className={'custom-button1 btn-top btn-claim-eth'} onClick={()=>onClaimETH()}>Claim BNB<Spin spinning={loading}></Spin></button>
-                                    <button className={'custom-button1 btn-top btn-claim-bil'} style={{marginLeft:'5px',marginRight:'5px'}} onClick={()=>claimTokenFC()}>Claim BIL <Spin spinning={loadingClaimBil}></Spin></button>
+                                    <button className={'custom-button1 btn-top btn-claim-bil'} style={{marginLeft:'5px',marginRight:'5px'}} onClick={()=>claimTokenFC()}>Claim BIL ($) <Spin spinning={loadingClaimBil}></Spin></button>
 
                                     <div className="log-reg-area">
                                         {/*<a href="#" className="custom-button1" data-toggle="modal"*/}
