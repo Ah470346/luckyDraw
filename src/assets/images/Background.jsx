@@ -10,7 +10,7 @@ import {ReactComponent as Number8} from './number8.svg';
 import {ReactComponent as Number9} from './number9.svg';
 import {ReactComponent as Number0} from './number0.svg';
 
-function Background({num1,num2,num3,num4}) {
+function Background({setShowResult,num1,num2,num3,num4,fetch}) {
     console.log(num1,num2,num3,num4);
     const [number1,setNumber1] = useState(null);
     const [number2,setNumber2] = useState(null);
@@ -32,6 +32,10 @@ function Background({num1,num2,num3,num4}) {
                 setNumber3(num3);
                 setNumber4(num4);
                 clearInterval(id);
+                setTimeout(()=>{
+                    fetch();
+                    setShowResult(false);
+                },3000)
             },5000);
         },100)
     },[]);

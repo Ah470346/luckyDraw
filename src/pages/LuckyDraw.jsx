@@ -1,18 +1,24 @@
 import React,{useState,useEffect} from 'react';
 import Countdown from 'react-countdown';
 import {ReactComponent as More} from '../assets/images/More.svg';
-import { Row, Col,Modal } from 'antd';
+import {ReactComponent as Reload} from '../assets/images/reload.svg';
+import { Row, Col,Modal,notification } from 'antd';
 import { useLKaction } from '../hook/hookLK';
 import { useLKnftAction } from '../hook/hookLKNFT';
 import { useERC20Action } from '../hook/hookErc20';
+import { useDispatch,useSelector } from 'react-redux';
+import { changeMoney } from '../redux/reloadMoney';
 import {ModalBuyTicket} from '../components/Component';
-import { convertBigNumBer, getBalance } from '../components/api/Api';
+import { convertBigNumBer, getBalance, openNotificationWithIcon } from '../components/api/Api';
 import useWallet from 'use-wallet';
 import Background from '../assets/images/Background'
 
 
 
 const Luckydraw = () => {
+    const dispatch = useDispatch();
+    const setMoney = (money)=> dispatch(changeMoney(money));
+    const money = useSelector(state => state.money.money)
     const [visible,setVisible] = useState(false);
     const [showResult,setShowResult] = useState(false);
     const [wave,setWave] = useState(null);
@@ -20,18 +26,20 @@ const Luckydraw = () => {
     const [input,setInput] = useState(null);
     const [isApprove,setIsApprove] = useState(false);
     const [reward,setReward] = useState(null);
-    const [balance,setBalance] = useState(null);
+    const [check,setCheck] = useState(false);
+    const [historyResult,setHistoryResult] = useState(null);
     const [totalPlayer,setTotalPlayer] = useState(null);
     const [totalTicket,setTotalTicket] = useState(null);
     const [finalResult,setFinalResult] = useState(null);
     const [myTickets, setMyTickets] = useState([]);
     const [lastTime,setLastTime] = useState(null);
+    const [currentTime,setCurrentTime] = useState(null);
     const [requireTime,setRequireTime] = useState(null);
     const luckyDrawAction = useLKaction;
     const luckyNFTAction = useLKnftAction;
     const erc20Action = useERC20Action;
     const {balanceOf,approveLK,isApproveLK} = erc20Action();
-    const {getPriceTicket,getTotalPlayers,getTotalTickets,buyTicket,getMyTicket,getLastTime,getRequireTime} = luckyDrawAction();
+    const {getPriceTicket,getTotalPlayers,getTotalTickets,buyTicket,getMyTicket,getLastTime,getRequireTime,XoSo,getCurrentTime,claimReward,checkReward,resetTime,getHistory} = luckyDrawAction();
     const {getWave,getReward,getResult} = luckyNFTAction();
     const wallet = useWallet();
 
@@ -42,27 +50,34 @@ const Luckydraw = () => {
     const fetchNewUserTicket = () => {
         window.location.reload()
     };
-    useEffect(()=>{
-        getWave().then((res)=>{
+
+    const fetch = (check) => {
+        if(!check){
+            getWave().then((res)=>{
                 setWave(res.toString());
                 if(wallet.account){
                     getMyTicket(res.toString()).then(res => {setMyTickets(res)} );
                 }
-                getResult(Number(res.toString())).then(res=> {setFinalResult(res[4].toString());console.log(res);});
+                getResult(Number(res.toString())-1).then(res=> {setFinalResult(res[4].toString().padStart(4,"0"));});
             });
+        }
         getReward().then((res)=>{setReward((res.toString()/(10e17)).toFixed(0))});
-        balanceOf(wallet.account).then((res)=>setBalance((res.toString()/(10e17)).toFixed(0)));
         getTotalPlayers().then(res=> {setTotalPlayer(res.toString())});
         getTotalTickets().then(res=> setTotalTicket(res.toString()));
         getPriceTicket().then((res)=> setPrice((res.toString()/(10e17)).toFixed(0)));
-        getLastTime().then(res=>setLastTime(Number(res.toString()) *1000));
-        getRequireTime().then(res=> setRequireTime(Number(res.toString()) * 6000000));
+        getLastTime().then(res=>{setLastTime(Number(res.toString()) *1000);});
+        getRequireTime().then(res=> setRequireTime(Number(res.toString()) * 60000));
+        getCurrentTime().then((res)=> setCurrentTime(Number(res.toString())*1000));
+    }
+    useEffect(()=>{
+        fetch(false);
     },[wallet.account]);
+    console.log(historyResult);
     useEffect(()=>{
         isApproveLK().then((res)=> {setIsApprove(res)}).catch((e)=>console.log(e));
     },[isApprove,wallet.account]);
     const getMyTicketList = (myTickets) =>{
-        const result = [];
+        let result = [];
         const list =  myTickets[0].flatMap((i,index)=>(i == wallet.account ? index : []));
         const first = myTickets[1].flatMap((i,index)=>{
             for(let j of list){
@@ -85,11 +100,18 @@ const Luckydraw = () => {
                 result.push(j);
             }
         }
-        return result;
+        if(historyResult !== null){
+            for(let i of result){
+                if(i == historyResult){
+                    result = [i,...result];
+                }
+            }
+        }
+        let final = [...new Set(result)];
+        return  final;
     }
     const renderer = ({ hours, minutes, seconds, completed }) => {
         if (completed) {
-          setShowResult(true);
           return <span>00:00:00</span>;
         } else {
           // Render a countdown
@@ -104,17 +126,28 @@ const Luckydraw = () => {
     }
     const buyTickets = (input) =>{
         buyTicket(input).then(res=> {
-            console.log(res);
             res.wait().then(res=>{
                 setVisible(false);
-                getMyTicket(wave).then(res => {setMyTickets(res)});
-                getTotalPlayers().then(res=> setTotalPlayer(res.length));
-                getTotalTickets().then(res=> setTotalTicket(res.toString()));
-                getReward().then((res)=>{setReward((res.toString()/(10e17)).toFixed(0))});
+                balanceOf(wallet.account).then((res)=>setMoney((res.toString()/(10e17)).toFixed(0)));
+                fetch();
             })
            
         })
     }
+
+    const onNextWave = () =>{
+        const inputWave = document.querySelector("#inputWave");
+        if(isNaN(inputWave.value) ||Number(inputWave.value) < 1 || Number(inputWave.value) > wave){
+            openNotificationWithIcon('error',"info","Don't have this Wave !")
+        } else if(Number(inputWave.value) === wave){
+            setHistoryResult(null);
+        } else {
+            getHistory(Number(inputWave.value)).then((res)=>setMyTickets(res));
+            getResult(Number(inputWave.value)).then(res=> {setHistoryResult(res[4].toString());});
+        }
+
+    }
+    // Date.now() + (requireTime - (currentTime - lastTime))
     useEffect(() => {
         const container = document.querySelector(".banner-luckydraw");
         const header = document.querySelector(".top-header");
@@ -128,23 +161,46 @@ const Luckydraw = () => {
                                 <div className='waiting-header'>
                                     <div className='left'>
                                         <div className='txt wrap-wave mr-5'>Wave: <span >{wave !== null && wave.padStart(2,'0')}</span></div>
-                                        <div className='txt wrap-time'>Time: {lastTime && requireTime && <Countdown renderer={renderer} 
-                                            date={lastTime + requireTime}></Countdown>}
+                                        <div className='txt wrap-time'>Time: {!showResult && lastTime && requireTime && <Countdown renderer={renderer} 
+                                            date={Date.now() + (requireTime - (currentTime - lastTime))}></Countdown>}
+                                            {showResult && <span>00:00:00</span>}
                                         </div>
                                     </div>
+                                    <button onClick={()=> {
+                                        if(totalPlayer == 0){
+                                           resetTime().then(res =>{
+                                               res.wait().then(res=>{
+                                                   fetch(false);
+                                               })
+                                           })
+                                        } else{
+                                            XoSo().then(res => res.wait().then(res =>{
+                                                getWave().then((res)=>{
+                                                    setWave(res.toString());
+                                                    if(Number(res.toString()) ===1){
+                                                        getResult(Number(res.toString())).then(res=> {setFinalResult(res[4].toString().padStart(4,"0"));
+                                                        setShowResult(true)});
+                                                    } else {
+                                                        getResult(Number(res.toString())-1).then(res=> {setFinalResult(res[4].toString().padStart(4,"0"));
+                                                        setShowResult(true)});
+                                                    }                                 
+                                                });
+                                            }))}
+                                        }
+                                        }>Xo So</button>
                                     <div className='right'>
-                                        <div className='txt wrap-balance'>Balance: <span >{balance !== null && balance} BILLY</span></div>
+                                        <div className='txt wrap-balance'>Balance: <span >{money !== null ? money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","): 0} $</span></div>
                                     </div>
                                 </div>
                               { !showResult && <div className='waiting-content'>
                                     <p className='reward-title'>REWARD OF LUCKY DRAW:</p>
-                                    <p className='reward'>{reward !== null && reward} <small>BILLY</small></p>
+                                    <p className='reward'>{reward !== null ? reward : 0} $</p>
                                     <p className='note'>Power up for chance to win in this electrifying <br /> instant game!</p>
-                                    <button className='buy'>More information <More></More></button>
+                                    <button  onClick={()=> setVisible(true)} className='buy'>Buy Ticket</button>
                                 </div>}
                               { showResult && <div className='waiting-content result'>
                                     <p className='congratulation'>CONGRATULATION!!</p>
-                                    <Background num1={Number(finalResult[0])} num2={Number(finalResult[1])} num3={Number(finalResult[2])} num4={Number(finalResult[3])}>
+                                    <Background setShowResult={setShowResult} num1={Number(finalResult[0])} num2={Number(finalResult[1])} num3={Number(finalResult[2])} num4={Number(finalResult[3])} fetch={fetch}>
                                     </Background>
                                     <div className='id-ticket'>
                                         <div className='avt'>
@@ -176,13 +232,45 @@ const Luckydraw = () => {
                                 <div className='my-ticket'>
                                     <div className='header'>
                                         <p className='txt'>My Tickets:</p>
-                                        <span className='mt-0'>{myTickets.length ===0 ? "00" : myTickets.length.toString().padStart(2,"0")}</span>
+                                        <div className='history'>
+                                            <Reload onClick={()=>{
+                                                 const inputWave = document.querySelector("#inputWave");
+                                                setHistoryResult(null);
+                                                getMyTicket(wave).then(res => {setMyTickets(res)} );
+                                                inputWave.value = "";
+                                                }} className='reload'></Reload>
+                                            <input id="inputWave" type="text" />
+                                            <More onClick={onNextWave} className='next'></More>
+                                        </div>
+                                        <span className='mt-0'>{myTickets.length ===0 ? "00" : getMyTicketList(myTickets).length.toString().padStart(2,"0")}</span>
                                     </div>
                                     <div className='content'>
                                         <div className='list-ticket'>
                                             <ul>
                                                 {
-                                                    myTickets.length !==0 && getMyTicketList(myTickets).map((i)=>{
+                                                    myTickets.length !==0 && getMyTicketList(myTickets).map((i,index)=>{
+                                                        if(historyResult !== null){
+                                                            if(index === 0){
+                                                                return (
+                                                                    <li>
+                                                                        <div className='ball red'>{i.toString().padStart(4,'0')[0]}</div>
+                                                                        <div className='ball red'>{i.toString().padStart(4,'0')[1]}</div>
+                                                                        <div className='ball red'>{i.toString().padStart(4,'0')[2]}</div>
+                                                                        <div className='ball red'>{i.toString().padStart(4,'0')[3]}</div>
+                                                                    </li>
+                                                                )
+                                                            } else {
+                                                                return (
+                                                                    <li>
+                                                                        <div className='ball'>{i.toString().padStart(4,'0')[0]}</div>
+                                                                        <div className='ball'>{i.toString().padStart(4,'0')[1]}</div>
+                                                                        <div className='ball'>{i.toString().padStart(4,'0')[2]}</div>
+                                                                        <div className='ball'>{i.toString().padStart(4,'0')[3]}</div>
+                                                                    </li>
+                                                                )
+                                                            }
+                                                           
+                                                        }
                                                         return (
                                                             <li>
                                                                 <div className='ball'>{i.toString().padStart(4,'0')[0]}</div>
@@ -196,7 +284,21 @@ const Luckydraw = () => {
                                             </ul>
                                         </div>
                                         <div className='buy-ticket'>
-                                            <button onClick={()=> setVisible(true)}>Buy ticket</button>
+                                            {!check ? <button onClick={()=>{checkReward(wallet.account).then((res)=> {
+                                                if((res.toString()/(10e17)).toFixed(0) > 0){
+                                                    setCheck(true);
+                                                } else {
+                                                    openNotificationWithIcon('error','info',"you didn't win");
+                                                }
+                                                });}} >Check</button>:
+                                                <button onClick={()=>{
+                                                    claimReward().then(res => {
+                                                        openNotificationWithIcon('success','info',"Claim reward success");
+                                                        balanceOf(wallet.account).then((res)=>setMoney((res.toString()/(10e17)).toFixed(0)));
+                                                        setMoney()
+                                                    })
+                                                }}>Claim</button>
+                                                }
                                         </div>
                                     </div>
                                 </div>
