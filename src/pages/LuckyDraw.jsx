@@ -27,6 +27,7 @@ const Luckydraw = () => {
     const [isApprove,setIsApprove] = useState(false);
     const [reward,setReward] = useState(null);
     const [check,setCheck] = useState(false);
+    const [clear,setClear] = useState(false);
     const [historyResult,setHistoryResult] = useState(null);
     const [totalPlayer,setTotalPlayer] = useState(null);
     const [totalTicket,setTotalTicket] = useState(null);
@@ -35,6 +36,8 @@ const Luckydraw = () => {
     const [lastTime,setLastTime] = useState(null);
     const [currentTime,setCurrentTime] = useState(null);
     const [requireTime,setRequireTime] = useState(null);
+    const [date,setDate] = useState(null);
+    const [time,setTime] = useState(null);
     const luckyDrawAction = useLKaction;
     const luckyNFTAction = useLKnftAction;
     const erc20Action = useERC20Action;
@@ -43,16 +46,13 @@ const Luckydraw = () => {
     const {getWave,getReward,getResult} = luckyNFTAction();
     const wallet = useWallet();
 
-    const hideModal = () =>{
-        setVisible(false);
-    };
 
     const fetchNewUserTicket = () => {
         window.location.reload()
     };
 
-    const fetch = (check) => {
-        if(!check){
+    const fetch = (check,check2) => {
+        if(check=== true){
             getWave().then((res)=>{
                 setWave(res.toString());
                 if(wallet.account){
@@ -65,17 +65,23 @@ const Luckydraw = () => {
         getTotalPlayers().then(res=> {setTotalPlayer(res.toString())});
         getTotalTickets().then(res=> setTotalTicket(res.toString()));
         getPriceTicket().then((res)=> setPrice((res.toString()/(10e17)).toFixed(0)));
+        if(check2 === true){
+            setDate(Date.now());
+            getLastTime().then(res=>{setLastTime(Number(res.toString()) *1000);});
+            getRequireTime().then(res=> setRequireTime(Number(res.toString()) * 60000));
+            getCurrentTime().then((res)=> setCurrentTime(Number(res.toString())*1000));
+        }
+    }
+    useEffect(()=>{
+        fetch(true,false);
+    },[wallet.account]);
+    useEffect(()=>{
+        setDate(Date.now());
         getLastTime().then(res=>{setLastTime(Number(res.toString()) *1000);});
         getRequireTime().then(res=> setRequireTime(Number(res.toString()) * 60000));
         getCurrentTime().then((res)=> setCurrentTime(Number(res.toString())*1000));
-    }
-    useEffect(()=>{
-        fetch(false);
-    },[wallet.account]);
-    if(finalResult !== null){
+    },[])
         console.log(finalResult);
-        console.log(finalResult[0],finalResult[1],finalResult[2],finalResult[3]);
-    }
     useEffect(()=>{
         isApproveLK().then((res)=> {setIsApprove(res)}).catch((e)=>console.log(e));
     },[isApprove,wallet.account]);
@@ -115,6 +121,9 @@ const Luckydraw = () => {
     }
     const renderer = ({ hours, minutes, seconds, completed }) => {
         if (completed) {
+            if(totalPlayer != 0){
+                setShowResult(true);
+            }
           return <span>00:00:00</span>;
         } else {
           // Render a countdown
@@ -131,8 +140,9 @@ const Luckydraw = () => {
         buyTicket(input).then(res=> {
             res.wait().then(res=>{
                 setVisible(false);
+                setHistoryResult(null);
                 balanceOf(wallet.account).then((res)=>setMoney((res.toString()/(10e17)).toFixed(0)));
-                fetch();
+                fetch(true,false);
             })
            
         })
@@ -164,28 +174,24 @@ const Luckydraw = () => {
                                 <div className='waiting-header'>
                                     <div className='left'>
                                         <div className='txt wrap-wave mr-5'>Wave: <span >{wave !== null && wave.padStart(2,'0')}</span></div>
-                                        <div className='txt wrap-time'>Time: {!showResult && lastTime && requireTime && <Countdown renderer={renderer} 
-                                            date={Date.now() + (requireTime - (currentTime - lastTime))}></Countdown>}
+                                        <div className='txt wrap-time'>Time: {!showResult && lastTime && requireTime && currentTime &&  date && <Countdown renderer={renderer} 
+                                            date={date + (requireTime - (currentTime - lastTime))}></Countdown>}
                                             {showResult && <span>00:00:00</span>}
                                         </div>
                                     </div>
                                     {/* <button onClick={()=> {
                                         if(totalPlayer == 0){
-                                           resetTime().then(res =>{
-                                               res.wait().then(res=>{
-                                                   fetch(false);
-                                               })
-                                           })
+                                            XoSo().then(res=> {res.wait().then(res=> fetch(true,true))});
                                         } else{
                                             XoSo().then(res => res.wait().then(res =>{
                                                 getWave().then((res)=>{
                                                     setWave(res.toString());
                                                     if(Number(res.toString()) ===1){
                                                         getResult(Number(res.toString())).then(res=> {setFinalResult(res[4].toString().padStart(4,"0"));
-                                                        setShowResult(true)});
+                                                    setClear(true)});
                                                     } else {
                                                         getResult(Number(res.toString())-1).then(res=> {setFinalResult(res[4].toString().padStart(4,"0"));
-                                                        setShowResult(true)});
+                                                    setClear(true)});
                                                     }                                 
                                                 });
                                             }))}
@@ -196,23 +202,23 @@ const Luckydraw = () => {
                                     </div>
                                 </div>
                               { !showResult && <div className='waiting-content'>
-                                    <p className='reward-title'>REWARD OF LUCKY DRAW:</p>
+                                    <p className='reward-title'>REWARD OF LUCKY DRAW</p>
                                     <p className='reward'>{reward !== null ? reward : 0} $</p>
                                     <p className='note'>Power up for chance to win in this electrifying <br /> instant game!</p>
-                                    <button  onClick={()=> setVisible(true)} className='buy'>Buy Ticket</button>
+                                    <button  onClick={()=> {setVisible(true)}} className='buy'>Buy Ticket</button>
                                 </div>}
-                              { showResult && <div className='waiting-content result'>
+                              { showResult && finalResult && <div className='waiting-content result'>
                                     <p className='congratulation'>CONGRATULATION!!</p>
-                                    <Background setShowResult={setShowResult} num1={Number(finalResult[0])} num2={Number(finalResult[1])} num3={Number(finalResult[2])} num4={Number(finalResult[3])} fetch={fetch}>
+                                    <Background clear={clear} setClear={setClear} num1={finalResult[0]} num2={finalResult[1]} num3={finalResult[2]} num4={finalResult[3]} wave={wave} setShowResult={setShowResult}  fetch={fetch}>
                                     </Background>
-                                    <div className='id-ticket'>
+                                    {/* <div className='id-ticket'>
                                         <div className='avt'>
                                         </div>
                                         <div className='id'>
                                             <p>BILLY DE NFT</p>
                                             <p className='txt'>ID ticket: <span>1269</span></p>
                                         </div>
-                                    </div>
+                                    </div> */}
                                     <p>The WINNER of this wave</p>
                                 </div>}
                         </div>
@@ -236,13 +242,13 @@ const Luckydraw = () => {
                                     <div className='header'>
                                         <p className='txt'>My Tickets:</p>
                                         <div className='history'>
-                                            <Reload onClick={()=>{
+                                            {/* <Reload onClick={()=>{
                                                  const inputWave = document.querySelector("#inputWave");
                                                 setHistoryResult(null);
                                                 getMyTicket(wave).then(res => {setMyTickets(res)} );
                                                 inputWave.value = "";
-                                                }} className='reload'></Reload>
-                                            <input id="inputWave" type="text" />
+                                                }} className='reload'></Reload> */}
+                                            <input id="inputWave" type="text" defaultValue={wave && wave}/>
                                             <More onClick={onNextWave} className='next'></More>
                                         </div>
                                         <span className='mt-0'>{myTickets.length ===0 ? "00" : getMyTicketList(myTickets).length.toString().padStart(2,"0")}</span>
@@ -315,7 +321,7 @@ const Luckydraw = () => {
             closable
             className='modal-lucky'
             visible={visible}
-            onCancel={() => setVisible(false)}
+            onCancel={() => {setInput("");setVisible(false)}}
             cancelButtonProps ={{ style:{ display: 'none' }} }
             okButtonProps ={{ style:{ display: 'none' }} }
             >

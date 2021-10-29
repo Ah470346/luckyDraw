@@ -10,8 +10,7 @@ import {ReactComponent as Number8} from './number8.svg';
 import {ReactComponent as Number9} from './number9.svg';
 import {ReactComponent as Number0} from './number0.svg';
 
-function Background({setShowResult,num1,num2,num3,num4,fetch}) {
-    console.log(num1,num2,num3,num4);
+function Background({clear,setClear,num1,num2,num3,num4,wave,setShowResult,fetch}) {
     const [number1,setNumber1] = useState(null);
     const [number2,setNumber2] = useState(null);
     const [number3,setNumber3] = useState(null);
@@ -26,19 +25,22 @@ function Background({setShowResult,num1,num2,num3,num4,fetch}) {
             setNumber2(random_item(arr));
             setNumber3(random_item(arr));
             setNumber4(random_item(arr));
+        },100);
+        if(clear === true){
+            console.log(num1,num2,num3,num4);
+            setNumber1(Number(num1));
+            setNumber2(Number(num2));
+            setNumber3(Number(num3));
+            setNumber4(Number(num4));
+            clearInterval(id)
             setTimeout(()=>{
-                setNumber1(num1);
-                setNumber2(num2);
-                setNumber3(num3);
-                setNumber4(num4);
-                clearInterval(id);
-                setTimeout(()=>{
-                    fetch();
-                    setShowResult(false);
-                },3000)
+                fetch(true,true);
+                setClear(false);
+                setShowResult(false);
             },5000);
-        },100)
-    },[]);
+        }
+        return ()=>{clearInterval(id)}
+    },[clear]);
     return (
         <svg width="560" height="400" viewBox="0 0 807 554" fill="none">
             <path d="M674.181 104.087C674.181 104.087 679.194 76.0928 661.533 78.1033C661.533 78.1033 653.389 79.9102 651.913 86.2471C651.913 86.2471 642.547 84.5166 638.577 91.6933C634.607 98.87 640.053 110.246 650.36 113.427C650.36 113.427 626.718 109.61 628.347 125.719C628.347 125.719 628.601 133.074 635.981 136.459C635.981 136.459 635.04 147.3 642.827 149.972C650.615 152.645 658.759 147.886 662.932 139.131C662.932 139.131 648.986 170.841 615.113 166.413L615.113 168.83C615.113 168.83 647.332 173.08 663.721 139.716C663.721 139.716 661.914 153.739 668.658 157.913C668.658 157.913 679.194 162.977 685.76 151.474C685.76 151.474 701.615 151.983 699.783 138.469C699.783 138.469 699.579 130.096 687.313 124.116C687.313 124.116 707.85 127.831 709.53 113.987C709.53 113.987 711.184 106.352 701.997 101.288C701.997 101.288 703.804 91.4897 695.711 88.1304C695.711 88.2067 680.543 84.8474 674.181 104.087Z" fill="url(#paint0_linear_218:2401)"/>
@@ -85,15 +87,15 @@ function Background({setShowResult,num1,num2,num3,num4,fetch}) {
             <rect x="337.855" y="296.233" width="233.407" height="153.546" fill="url(#pattern2)"/>
             <path d="M369.365 260.517V209.96C369.365 201.319 362.379 194.333 353.738 194.333H284.429C275.789 194.333 268.803 201.319 268.803 209.96V260.517H369.365Z" fill="url(#paint23_linear_218:2401)"/>
 
-            <svg  x="289" y="245" >{number4 !== null && arr[number4].render()}</svg>
+            <svg  x="289" y="245" >{number2 !== null && arr[number2].render()}</svg>
 
             <path d="M640.534 260.517V209.96C640.534 201.319 633.548 194.333 624.907 194.333H555.598C546.958 194.333 539.972 201.319 539.972 209.96V260.517H640.534Z" fill="url(#paint24_linear_218:2401)"/>
 
-            <svg x="557" y="245">{number3 !== null && arr[number3].render()}</svg>
+            <svg x="557" y="245">{number4 !== null && arr[number4].render()}</svg>
 
             <path d="M504.859 260.517V209.96C504.859 201.319 497.873 194.333 489.232 194.333H419.923C411.282 194.333 404.296 201.319 404.296 209.96V260.517H504.859Z" fill="url(#paint25_linear_218:2401)"/>
 
-            <svg  x="423" y="245">{number2 !== null && arr[number2].render()}</svg>
+            <svg  x="423" y="245">{number3 !== null && arr[number3].render()}</svg>
 
             <path d="M223.578 427.079H134.23C123.567 427.079 115.11 418.438 115.11 407.959V209.592C115.11 199.113 123.567 190.472 134.23 190.472H223.578C234.241 190.472 242.698 199.113 242.698 209.592V407.959C242.698 418.438 234.241 427.079 223.578 427.079Z" fill="url(#paint26_linear_218:2401)"/>
             <path d="M215.856 393.068H146.548C137.907 393.068 130.921 386.082 130.921 377.441V209.96C130.921 201.319 137.907 194.333 146.548 194.333H215.856C224.497 194.333 231.483 201.319 231.483 209.96V377.441C231.483 386.082 224.497 393.068 215.856 393.068Z" fill="#1A1A1A"/>

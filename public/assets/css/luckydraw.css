@@ -103,8 +103,7 @@
 
 
 .wrap-page .banner-luckydraw .waiting .waiting-content.result {
-    display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     padding-top: 0px;
     padding-bottom: 0px;
 }
