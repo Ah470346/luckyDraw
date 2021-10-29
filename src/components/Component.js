@@ -518,7 +518,7 @@ function* shuffle(array) {
 
 }
 
-export const ModalBuyTicket = ({visible,hideModal,fetchNewUserTicket}) => {
+export const ModalBuyTicket = ({visible,hideModal,fetchNewUserTicket,setReload,Reload}) => {
     const {account} = useWallet();
     const {approve, isApprove} = useERC20Action();
     const [lsTicket,setLsTicket] = useState([getRandomTicket()])
@@ -612,6 +612,7 @@ export const ModalBuyTicket = ({visible,hideModal,fetchNewUserTicket}) => {
                     setLsTicket([getRandomTicket()])
                     openNotificationWithIcon('success','Success','Transaction Success')
                     hideModal()
+                    setReload(!!Reload)
                     fetchNewUserTicket()
                 })
                 .catch(error => {

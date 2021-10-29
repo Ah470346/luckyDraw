@@ -381,7 +381,7 @@
 							"type": "bool[]"
 						}
 					],
-					"internalType": "struct BuyTicket.listAddress",
+					"internalType": "struct Billy.listAddress",
 					"name": "",
 					"type": "tuple"
 				}

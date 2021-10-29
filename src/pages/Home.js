@@ -176,6 +176,7 @@ const Home = () => {
     const [resetCountdown, setResetCountdown] = useState(false);
     const [isShowCountDownDraw, setIsShowCountDownDraw] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [isReload, setIsReload] = useState(0);
     const [isHaveWinner, setIsHaveWinner] = useState(false);
     const [isStartDraw, setStartDraw] = useState(false);
     const [isDrawing, setIsDrawing] = useState(false);
@@ -287,6 +288,7 @@ const Home = () => {
         nftAction.returnTotalReward()
         .then(res=>{
             setCurrentRewardMoney(convertBigNumBer(res))})
+
     }
 
     const onCountDown = ()=>{
@@ -456,7 +458,7 @@ const Home = () => {
                     <div className="result-box">
                         <h4 className="box-header">CHECK YOUR TICKET</h4>
                         <div className="result-list">
-                            <BlockResultYourTicket/>
+                            {!!isReload ? <BlockResultYourTicket/> : <BlockResultYourTicket/>}
                         </div>
                     </div>
                 </div>
@@ -466,7 +468,7 @@ const Home = () => {
     </div>
 
     </section>
-            <ModalBuyTicket visible={isShowModalBuyTicket} hideModal={()=>setIsShowModalBuyTicket(false)} fetchNewUserTicket={()=>fetchNewUserTicket()}/>
+            <ModalBuyTicket visible={isShowModalBuyTicket} hideModal={()=>setIsShowModalBuyTicket(false)} Reload={isReload} setReload={setIsReload} fetchNewUserTicket={()=>fetchNewUserTicket()}/>
     </>
     );
 };
