@@ -9,16 +9,33 @@ import {ReactComponent as Number7} from './number7.svg';
 import {ReactComponent as Number8} from './number8.svg';
 import {ReactComponent as Number9} from './number9.svg';
 import {ReactComponent as Number0} from './number0.svg';
+import { useLKnftAction } from '../../hook/hookLKNFT';
+import { useLKaction } from '../../hook/hookLK';
 
-function Background({clear,setClear,num1,num2,num3,num4,wave,setShowResult,fetch}) {
+function Background({clear,setClear,wave,setShowResult,fetch}) {
     const [number1,setNumber1] = useState(null);
     const [number2,setNumber2] = useState(null);
     const [number3,setNumber3] = useState(null);
     const [number4,setNumber4] = useState(null);
+    const [result,setResult] = useState(null);
+    const luckyDrawAction = useLKaction;
+    const luckyNFTAction = useLKnftAction;
+    const {getWave,getReward,getResult} = luckyNFTAction();
     const arr = [Number0,Number1,Number2,Number3,Number4,Number5,Number6,Number7,Number8,Number9];
     const random_item = (items)=>{
         return Math.floor(Math.random()*items.length);
     }
+    useEffect(()=>{
+        const itv = setInterval(()=>{
+            getResult(wave).then((res)=>{
+                if(res[4].toString() != 0){
+                    setResult(res[4].toString().padStart(4,"0"));
+                    clearInterval(itv);
+                }
+            })
+        },1000);
+        return ()=>{clearInterval(itv)};
+    },[])
     useEffect(()=>{
         const id = setInterval(()=>{
             setNumber1(random_item(arr));
@@ -26,21 +43,20 @@ function Background({clear,setClear,num1,num2,num3,num4,wave,setShowResult,fetch
             setNumber3(random_item(arr));
             setNumber4(random_item(arr));
         },100);
-        if(clear === true){
-            console.log(num1,num2,num3,num4);
-            setNumber1(Number(num1));
-            setNumber2(Number(num2));
-            setNumber3(Number(num3));
-            setNumber4(Number(num4));
+        if(result !== null){
+            console.log(result);
+            setNumber1(Number(result[0]));
+            setNumber2(Number(result[1]));
+            setNumber3(Number(result[2]));
+            setNumber4(Number(result[3]));
             clearInterval(id)
             setTimeout(()=>{
                 fetch(true,true);
-                setClear(false);
                 setShowResult(false);
             },5000);
         }
         return ()=>{clearInterval(id)}
-    },[clear]);
+    },[result]);
     return (
         <svg width="560" height="400" viewBox="0 0 807 554" fill="none">
             <path d="M674.181 104.087C674.181 104.087 679.194 76.0928 661.533 78.1033C661.533 78.1033 653.389 79.9102 651.913 86.2471C651.913 86.2471 642.547 84.5166 638.577 91.6933C634.607 98.87 640.053 110.246 650.36 113.427C650.36 113.427 626.718 109.61 628.347 125.719C628.347 125.719 628.601 133.074 635.981 136.459C635.981 136.459 635.04 147.3 642.827 149.972C650.615 152.645 658.759 147.886 662.932 139.131C662.932 139.131 648.986 170.841 615.113 166.413L615.113 168.83C615.113 168.83 647.332 173.08 663.721 139.716C663.721 139.716 661.914 153.739 668.658 157.913C668.658 157.913 679.194 162.977 685.76 151.474C685.76 151.474 701.615 151.983 699.783 138.469C699.783 138.469 699.579 130.096 687.313 124.116C687.313 124.116 707.85 127.831 709.53 113.987C709.53 113.987 711.184 106.352 701.997 101.288C701.997 101.288 703.804 91.4897 695.711 88.1304C695.711 88.2067 680.543 84.8474 674.181 104.087Z" fill="url(#paint0_linear_218:2401)"/>
