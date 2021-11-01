@@ -109,6 +109,8 @@
 }
 
 .wrap-page .banner-luckydraw .waiting .waiting-content.result .congratulation {
+    transform: translateY(50px);
+    z-index: 3;
     font-family: Montserrat;
     font-style: normal;
     font-weight: 800;
@@ -117,13 +119,16 @@
     text-align: center;
     letter-spacing: 0.05em;
 
-    color: #F37335;
-    /* border: 3px solid #FFFFFF; */
-    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.4);
+    background: linear-gradient(180deg, #FFFAC9 0%, #FBF0B9 23.75%, #FCBF31 46.67%, #F0DA92 59.17%, #F58035 76.35%, #F68834 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; 
+
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.4));
 }
 
 
 .wrap-page .banner-luckydraw .waiting .waiting-content.result .id-ticket {
+    transform: translateY(-50px);
     width: 525.89px;
     height: 143.62px;
     background: linear-gradient(0.44deg, rgba(0, 0, 0, 0.55) 10.24%, rgba(0, 0, 0, 0.385) 114.16%);
@@ -167,6 +172,7 @@
 .wrap-page .banner-luckydraw .waiting .waiting-content.result > p:last-child{
     color: #434D56;
     font-size: 30px;
+    transform: translateY(-30px);
 }
 
 .wrap-page .banner-luckydraw .waiting .waiting-content .reward-title{
@@ -346,6 +352,25 @@
 
 .wrap-page .wrap-information .my-ticket .content .list-ticket {
     height: 75%;
+}
+
+.wrap-page .wrap-information .my-ticket .content .list-ticket .empty {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    font-family: Montserrat;
+    font-size: 19px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 23px;
+    letter-spacing: 0.05em;
+    text-align: center;
+    color: #434D56;
+}
+
+.wrap-page .wrap-information .my-ticket .content .list-ticket .empty p {
 }
 
 .wrap-page .wrap-information .my-ticket .content .list-ticket ul {
