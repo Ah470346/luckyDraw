@@ -12,7 +12,7 @@ import {ReactComponent as Number0} from './number0.svg';
 import { useLKnftAction } from '../../hook/hookLKNFT';
 import { useLKaction } from '../../hook/hookLK';
 
-function Background({clear,setClear,wave,setShowResult,fetch}) {
+function Background({setEffectReward,wave,setShowResult,fetch}) {
     const [number1,setNumber1] = useState(null);
     const [number2,setNumber2] = useState(null);
     const [number3,setNumber3] = useState(null);
@@ -49,7 +49,8 @@ function Background({clear,setClear,wave,setShowResult,fetch}) {
             setNumber2(Number(result[1]));
             setNumber3(Number(result[2]));
             setNumber4(Number(result[3]));
-            clearInterval(id)
+            clearInterval(id);
+            setEffectReward(result);
             setTimeout(()=>{
                 fetch(true,true);
                 setShowResult(false);
@@ -58,7 +59,7 @@ function Background({clear,setClear,wave,setShowResult,fetch}) {
         return ()=>{clearInterval(id)}
     },[result]);
     return (
-        <svg width="560" height="400" viewBox="0 0 807 554" fill="none">
+        <svg className='background' width="600" height="430" viewBox="0 0 807 554" fill="none" style={{zIndex:2}}>
             <path d="M674.181 104.087C674.181 104.087 679.194 76.0928 661.533 78.1033C661.533 78.1033 653.389 79.9102 651.913 86.2471C651.913 86.2471 642.547 84.5166 638.577 91.6933C634.607 98.87 640.053 110.246 650.36 113.427C650.36 113.427 626.718 109.61 628.347 125.719C628.347 125.719 628.601 133.074 635.981 136.459C635.981 136.459 635.04 147.3 642.827 149.972C650.615 152.645 658.759 147.886 662.932 139.131C662.932 139.131 648.986 170.841 615.113 166.413L615.113 168.83C615.113 168.83 647.332 173.08 663.721 139.716C663.721 139.716 661.914 153.739 668.658 157.913C668.658 157.913 679.194 162.977 685.76 151.474C685.76 151.474 701.615 151.983 699.783 138.469C699.783 138.469 699.579 130.096 687.313 124.116C687.313 124.116 707.85 127.831 709.53 113.987C709.53 113.987 711.184 106.352 701.997 101.288C701.997 101.288 703.804 91.4897 695.711 88.1304C695.711 88.2067 680.543 84.8474 674.181 104.087Z" fill="url(#paint0_linear_218:2401)"/>
             <path d="M703.398 102.229C702.965 101.95 702.481 101.644 701.972 101.364C701.972 101.364 703.779 91.6425 695.788 88.2323C695.788 88.2323 704.492 89.8611 703.398 102.229Z" fill="#176332"/>
             <path d="M670.516 80.8517C670.516 80.8517 678.966 88.8682 674.156 104.087C674.181 104.087 677.133 87.6212 670.516 80.8517Z" fill="#176332"/>
