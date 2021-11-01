@@ -148,6 +148,7 @@ const Luckydraw = () => {
         buyTicket(input).then(res=> {
             res.wait().then(res=>{
                 setVisible(false);
+                setInput("");
                 setHistoryResult({history:null,win:null});
                 balanceOf(wallet.account).then((res)=>setMoney((res.toString()/(10e17)).toFixed(0)));
                 fetch(true,false);
@@ -207,7 +208,7 @@ const Luckydraw = () => {
                                 </div>
                               { !showResult && <div className='waiting-content'>
                                     <p className='reward-title'>REWARD OF LUCKY DRAW</p>
-                                    <p className='reward'>{reward !== null ? reward : 0} $</p>
+                                    <p className='reward'>{reward !== null ? reward.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0} $</p>
                                     <p className='note'>Power up for chance to win in this electrifying <br /> instant game!</p>
                                     <button  onClick={()=> {setVisible(true)}} className='buy'>Buy Ticket</button>
                                 </div>}
