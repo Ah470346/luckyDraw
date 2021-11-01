@@ -56,7 +56,13 @@ const Luckydraw = () => {
             getWave().then((res)=>{
                 setWave(res.toString());
                 if(wallet.account){
-                    getMyTicket(res.toString()).then(res => {setMyTickets(res) ;console.log(res);} );
+                    getMyTicket(res.toString()).then(res => {
+                        if(res[0].length !== 0){
+                            setMyTickets(res)
+                        } else {
+                            setMyTickets([]);
+                        }
+                    } );
                 }
                 getResult(Number(res.toString())-1).then(res=> {setFinalResult(res[4].toString().padStart(4,"0"))});
             });
@@ -110,7 +116,6 @@ const Luckydraw = () => {
                 result.push(j);
             }
         }
-        console.log(historyResult.history);
         if(historyResult.history !== null){
             for(let i of result){
                 if(i == historyResult.history){
@@ -160,12 +165,16 @@ const Luckydraw = () => {
         } else if(Number(inputWave.value) === wave){
             setHistoryResult({history:null,win:null});
         } else {
-            console.log("hiha");
-            getHistory(Number(inputWave.value)).then((res)=>setMyTickets(res));
-            getResult(Number(inputWave.value)).then(res=> {setHistoryResult({history:res[4].toString(),...historyResult});console.log(res[4].toString())});
+            getHistory(Number(inputWave.value)).then((res)=>{
+                if(res[0].length !== 0){
+                    setMyTickets(res);
+                }
+            });
+            getResult(Number(inputWave.value)).then(res=> {setHistoryResult({history:res[4].toString(),...historyResult})});
         }
 
     }
+    console.log(myTickets);
     // Date.now() + (requireTime - (currentTime - lastTime))
     useEffect(() => {
         const container = document.querySelector(".banner-luckydraw");
@@ -250,7 +259,7 @@ const Luckydraw = () => {
                                     </div>
                                     <div className='content'>
                                         <div className='list-ticket'>
-                                            {myTickets.length !== 0 ?  <div className='empty'>
+                                            {myTickets.length === 0 || getMyTicketList(myTickets).length === 0 ?  <div className='empty'>
                                                 <Empty></Empty>
                                                 <p>You don’t have any ticket. <br /> Wanna try buy some?</p>
                                             </div> 
