@@ -36,6 +36,7 @@ const Luckydraw = () => {
     const [totalTicket,setTotalTicket] = useState(null);
     const [finalResult,setFinalResult] = useState(null);
     const [myTickets, setMyTickets] = useState([]);
+    const [finalTicket,setFinalTicket] = useState([]);
     const [lastTime,setLastTime] = useState(null);
     const [currentTime,setCurrentTime] = useState(null);
     const [requireTime,setRequireTime] = useState(null);
@@ -118,6 +119,11 @@ const Luckydraw = () => {
     useEffect(()=>{
         isApproveLK().then((res)=> {setIsApprove(res)}).catch((e)=>console.log(e));
     },[isApprove,wallet.account]);
+    useEffect(()=>{
+        if(myTickets.length !== 0) {
+            setFinalTicket(getMyTicketList(myTickets));
+        }
+    },[historyResult.history,myTickets])
     const getMyTicketList = (myTickets) =>{
         let result = [];
         const list =  myTickets[0].flatMap((i,index)=>(i == wallet.account ? index : []));
@@ -147,6 +153,7 @@ const Luckydraw = () => {
                 if(i == historyResult.history){
                     setHistoryResult({win:true,...historyResult});
                     result = [i,...result];
+                    break;
                 }
             }
         }
@@ -164,7 +171,6 @@ const Luckydraw = () => {
           return <span>00:00:00</span>;
         } else {
           // Render a countdown
-          console.log("render");
            return <span>{hours.toString().padStart(2,'0')}:{minutes.toString().padStart(2,'0')}:{seconds.toString().padStart(2,'0')}</span>;
         }
       };
@@ -177,9 +183,12 @@ const Luckydraw = () => {
     }
     const buyTickets = (input) =>{
         setSpin(true);
-        if(input === "" || input === 0 ){
-            openNotificationWithIcon("error","Error","Invalid number of vouchers!");
-        } else {
+        if(input === "" ){
+            openNotificationWithIcon("error","Error","Please enter the number of tickets!");
+        } if(input === 0) {
+            openNotificationWithIcon("error","Error","The number is not correct!");
+        } 
+        else {
             buyTicket(input).then(res=> {
                 res.wait().then(res=>{
                     setVisible(false);
@@ -188,7 +197,6 @@ const Luckydraw = () => {
                     fetch(true,false);
                     setSpin(false);
                 })
-               
             })
         }
     }
@@ -204,7 +212,7 @@ const Luckydraw = () => {
                     setMyTickets(res);
                 }
             });
-            getResult(Number(inputWave.value)).then(res=> {setHistoryResult({history:res[4].toString(),...historyResult})});
+            getResult(Number(inputWave.value)).then(res=> {setHistoryResult({history:res[4].toString()});console.log(res[4].toString());});
         }
 
     }
@@ -303,17 +311,17 @@ const Luckydraw = () => {
                                             <input id="inputWave" type="text" defaultValue={wave && wave}/>
                                             <More onClick={onNextWave} className='next'></More>
                                         </div>
-                                        <span className='mt-0'>{myTickets.length ===0 ? "00" : getMyTicketList(myTickets).length.toString().padStart(2,"0")}</span>
+                                        <span className='mt-0'>{myTickets.length ===0 ? "00" : finalTicket.length.toString().padStart(2,"0")}</span>
                                     </div>
                                     <div className='content'>
                                         <div className='list-ticket'>
-                                            {myTickets.length === 0 || getMyTicketList(myTickets).length === 0 ?  <div className='empty'>
+                                            {myTickets.length === 0 || finalTicket.length === 0 ?  <div className='empty'>
                                                 <Empty></Empty>
                                                 <p>You don’t have any ticket. <br /> Wanna try buy some?</p>
                                             </div> 
                                             :<ul>
                                                 {
-                                                    myTickets.length !==0 && getMyTicketList(myTickets).map((i,index)=>{
+                                                    myTickets.length !==0 && finalTicket.map((i,index)=>{
                                                         if(historyResult.history !== null){
                                                             if(index === 0 && historyResult.win === true){
                                                                 return (
