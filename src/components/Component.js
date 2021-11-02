@@ -150,36 +150,40 @@ export const BlockResult = () => {
     const [lsWinner,setLsWinner] = useState([])
     const [selectedDate, setSelectedDate] = useState(null);
     const [totalPlayerCurrentId, setTotalPlayerCurrentId] = useState(null);
+    const wallet = useWallet()
+    const account = wallet.account
 
     useEffect(()=>{
-        nftAction.getCurrentDraw()
-            .then(res=>{
-                const curId = res
-                setLastestDraw(curId-1)
-                setCurrentDraw(res-1)
-                nftAction.returnNumberId(parseInt(res)-1)
-                    .then(res=>{
-                        let lsWinning = []
-                        for (let i of res[0]) {
-                            lsWinning.push(i.toString())
-                        }
-                        setLastestWinningNumber(lsWinning)
-                        setRewardMoney(convertBigNumBer(res[1]))
-                        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-                        setSelectedDate(new Date(parseInt(res[2].toString())*1000).toLocaleDateString("en-US", options))
-                        let lsWinnerTemp = []
-                        for (let i of res[4]) {
-                            lsWinnerTemp.push(i.toString())
-                        }
-                        setLsWinner(lsWinnerTemp)
+        if (account) {
+            nftAction.getCurrentDraw()
+                .then(res => {
+                    const curId = res
+                    setLastestDraw(curId - 1)
+                    setCurrentDraw(res - 1)
+                    nftAction.returnNumberId(parseInt(res) - 1)
+                        .then(res => {
+                            let lsWinning = []
+                            for (let i of res[0]) {
+                                lsWinning.push(i.toString())
+                            }
+                            setLastestWinningNumber(lsWinning)
+                            setRewardMoney(convertBigNumBer(res[1]))
+                            const options = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
+                            setSelectedDate(new Date(parseInt(res[2].toString()) * 1000).toLocaleDateString("en-US", options))
+                            let lsWinnerTemp = []
+                            for (let i of res[4]) {
+                                lsWinnerTemp.push(i.toString())
+                            }
+                            setLsWinner(lsWinnerTemp)
 
-                    })
-                nftAction.returnTotalAddress(curId-1)
-                    .then(res=>{
-                        setTotalPlayerCurrentId(res.toString())
-                    })
-            })
-    },[])
+                        })
+                    nftAction.returnTotalAddress(curId - 1)
+                        .then(res => {
+                            setTotalPlayerCurrentId(res.toString())
+                        })
+                })
+        }
+    },[account])
 
     const fetchSelectedDrawResult = (value) => {
         nftAction.returnNumberId(value)
@@ -217,8 +221,10 @@ export const BlockResult = () => {
 
 
     useEffect(()=>{
-        fetchSelectedDrawResult(currentDraw)
-    },[currentDraw])
+        if (account) {
+            fetchSelectedDrawResult(currentDraw)
+        }
+    },[currentDraw,account])
     return (
         <>
             <div className="single-list">
@@ -300,7 +306,8 @@ export const BlockResultYourTicket = () => {
 
 
     useEffect(()=>{
-        buyTicketAction.getHistoryList(account)
+        if (account) {
+            buyTicketAction.getHistoryList(account)
             .then(res=>{
                 if (res[0].length > 0 && res[1].length > 0) {
                     const lastRound = res[0][res[0].length - 1].toString()
@@ -308,25 +315,24 @@ export const BlockResultYourTicket = () => {
                     setSelectedDraw(parseInt(lastRound))
                 }
             })
+        }
     },[account])
 
     useEffect(()=>{
-        nftAction.getCurrentResult(account,parseInt(selectedDraw))
-            .then(res=>{
-                let lsResult = []
-                for (let i of res[0]) {
-                    let lsTemp = []
-                    for (let j of i) {
-                        lsTemp.push(j.toString())
+        if (account) {
+            nftAction.getCurrentResult(account, parseInt(selectedDraw))
+                .then(res => {
+                    let lsResult = []
+                    for (let i of res[0]) {
+                        let lsTemp = []
+                        for (let j of i) {
+                            lsTemp.push(j.toString())
+                        }
+                        lsResult.push(lsTemp)
                     }
-                    lsResult.push(lsTemp)
-                }
-                setResult(lsResult)
-            })
-        // nftAction.returnDatetimeId(selectedDraw)
-        //     .then(res=>{
-        //         setSelectedDate(new Date(parseInt(res.toString())*1000).toLocaleDateString())
-        //     })
+                    setResult(lsResult)
+                })
+        }
     },[selectedDraw,account])
 
     const BoxItemTicket = ({item,index,winningNumber})=>{
@@ -377,14 +383,6 @@ export const BlockResultYourTicket = () => {
             .then(res=>{
                 setTotalPlayerCurrentId(res.toString())
             })
-        // nftAction.returnTotalrewardId(value)
-        // .then(res=>{
-        //     setRewardMoney(convertBigNumBer(res))
-        //     nftAction.returnTotalAddress(value)
-        //     .then(res=>{
-        //        setTotalPlayerCurrentId(res.toString())
-        //     })
-        // })
         nftAction.getCurrentResult(account,parseInt(value))
             .then(res=>{
                 let lsResult = []
@@ -397,12 +395,6 @@ export const BlockResultYourTicket = () => {
                 }
                 setResult(lsResult)
             })
-
-        // nftAction.returnDatetimeId(value)
-        //     .then(res=>{
-        //         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        //         setSelectedDate(new Date(parseInt(res.toString())*1000).toLocaleDateString("en-US", options))
-        //     })
     }
 
     const onInputRoundChange = (e) => {
@@ -415,8 +407,10 @@ export const BlockResultYourTicket = () => {
     }
     }
     useEffect(()=>{
-        fetchSelectedDrawResult(selectedDraw)
-    },[selectedDraw])
+        if (account) {
+            fetchSelectedDrawResult(selectedDraw)
+        }
+    },[selectedDraw,account])
     return (
         <>
             <div className="single-list">
@@ -643,13 +637,16 @@ export const ModalBuyTicket = ({visible,hideModal,fetchNewUserTicket,setReload,R
     }
 
     useEffect(()=>{
-            buyTicketAction.getTicketPrice()
+        console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+        buyTicketAction.getTicketPrice()
         .then(res => {
             setPrice(convertBigNumBer(res))
         })
     },[])
     useEffect(() => {
+        console.log("bbbbbbbbbbbbbbbbbbbb")
         if (account) {
+            console.log("cccccccccccccccccc")
             isApprove()
                 .then(setIsApproved);
         }

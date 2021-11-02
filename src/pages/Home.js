@@ -206,10 +206,13 @@ const Home = () => {
 
     const {account} = useWallet();
     useEffect(() => {
-        nftAction.returnTotalReward()
-        .then(res=>{
-            setCurrentRewardMoney(convertBigNumBer(res))})
-    }, [])
+        if (account) {
+            nftAction.returnTotalReward()
+            .then(res=>{
+                setCurrentRewardMoney(convertBigNumBer(res))})
+        }
+
+    }, [account])
 
 
     // useEffect(()=>{
@@ -227,9 +230,6 @@ const Home = () => {
     // },[]);
 
     useEffect(()=>{
-        // buyTicketAction.returnBlockTime()
-        //     .then(res=>{
-        //         console.log(res.toString())})
         buyTicketAction.returnBlockTime()
             .then(res=>{
             console.log(res.toString())
@@ -282,7 +282,8 @@ const Home = () => {
     }
 
     const onCheckNow = () =>{
-        buyTicketAction.checkReward(account)
+        if (account) {
+            buyTicketAction.checkReward(account)
             .then(res=>{
                 console.log(res)
                 if (parseFloat(convertBigNumBer(res.toString())) > 0) {
@@ -292,6 +293,7 @@ const Home = () => {
                     openNotificationWithIcon('error','Info','Good luck next time !!!')
                 }
             })
+        }
     }
 
     const onClaimReward = () =>{
@@ -306,12 +308,14 @@ const Home = () => {
             })
     }
     const fetchNewUserTicket = () => {
-        balanceOf(account).then(res=>{
-            setBalanceCPA((res.toString()/(10e17)).toFixed(0))
-        })
+        if (account) {
+            balanceOf(account).then(res=>{
+                setBalanceCPA((res.toString()/(10e17)).toFixed(0))
+            })
             .catch(err=>{
                 console.log(err)
             })
+        }
         nftAction.returnTotalReward()
         .then(res=>{
             setCurrentRewardMoney(convertBigNumBer(res))})
@@ -454,7 +458,7 @@ const Home = () => {
                 <div className="col-lg-9">
                     <div className="content">
                         <div className="section-header">
-                            {/*<button onClick={()=>DrawnLoto()}>Xổ số</button>*/}
+                            <button onClick={()=>DrawnLoto()}>Xổ số</button>
                             {/*<button onClick={()=>buyTicketAction.setTimeDraw([16,17])}>Change Time</button>*/}
                             <h2 className="title">
                                 Latest Lottery results
