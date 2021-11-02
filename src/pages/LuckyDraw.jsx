@@ -2,16 +2,17 @@ import React,{useState,useEffect} from 'react';
 import Countdown from 'react-countdown';
 import {ReactComponent as More} from '../assets/images/More.svg';
 import {ReactComponent as Empty} from '../assets/images/EmptyTicket.svg';
-import { Row, Col,Modal,notification } from 'antd';
+import { Row, Col,Modal,Spin } from 'antd';
 import { useLKaction } from '../hook/hookLK';
 import { useLKnftAction } from '../hook/hookLKNFT';
 import { useERC20Action } from '../hook/hookErc20';
 import { useDispatch,useSelector } from 'react-redux';
 import { changeMoney } from '../redux/reloadMoney';
-import {ModalBuyTicket} from '../components/Component';
-import { convertBigNumBer, getBalance, openNotificationWithIcon } from '../components/api/Api';
+import {openNotificationWithIcon } from '../components/api/Api';
 import useWallet from 'use-wallet';
-import Background from '../assets/images/Background'
+import Background from '../assets/images/Background';
+import Waiting from '../assets/images/waitting';
+import { Transition } from 'react-transition-group';
 
 
 
@@ -20,14 +21,16 @@ const Luckydraw = () => {
     const setMoney = (money)=> dispatch(changeMoney(money));
     const money = useSelector(state => state.money.money)
     const [visible,setVisible] = useState(false);
-    const [showResult,setShowResult] = useState(false);
+    const [showResult,setShowResult] = useState(0);
     const [wave,setWave] = useState(null);
     const [price,setPrice] = useState(null);
     const [input,setInput] = useState(null);
+    const [spin,setSpin] = useState(false);
     const [isApprove,setIsApprove] = useState(false);
     const [reward,setReward] = useState(null);
     const [check,setCheck] = useState(false);
     const [effectReward,setEffectReward] = useState(null);
+    const [effect,setEffect] = useState(false);
     const [historyResult,setHistoryResult] = useState({history:null,win:null});
     const [totalPlayer,setTotalPlayer] = useState(null);
     const [totalTicket,setTotalTicket] = useState(null);
@@ -37,18 +40,41 @@ const Luckydraw = () => {
     const [currentTime,setCurrentTime] = useState(null);
     const [requireTime,setRequireTime] = useState(null);
     const [date,setDate] = useState(null);
-    const [time,setTime] = useState(null);
     const luckyDrawAction = useLKaction;
     const luckyNFTAction = useLKnftAction;
     const erc20Action = useERC20Action;
     const {balanceOf,approveLK,isApproveLK} = erc20Action();
-    const {getPriceTicket,getTotalPlayers,getTotalTickets,buyTicket,getMyTicket,getLastTime,getRequireTime,XoSo,getCurrentTime,claimReward,checkReward,resetTime,getHistory} = luckyDrawAction();
+    const {getPriceTicket,getTotalPlayers,getTotalTickets,buyTicket,getMyTicket,getLastTime,getRequireTime,XoSo,getCurrentTime,claimReward,checkReward,getHistory} = luckyDrawAction();
     const {getWave,getReward,getResult} = luckyNFTAction();
     const wallet = useWallet();
 
 
-    const fetchNewUserTicket = () => {
-        window.location.reload()
+    const duration = 600;
+
+    const defaultStyle = {
+        transition: `all ${duration}ms ease-in-out`,
+        opacity: 0,
+        transform: `scale(0.5) translateY(0px)`
+    }
+
+    const transitionStyles = {
+        entering: { opacity: 1 ,transform: `scale(0.3) translateY(0px)`},
+        entered:  { opacity: 1,transform: `scale(1) translateY(50px)` },
+        exiting:  { opacity: 0,transform: `scale(0.5) translateY(0px)` },
+        exited:  { opacity: 0 ,transform: `scale(0.5) translateY(0px)`},
+    };
+
+    const defaultStyle1 = {
+        transition: `all ${duration}ms ease-in-out`,
+        opacity: 0,
+        transform: `scale(0.5) translateY(0px)`
+    }
+
+    const transitionStyles1 = {
+        entering: { opacity: 1 ,transform: `scale(0.3) translateY(-0px)`},
+        entered:  { opacity: 1,transform: `scale(1) translateY(-50px)` },
+        exiting:  { opacity: 0,transform: `scale(0.5) translateY(0px)` },
+        exited:  { opacity: 0 ,transform: `scale(0.5) translateY(0x)`},
     };
 
     const fetch = (check,check2) => {
@@ -130,35 +156,42 @@ const Luckydraw = () => {
     const renderer = ({ hours, minutes, seconds, completed }) => {
         if (completed) {
             if(totalPlayer != 0){
-                setShowResult(true);
+                setShowResult(1);
+            } 
+            else {
+                setShowResult(2);
             }
           return <span>00:00:00</span>;
         } else {
           // Render a countdown
+          console.log("render");
            return <span>{hours.toString().padStart(2,'0')}:{minutes.toString().padStart(2,'0')}:{seconds.toString().padStart(2,'0')}</span>;
         }
       };
 
     const approveFC = () =>{
+        setSpin(true);
         approveLK().then(res=>{
-            res.wait().then(setIsApprove);
+            res.wait().then(res=> {setIsApprove(res);setSpin(false)});
         })
     }
     const buyTickets = (input) =>{
-        buyTicket(input).then(res=> {
-            res.wait().then(res=>{
-                setVisible(false);
-                setInput("");
-                setHistoryResult({history:null,win:null});
-                balanceOf(wallet.account).then((res)=>setMoney((res.toString()/(10e17)).toFixed(0)));
-                fetch(true,false);
+        setSpin(true);
+        if(input === "" || input === 0 ){
+            openNotificationWithIcon("error","Error","Invalid number of vouchers!");
+        } else {
+            buyTicket(input).then(res=> {
+                res.wait().then(res=>{
+                    setVisible(false);
+                    setHistoryResult({history:null,win:null});
+                    balanceOf(wallet.account).then((res)=>setMoney((res.toString()/(10e17)).toFixed(0)));
+                    fetch(true,false);
+                    setSpin(false);
+                })
+               
             })
-           
-        })
+        }
     }
-
-    console.log(effectReward);
-
     const onNextWave = () =>{
         const inputWave = document.querySelector("#inputWave");
         if(isNaN(inputWave.value) ||Number(inputWave.value) < 1 || Number(inputWave.value) > wave){
@@ -175,7 +208,6 @@ const Luckydraw = () => {
         }
 
     }
-    console.log(myTickets);
     // Date.now() + (requireTime - (currentTime - lastTime))
     useEffect(() => {
         const container = document.querySelector(".banner-luckydraw");
@@ -190,14 +222,14 @@ const Luckydraw = () => {
                                 <div className='waiting-header'>
                                     <div className='left'>
                                         <div className='txt wrap-wave mr-5'>Wave: <span >{wave !== null && wave.padStart(2,'0')}</span></div>
-                                        <div className='txt wrap-time'>Time: {!showResult && lastTime && requireTime && currentTime &&  date && <Countdown renderer={renderer} 
+                                        <div className='txt wrap-time'>Time: { showResult === 0 && lastTime && requireTime && currentTime && date && <Countdown renderer={renderer} 
                                             date={date + (requireTime - (currentTime - lastTime))}></Countdown>}
-                                            {showResult && <span>00:00:00</span>}
+                                            {showResult !== 0 && <span>00:00:00</span>}
                                         </div>
                                     </div>
                                     {/* <button onClick={()=> {
                                         if(totalPlayer == 0){
-                                            XoSo().then(res=> {console.log(res); fetch(true,true)});
+                                            XoSo().then(res=> {console.log(res)});
                                         } else{
                                             XoSo().then(res => console.log(res))};
                                         }
@@ -206,26 +238,41 @@ const Luckydraw = () => {
                                         <div className='txt wrap-balance'>Balance: <span >{money ? money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","): 0} $</span></div>
                                     </div>
                                 </div>
-                              { !showResult && <div className='waiting-content'>
+                              { showResult === 0 && <div className='waiting-content'>
                                     <p className='reward-title'>REWARD OF LUCKY DRAW</p>
                                     <p className='reward'>{reward !== null ? reward.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0} $</p>
                                     <p className='note'>Power up for chance to win in this electrifying <br /> instant game!</p>
                                     <button  onClick={()=> {setVisible(true)}} className='buy'>Buy Ticket</button>
                                 </div>}
-                              { showResult && finalResult && <div className='waiting-content result'>
-                                    <p className='congratulation'>CONGRATULATION!!</p>
-                                    <Background setEffectReward={setEffectReward} wave={wave} setShowResult={setShowResult}  fetch={fetch}>
+                              { showResult === 1 && finalResult && <div className='waiting-content result reset'>
+                                    <Transition in={effect} timeout={duration}>
+                                        {state => (
+                                        <div className='congratulation' style={{
+                                            ...defaultStyle,
+                                            ...transitionStyles[state]
+                                        }}>
+                                            CONGRATULATION!!
+                                        </div>
+                                        )}
+                                    </Transition>
+                                    <Background setEffect={setEffect} setEffectReward={setEffectReward} wave={wave} setShowResult={setShowResult}  fetch={fetch}>
                                     </Background>
-                                    <div className='id-ticket'>
-                                        <div className='avt'>
-                                        </div>
-                                        <div className='id'>
-                                            <p>BILLY DE NFT</p>
-                                            <p className='txt'>ID ticket: <span>1269</span></p>
-                                        </div>
-                                    </div>
-                                    <p>The WINNER of this wave</p>
+                                    <Transition in={effect} timeout={duration}>
+                                       {state => (<div className='id-ticket' style={{
+                                                ...defaultStyle1,
+                                                ...transitionStyles1[state]
+                                            }}>
+                                            <div className='avt'>
+                                            </div>
+                                            <div className='id'>
+                                                <p>BILLY DE NFT</p>
+                                                <p className='txt'>ID ticket: <span>{effectReward}</span></p>
+                                            </div>
+                                        </div>)}
+                                    </Transition>
+                                    <p className='end'>The WINNER of this wave</p>
                                 </div>}
+                            { showResult === 2 && <Waiting setShowResult={setShowResult}  fetch={fetch} lastTime={lastTime}></Waiting>}
                         </div>
                     </Col >
                     <Col style={{paddingRight:"0"}} xl={6}  className='wrap-information'>
@@ -332,8 +379,16 @@ const Luckydraw = () => {
             centered
             closable
             className='modal-lucky'
+            maskClosable={false}
             visible={visible}
-            onCancel={() => {setInput("");setVisible(false)}}
+            onCancel={() => {
+                if(spin !== true){
+                    setInput("");
+                    setVisible(false);
+                } else {
+                    openNotificationWithIcon("warning","Warning","Transition is being processing... !");
+                }
+            }}
             cancelButtonProps ={{ style:{ display: 'none' }} }
             okButtonProps ={{ style:{ display: 'none' }} }
             >
@@ -362,8 +417,10 @@ const Luckydraw = () => {
                         <p>Total prices</p>
                         <span>{isNaN(input) ? 0 : input*price}$</span>
                     </div>
-                    {isApprove && <button onClick={()=> buyTickets(input)}>Buy ticket</button>}
-                    {!isApprove && <button onClick={()=> approveFC()}>Approve</button>}
+                    <Spin spinning={spin}>
+                        {isApprove && <button onClick={()=> buyTickets(input)}>Buy ticket</button>}
+                        {!isApprove && <button onClick={()=> approveFC()}>Approve</button>}
+                    </Spin>
                 </div>
             </Modal>
         </section>

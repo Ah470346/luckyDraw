@@ -12,15 +12,14 @@ import {ReactComponent as Number0} from './number0.svg';
 import { useLKnftAction } from '../../hook/hookLKNFT';
 import { useLKaction } from '../../hook/hookLK';
 
-function Background({setEffectReward,wave,setShowResult,fetch}) {
+function Background({setEffect,setEffectReward,wave,setShowResult,fetch}) {
     const [number1,setNumber1] = useState(null);
     const [number2,setNumber2] = useState(null);
     const [number3,setNumber3] = useState(null);
     const [number4,setNumber4] = useState(null);
     const [result,setResult] = useState(null);
-    const luckyDrawAction = useLKaction;
     const luckyNFTAction = useLKnftAction;
-    const {getWave,getReward,getResult} = luckyNFTAction();
+    const {getResult} = luckyNFTAction();
     const arr = [Number0,Number1,Number2,Number3,Number4,Number5,Number6,Number7,Number8,Number9];
     const random_item = (items)=>{
         return Math.floor(Math.random()*items.length);
@@ -44,17 +43,19 @@ function Background({setEffectReward,wave,setShowResult,fetch}) {
             setNumber4(random_item(arr));
         },100);
         if(result !== null){
-            console.log(result);
             setNumber1(Number(result[0]));
             setNumber2(Number(result[1]));
             setNumber3(Number(result[2]));
             setNumber4(Number(result[3]));
             clearInterval(id);
             setEffectReward(result);
+            setEffect(true);
             setTimeout(()=>{
                 fetch(true,true);
-                setShowResult(false);
-            },5000);
+                setShowResult(0);
+                setEffectReward(null);
+                setEffect(false);
+            },7000);
         }
         return ()=>{clearInterval(id)}
     },[result]);
