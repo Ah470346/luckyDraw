@@ -10,7 +10,6 @@ import {ReactComponent as Number8} from './number8.svg';
 import {ReactComponent as Number9} from './number9.svg';
 import {ReactComponent as Number0} from './number0.svg';
 import { useLKnftAction } from '../../hook/hookLKNFT';
-import { useLKaction } from '../../hook/hookLK';
 
 function Background({setEffect,setEffectReward,wave,setShowResult,fetch}) {
     const [number1,setNumber1] = useState(null);

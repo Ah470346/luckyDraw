@@ -60,7 +60,7 @@ const Luckydraw = () => {
 
     const transitionStyles = {
         entering: { opacity: 1 ,transform: `scale(0.3) translateY(0px)`},
-        entered:  { opacity: 1,transform: `scale(1) translateY(50px)` },
+        entered:  { opacity: 1,transform: `scale(1) translateY(40px)` },
         exiting:  { opacity: 0,transform: `scale(0.5) translateY(0px)` },
         exited:  { opacity: 0 ,transform: `scale(0.5) translateY(0px)`},
     };
@@ -73,7 +73,7 @@ const Luckydraw = () => {
 
     const transitionStyles1 = {
         entering: { opacity: 1 ,transform: `scale(0.3) translateY(-0px)`},
-        entered:  { opacity: 1,transform: `scale(1) translateY(-50px)` },
+        entered:  { opacity: 1,transform: `scale(1) translateY(-40px)` },
         exiting:  { opacity: 0,transform: `scale(0.5) translateY(0px)` },
         exited:  { opacity: 0 ,transform: `scale(0.5) translateY(0x)`},
     };
@@ -197,6 +197,8 @@ const Luckydraw = () => {
                     fetch(true,false);
                     setSpin(false);
                 })
+            }).catch((error)=>{
+                setSpin(false);
             })
         }
     }
@@ -225,7 +227,7 @@ const Luckydraw = () => {
     return (
         <section className='wrap-page'>
                 <Row gutter={16} className='banner-luckydraw'>
-                    <Col xl={18} style={{paddingLeft:"0"}}>
+                    <Col span={24} xl={{span:18}} style={{paddingLeft:"0"}}>
                         <div className='waiting'>
                                 <div className='waiting-header'>
                                     <div className='left'>
@@ -283,21 +285,21 @@ const Luckydraw = () => {
                             { showResult === 2 && <Waiting setShowResult={setShowResult}  fetch={fetch} lastTime={lastTime}></Waiting>}
                         </div>
                     </Col >
-                    <Col style={{paddingRight:"0"}} xl={6}  className='wrap-information'>
+                    <Col style={{paddingRight:"0"}} span={24} xl={{span:6}}  className='wrap-information'>
                         <Row gutter={16} className='information'>
-                            <Col xl={12} style={{height:"28%"}}>
+                            <Col span={12} md={{span:6,offset:7}} lg={{span:4,offset:4}} xl={{span:12,offset:0}}  style={{height:"28%",paddingRight:"0"}}>
                                 <div className='total-player'>
                                     <p className='txt'>Total player:</p>
                                     <span >{totalPlayer !== null && totalPlayer} <br /> Players</span>
                                 </div>
                             </Col>
-                            <Col xl={12} style={{height:"28%",paddingRight:"0"}}>
+                            <Col span={12} md={{span:6}} lg={{span:4}} xl={{span:12,offset:0}} style={{height:"28%",paddingRight:"0"}}>
                                 <div className='total-ticket'>
                                     <p className='txt'>Total ticket:</p>
                                     <span >{totalTicket !== null && totalTicket} <br /> Tickets</span>
                                 </div>
                             </Col>
-                            <Col xl={24} style={{height:"68%",paddingRight:"0", marginTop:"4%"}}>
+                            <Col span={24} lg={{span:8}}  xl={{span:24}} className='wrap-myTicket' style={{}}>
                                 <div className='my-ticket'>
                                     <div className='header'>
                                         <p className='txt'>My Tickets:</p>
@@ -319,42 +321,47 @@ const Luckydraw = () => {
                                                 <Empty></Empty>
                                                 <p>You don’t have any ticket. <br /> Wanna try buy some?</p>
                                             </div> 
-                                            :<ul>
+                                            : <ul><Row className='list'>
                                                 {
                                                     myTickets.length !==0 && finalTicket.map((i,index)=>{
                                                         if(historyResult.history !== null){
                                                             if(index === 0 && historyResult.win === true){
                                                                 return (
-                                                                    <li>
-                                                                        <div className='ball red'>{i.toString().padStart(4,'0')[0]}</div>
-                                                                        <div className='ball red'>{i.toString().padStart(4,'0')[1]}</div>
-                                                                        <div className='ball red'>{i.toString().padStart(4,'0')[2]}</div>
-                                                                        <div className='ball red'>{i.toString().padStart(4,'0')[3]}</div>
-                                                                    </li>
+                                                                    <Col className='item'  span={24} sm={{span:12}} lg={{span:24}} >
+                                                                        <li>
+                                                                            <div className='ball red'>{i.toString().padStart(4,'0')[0]}</div>
+                                                                            <div className='ball red'>{i.toString().padStart(4,'0')[1]}</div>
+                                                                            <div className='ball red'>{i.toString().padStart(4,'0')[2]}</div>
+                                                                            <div className='ball red'>{i.toString().padStart(4,'0')[3]}</div>
+                                                                        </li>
+                                                                    </Col>
                                                                 )
                                                             } else {
                                                                 return (
-                                                                    <li>
-                                                                        <div className='ball'>{i.toString().padStart(4,'0')[0]}</div>
-                                                                        <div className='ball'>{i.toString().padStart(4,'0')[1]}</div>
-                                                                        <div className='ball'>{i.toString().padStart(4,'0')[2]}</div>
-                                                                        <div className='ball'>{i.toString().padStart(4,'0')[3]}</div>
-                                                                    </li>
+                                                                    <Col className='item' span={24} sm={{span:12}} lg={{span:24}}>
+                                                                        <li>
+                                                                            <div className='ball'>{i.toString().padStart(4,'0')[0]}</div>
+                                                                            <div className='ball'>{i.toString().padStart(4,'0')[1]}</div>
+                                                                            <div className='ball'>{i.toString().padStart(4,'0')[2]}</div>
+                                                                            <div className='ball'>{i.toString().padStart(4,'0')[3]}</div>
+                                                                        </li>
+                                                                    </Col>
                                                                 )
-                                                            }
-                                                           
+                                                            }         
                                                         }
                                                         return (
-                                                            <li>
-                                                                <div className='ball'>{i.toString().padStart(4,'0')[0]}</div>
-                                                                <div className='ball'>{i.toString().padStart(4,'0')[1]}</div>
-                                                                <div className='ball'>{i.toString().padStart(4,'0')[2]}</div>
-                                                                <div className='ball'>{i.toString().padStart(4,'0')[3]}</div>
-                                                            </li>
+                                                            <Col className='item' span={24} sm={{span:12}} lg={{span:24}}>
+                                                                <li>
+                                                                    <div className='ball'>{i.toString().padStart(4,'0')[0]}</div>
+                                                                    <div className='ball'>{i.toString().padStart(4,'0')[1]}</div>
+                                                                    <div className='ball'>{i.toString().padStart(4,'0')[2]}</div>
+                                                                    <div className='ball'>{i.toString().padStart(4,'0')[3]}</div>
+                                                                </li>
+                                                            </Col>
                                                         )
                                                     })
                                                 }
-                                            </ul>}
+                                            </Row></ul> }
                                         </div>
                                         <div className='buy-ticket'>
                                             {!check ? <button onClick={()=>{checkReward(wallet.account).then((res)=> {
