@@ -11,7 +11,7 @@ import {ReactComponent as Number9} from './number9.svg';
 import {ReactComponent as Number0} from './number0.svg';
 import { useLKnftAction } from '../../hook/hookLKNFT';
 
-function Background({setAvoidXoSo,setEffect,setEffectReward,wave,setShowResult,fetch}) {
+function Background({refresh,setAvoidXoSo,setEffect,setEffectReward,wave,setShowResult,fetch}) {
     const [number1,setNumber1] = useState(null);
     const [number2,setNumber2] = useState(null);
     const [number3,setNumber3] = useState(null);
@@ -50,13 +50,14 @@ function Background({setAvoidXoSo,setEffect,setEffectReward,wave,setShowResult,f
             clearInterval(id);
             setEffectReward(result);
             setEffect(true);
+            refresh();
+            fetch(true,true);
+            setEffectReward(null);
+            setEffect(false);
+            setAvoidXoSo(false);
             setTimeout(()=>{
-                fetch(true,true);
-                setEffectReward(null);
-                setEffect(false);
-                setAvoidXoSo(false);
                 setShowResult(0);
-            },7000);
+            },5000);
         }
         return ()=>{clearInterval(id)}
     },[result]);

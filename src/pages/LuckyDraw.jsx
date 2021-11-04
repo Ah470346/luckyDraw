@@ -79,6 +79,12 @@ const Luckydraw = () => {
         exited:  { opacity: 0 ,transform: `scale(0.5) translateY(0x)`},
     };
 
+    const refresh = () =>{
+        setLastTime(null);
+        setRequireTime(null);
+        setCurrentTime(null);
+    }
+
     const fetch = (check,check2) => {
         if(check=== true){
             getWave().then((res)=>{
@@ -164,6 +170,7 @@ const Luckydraw = () => {
     const renderer = ({ hours, minutes, seconds, completed }) => {
         if (completed) {
             if(totalPlayer != 0 && avoidXoSo === false){
+                console.log("avoid");
                 setShowResult(1);
             } 
             else {
@@ -183,7 +190,7 @@ const Luckydraw = () => {
         })
     }
     const buyTickets = (input) =>{
-        if(input === "" ){
+        if(input === "" || input === null){
             openNotificationWithIcon("error","Error","Please enter the number of tickets!");
         } else if(input == 0) {
             openNotificationWithIcon("error","Error","The number is not correct!");
@@ -239,7 +246,7 @@ const Luckydraw = () => {
                                     <div className='left'>
                                         <div className='txt wrap-wave mr-5'>Wave: <span >{wave !== null && wave.padStart(2,'0')}</span></div>
                                         <div className='txt wrap-time'>Time: { showResult === 0 && lastTime && requireTime && currentTime && date && <Countdown renderer={renderer} 
-                                            date={date + (requireTime - (currentTime - lastTime))}></Countdown>}
+                                            date={date + (requireTime - (currentTime - lastTime)) - 5000}></Countdown>}
                                             {showResult !== 0 && <span>00:00:00</span>}
                                         </div>
                                     </div>
@@ -271,7 +278,7 @@ const Luckydraw = () => {
                                         </div>
                                         )}
                                     </Transition>
-                                    <Background setAvoidXoSo={setAvoidXoSo} setEffect={setEffect} setEffectReward={setEffectReward} wave={wave} setShowResult={setShowResult}  fetch={fetch}>
+                                    <Background refresh={refresh} setAvoidXoSo={setAvoidXoSo} setEffect={setEffect} setEffectReward={setEffectReward} wave={wave} setShowResult={setShowResult}  fetch={fetch}>
                                     </Background>
                                     <Transition in={effect} timeout={duration}>
                                        {state => (<div className='id-ticket' style={{
