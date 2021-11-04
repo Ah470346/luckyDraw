@@ -206,13 +206,11 @@ const Home = () => {
 
     const {account} = useWallet();
     useEffect(() => {
-        if (account) {
             nftAction.returnTotalReward()
             .then(res=>{
                 setCurrentRewardMoney(convertBigNumBer(res))})
-        }
 
-    }, [account])
+    }, [])
 
 
     // useEffect(()=>{
