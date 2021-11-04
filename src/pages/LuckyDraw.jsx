@@ -33,6 +33,7 @@ const Luckydraw = () => {
     const [effect,setEffect] = useState(false);
     const [historyResult,setHistoryResult] = useState({history:null,win:null});
     const [totalPlayer,setTotalPlayer] = useState(null);
+    const [avoidXoSo,setAvoidXoSo] = useState(false);
     const [totalTicket,setTotalTicket] = useState(null);
     const [finalResult,setFinalResult] = useState(null);
     const [myTickets, setMyTickets] = useState([]);
@@ -95,7 +96,7 @@ const Luckydraw = () => {
             });
         }
         getReward().then((res)=>{setReward((res.toString()/(10e17)).toFixed(0))});
-        getTotalPlayers().then(res=> {setTotalPlayer(res.toString())});
+        getTotalPlayers().then(res=> {setTotalPlayer(res.toString());});
         getTotalTickets().then(res=> setTotalTicket(res.toString()));
         getPriceTicket().then((res)=> setPrice((res.toString()/(10e17)).toFixed(0)));
         if(check2 === true){
@@ -107,7 +108,7 @@ const Luckydraw = () => {
 
         getResult(39).then(res=> {setFinalResult(res[4].toString().padStart(4,"0"))});
     }
-    useEffect(()=>{
+    useEffect(async ()=>{
         fetch(true,false);
     },[wallet.account]);
     useEffect(()=>{
@@ -162,7 +163,7 @@ const Luckydraw = () => {
     }
     const renderer = ({ hours, minutes, seconds, completed }) => {
         if (completed) {
-            if(totalPlayer != 0){
+            if(totalPlayer != 0 && avoidXoSo === false){
                 setShowResult(1);
             } 
             else {
@@ -182,13 +183,15 @@ const Luckydraw = () => {
         })
     }
     const buyTickets = (input) =>{
-        setSpin(true);
         if(input === "" ){
             openNotificationWithIcon("error","Error","Please enter the number of tickets!");
-        } if(input === 0) {
+        } else if(input == 0) {
             openNotificationWithIcon("error","Error","The number is not correct!");
-        } 
+        } else if(input > 9999){
+            openNotificationWithIcon("error","Error","The number is not correct!");
+        }
         else {
+            setSpin(true);
             buyTicket(input).then(res=> {
                 res.wait().then(res=>{
                     setVisible(false);
@@ -196,8 +199,10 @@ const Luckydraw = () => {
                     balanceOf(wallet.account).then((res)=>setMoney((res.toString()/(10e17)).toFixed(0)));
                     fetch(true,false);
                     setSpin(false);
+                    setInput("");
                 })
             }).catch((error)=>{
+                openNotificationWithIcon("warning","Warning","Ticket purchase time is closed");
                 setSpin(false);
             })
         }
@@ -223,6 +228,7 @@ const Luckydraw = () => {
         const container = document.querySelector(".banner-luckydraw");
         const header = document.querySelector(".top-header");
         container.style.height = `${window.innerHeight - 64}px`;
+
     }, []);
     return (
         <section className='wrap-page'>
@@ -265,7 +271,7 @@ const Luckydraw = () => {
                                         </div>
                                         )}
                                     </Transition>
-                                    <Background setEffect={setEffect} setEffectReward={setEffectReward} wave={wave} setShowResult={setShowResult}  fetch={fetch}>
+                                    <Background setAvoidXoSo={setAvoidXoSo} setEffect={setEffect} setEffectReward={setEffectReward} wave={wave} setShowResult={setShowResult}  fetch={fetch}>
                                     </Background>
                                     <Transition in={effect} timeout={duration}>
                                        {state => (<div className='id-ticket' style={{
