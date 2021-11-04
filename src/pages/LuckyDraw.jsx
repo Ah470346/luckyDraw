@@ -213,7 +213,7 @@ const Luckydraw = () => {
             openNotificationWithIcon('error',"info","Don't have this Wave !")
         } else if(Number(inputWave.value) === wave){
             setHistoryResult({history:null,win:null});
-        } else {
+        } else  {
             getHistory(Number(inputWave.value)).then((res)=>{
                 if(res[0].length !== 0){
                     setMyTickets(res);
