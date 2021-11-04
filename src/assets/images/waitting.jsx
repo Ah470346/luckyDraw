@@ -1,10 +1,11 @@
 import React,{useEffect} from 'react';
 import { useLKaction } from '../../hook/hookLK';
 
-function Waitting({setShowResult,fetch,lastTime}) {
+function Waitting({refresh,setShowResult,fetch,lastTime}) {
     const luckyDrawAction = useLKaction;
     const {getLastTime} = luckyDrawAction();
     useEffect(()=>{
+        refresh();
         const id = setInterval(()=>{
             getLastTime().then((res)=> {
                 if(Number(res.toString())*1000 !== lastTime) {

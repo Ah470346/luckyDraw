@@ -49,7 +49,7 @@ const Luckydraw = () => {
     const {getPriceTicket,getTotalPlayers,getTotalTickets,buyTicket,getMyTicket,getLastTime,getRequireTime,XoSo,getCurrentTime,claimReward,checkReward,getHistory} = luckyDrawAction();
     const {getWave,getReward,getResult} = luckyNFTAction();
     const wallet = useWallet();
-
+    let avoid = false;
 
     const duration = 600;
 
@@ -130,7 +130,7 @@ const Luckydraw = () => {
         if(myTickets.length !== 0) {
             setFinalTicket(getMyTicketList(myTickets));
         }
-    },[historyResult.history,myTickets])
+    },[historyResult.history,myTickets]);
     const getMyTicketList = (myTickets) =>{
         let result = [];
         const list =  myTickets[0].flatMap((i,index)=>(i == wallet.account ? index : []));
@@ -170,7 +170,6 @@ const Luckydraw = () => {
     const renderer = ({ hours, minutes, seconds, completed }) => {
         if (completed) {
             if(totalPlayer != 0 && avoidXoSo === false){
-                console.log("avoid");
                 setShowResult(1);
             } 
             else {
@@ -218,25 +217,29 @@ const Luckydraw = () => {
         const inputWave = document.querySelector("#inputWave");
         if(isNaN(inputWave.value) ||Number(inputWave.value) < 1 || Number(inputWave.value) > wave){
             openNotificationWithIcon('error',"info","Don't have this Wave !")
-        } else if(Number(inputWave.value) === wave){
-            setHistoryResult({history:null,win:null});
+        } else if(inputWave.value === wave){
+          
+            getMyTicket(wave).then(res => {
+                if(res[0].length !== 0){
+                    setMyTickets(res)
+                    setHistoryResult({history:null,win:null});
+                } else {
+                    setMyTickets([]);
+                    setHistoryResult({history:null,win:null});
+                }
+            } );
         } else  {
             getHistory(Number(inputWave.value)).then((res)=>{
                 if(res[0].length !== 0){
                     setMyTickets(res);
                 }
             });
-            getResult(Number(inputWave.value)).then(res=> {setHistoryResult({history:res[4].toString()});console.log(res[4].toString());});
+            getResult(Number(inputWave.value)).then(res=> {setHistoryResult({history:res[4].toString()})});
         }
 
     }
     // Date.now() + (requireTime - (currentTime - lastTime))
-    useEffect(() => {
-        const container = document.querySelector(".banner-luckydraw");
-        const header = document.querySelector(".top-header");
-        container.style.height = `${window.innerHeight - 64}px`;
-
-    }, []);
+  
     return (
         <section className='wrap-page'>
                 <Row gutter={16} className='banner-luckydraw'>
@@ -295,7 +298,7 @@ const Luckydraw = () => {
                                     </Transition>
                                     <p className='end'>The WINNER of this wave</p>
                                 </div>}
-                            { showResult === 2 && <Waiting setShowResult={setShowResult}  fetch={fetch} lastTime={lastTime}></Waiting>}
+                            { showResult === 2 && <Waiting refresh={refresh} setShowResult={setShowResult}  fetch={fetch} lastTime={lastTime}></Waiting>}
                         </div>
                     </Col >
                     <Col style={{paddingRight:"0"}} span={24} xl={{span:6}}  className='wrap-information'>
@@ -378,7 +381,6 @@ const Luckydraw = () => {
                                         </div>
                                         <div className='buy-ticket'>
                                             {!check ? <button onClick={()=>{checkReward(wallet.account).then((res)=> {
-                                                console.log(res);
                                                 if((res.toString()/(10e17)).toFixed(0) > 0){
                                                     setCheck(true);
                                                 } else {
@@ -386,14 +388,20 @@ const Luckydraw = () => {
                                                 }
                                                 });}} >Check</button>:
                                                 <button onClick={()=>{
-                                                    claimReward().then(res => {
-                                                        res.wait().then(res=>{
-                                                            openNotificationWithIcon('success','info',"Claim reward success");
-                                                            balanceOf(wallet.account).then((res)=>setMoney((res.toString()/(10e17)).toFixed(0)));
-                                                            setCheck(false);
+                                                    if(avoid === true){
+                                                        openNotificationWithIcon('warning',"Warning","The system is in process, please wait!");
+                                                    } else {
+                                                        claimReward().then(res => {
+                                                            avoid = true;
+                                                            res.wait().then(res=>{
+                                                                openNotificationWithIcon('success','info',"Claim reward success");
+                                                                balanceOf(wallet.account).then((res)=>setMoney((res.toString()/(10e17)).toFixed(0)));
+                                                                setCheck(false);
+                                                                avoid = false;
+                                                            })
                                                         })
-                                                    })
-                                                }}>Claim</button>
+                                                    }
+                                                }}>Claim</button>                                                    
                                                 }
                                         </div>
                                     </div>
@@ -417,8 +425,7 @@ const Luckydraw = () => {
                     openNotificationWithIcon("warning","Warning","Transition is being processing... !");
                 }
             }}
-            cancelButtonProps ={{ style:{ display: 'none' }} }
-            okButtonProps ={{ style:{ display: 'none' }} }
+            footer={false}
             >
                 <div className='input-number'>
                     <p>Number of tickets:</p>

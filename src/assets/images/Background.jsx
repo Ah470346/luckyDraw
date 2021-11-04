@@ -52,10 +52,10 @@ function Background({refresh,setAvoidXoSo,setEffect,setEffectReward,wave,setShow
             setEffect(true);
             refresh();
             fetch(true,true);
-            setEffectReward(null);
-            setEffect(false);
             setAvoidXoSo(false);
             setTimeout(()=>{
+                setEffectReward(null);
+                setEffect(false);
                 setShowResult(0);
             },5000);
         }
