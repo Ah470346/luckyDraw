@@ -72,14 +72,7 @@ export const useLKaction = () => {
         return await LKContract.returnMapAddressEachId(wave);
     }, [LKContract]);
 
-
-    const setTimeDraw = useCallback(async (count) => {
-        return await LKContract.settimeDraw(count);
-    }, [LKContract]);
- 
-
     return {
-        setTimeDraw,setTimeDraw,
         getHistory:getHistory,
         resetTime:resetTime,
         checkReward:checkReward,
