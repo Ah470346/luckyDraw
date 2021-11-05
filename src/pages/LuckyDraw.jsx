@@ -13,6 +13,7 @@ import useWallet from 'use-wallet';
 import Background from '../assets/images/Background';
 import Waiting from '../assets/images/waitting';
 import { Transition } from 'react-transition-group';
+import {handledErrorAction} from "../utils/handleError";
 
 
 
@@ -210,7 +211,7 @@ const Luckydraw = () => {
                     setInput("");
                 })
             }).catch((error)=>{
-                openNotificationWithIcon("warning","Warning","Ticket purchase time is closed");
+                openNotificationWithIcon("warning","Warning",handledErrorAction(error).message);
                 setSpin(false);
             })
         }
