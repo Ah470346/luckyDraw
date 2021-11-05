@@ -301,6 +301,7 @@ export const BlockResultYourTicket = ({Reload}) => {
     const [rewardMoney,setRewardMoney] = useState(0)
     const [selectedDate, setSelectedDate] = useState(null);
     const [totalPlayerCurrentId, setTotalPlayerCurrentId] = useState(null);
+    const [loadingResult,setLoadingResult] = useState(false)
     const {account} = useWallet();
     const [result,setResult] = useState([])
 
@@ -393,6 +394,7 @@ export const BlockResultYourTicket = ({Reload}) => {
                     lsResult.push(lsTemp)
                 }
                 setResult(lsResult)
+                setLoadingResult(false)
             })
     }
 
@@ -407,6 +409,7 @@ export const BlockResultYourTicket = ({Reload}) => {
     }
     useEffect(()=>{
         if (account) {
+            setLoadingResult(true)
             fetchSelectedDrawResult(selectedDraw)
         }
     },[selectedDraw,account])
@@ -442,7 +445,7 @@ export const BlockResultYourTicket = ({Reload}) => {
                     <div className="light-area-bottom">
 
                         <div className="left row col-12">
-                            <p className={'left col-5'}>Winning Numbers:</p>
+                            <p className={'left col-5'}>Winning Numbers</p>
 
                             <div className="numbers right col-7">
                                 {lastestWinningNumber && lastestWinningNumber.length > 0 && !checkerWinningNumber(lastestWinningNumber)?
@@ -463,13 +466,18 @@ export const BlockResultYourTicket = ({Reload}) => {
                             <div className="numbers right row col-12">
                                 {lastestWinningNumber && selectedDraw <= lastestDraw ?
                                 <>
-                                    {result.length > 0 ?
+                                    {!loadingResult ?
                                     <>
+                                        {result.length > 0 ?
+                                            <>
                                     {result.map((item,index)=>
 
                                     <BoxItemTicket item={item} index={index} winningNumber={lastestWinningNumber} key={index+item}/>)
 
-                                    }
+                                    }</> :
+                                            <div style={{height:50}}></div>
+                                        }
+
                                     </>
                                         :
                                         <Skeleton active />}
@@ -568,7 +576,7 @@ export const ModalBuyTicket = ({visible,hideModal,fetchNewUserTicket,setReload,R
                 <div className={lsTicket.length > 1 ? "col-lg-12 col-md-12" : "col-lg-12 col-md-12"}  key={'boxsingle' + indexTicket}>
                 <div className="single-pick">
                     <div className="body-area">
-                        <ul>
+                        <ul style={{marginBottom:'0px'}}>
                             {lsNumber.map((item, index) =>
                                 <div key={'abc'+index} style={{display:'inline-block'}}>
                                 <li>
@@ -617,7 +625,7 @@ export const ModalBuyTicket = ({visible,hideModal,fetchNewUserTicket,setReload,R
                     setLsTicket([getRandomTicket()])
                     openNotificationWithIcon('success','Success','Transaction Success')
                     hideModal()
-                    setReload(2)
+                    setReload(Reload+1)
                     fetchNewUserTicket()
                 })
                 .catch(error => {
@@ -636,16 +644,13 @@ export const ModalBuyTicket = ({visible,hideModal,fetchNewUserTicket,setReload,R
     }
 
     useEffect(()=>{
-        console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
         buyTicketAction.getTicketPrice()
         .then(res => {
             setPrice(convertBigNumBer(res))
         })
     },[])
     useEffect(() => {
-        console.log("bbbbbbbbbbbbbbbbbbbb")
         if (account) {
-            console.log("cccccccccccccccccc")
             isApprove()
                 .then(setIsApproved);
         }

@@ -195,8 +195,8 @@ const Luckydraw = () => {
             openNotificationWithIcon("error","Error","Please enter the number of tickets!");
         } else if(input == 0) {
             openNotificationWithIcon("error","Error","The number is not correct!");
-        } else if((input + totalTicket)> 9999){
-            openNotificationWithIcon("error","Error","The number is not correct!");
+        } else if((Number(input) + Number(totalTicket)) > 9999){
+            openNotificationWithIcon("error","Error","The number of tickets exceeds the specified number!");
         }
         else {
             setSpin(true);
