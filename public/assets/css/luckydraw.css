@@ -20,7 +20,6 @@
     background: linear-gradient(96.09deg, rgba(255, 255, 255, 0.6) 2.52%, rgba(255, 255, 255, 0.36) 96.27%);
     backdrop-filter: blur(30px);
     -webkit-backdrop-filter: blur(30px);
-    /* Note: backdrop-filter has minimal browser support */
 
     border-radius: 35px;
 }
@@ -38,7 +37,6 @@
     font-weight: bold;
     font-size: 18px;
     line-height: 25px;
-    /* identical to box height */
 
     text-align: center;
     letter-spacing: 0.04em;
@@ -74,8 +72,7 @@
     width: 100%;
     height: 10%;
     background: rgba(255, 255, 255, 0.45);
-    backdrop-filter: blur(4px);
-    /* Note: backdrop-filter has minimal browser support */
+    /* backdrop-filter: blur(4px); */
 
     border-radius: 35px 35px 0px 0px;
 }
@@ -143,6 +140,7 @@
     -webkit-text-fill-color: transparent; 
 
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.4));
+    -webkit-filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.4));
 }
 
 
@@ -205,20 +203,19 @@
 
     color: #FFFFFF;
 
-    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.4);
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.4); 
 
 }
 
 .wrap-page .banner-luckydraw .waiting .waiting-content p {
     margin: 0;
 }
-.wrap-page .banner-luckydraw .waiting .waiting-content .reward{
+ .wrap-page .banner-luckydraw .waiting .waiting-content .reward{
     font-family: Montserrat;
     font-style: normal;
     font-weight: 800;
     font-size: 95px;
     line-height: 105px;
-    /* identical to box height */
 
     text-align: center;
     letter-spacing: 0.15em;
@@ -228,7 +225,7 @@
     -webkit-text-fill-color: transparent; 
 
     filter: drop-shadow(7px 7px 2px #FFFFFF);
-}
+} 
 
 .wrap-page .banner-luckydraw .waiting .waiting-content small{
     font-size: 52px;
@@ -242,7 +239,6 @@
     font-weight: 600;
     font-size: 30px;
     line-height: 35px;
-    /* identical to box height */
 
     text-align: center;
     letter-spacing: 0.05em;
@@ -266,7 +262,6 @@
     font-weight: bold;
     font-size: 30px;
     line-height: 37px;
-    /* identical to box height */
 
     text-align: center;
     letter-spacing: 0.04em;
@@ -300,9 +295,8 @@
     width: 100%;
     height: 100%;
     background: linear-gradient(96.09deg, rgba(255, 255, 255, 0.6) 2.52%, rgba(255, 255, 255, 0.36) 96.27%);
-    backdrop-filter: blur(30px);
-    -webkit-backdrop-filter: blur(30px);
-    /* Note: backdrop-filter has minimal browser support */
+    /* backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px); */
 
     border-radius: 35px;
     text-align: center;
@@ -329,9 +323,8 @@
     justify-content: center;
     align-items: center;
     background: linear-gradient(96.09deg, rgba(255, 255, 255, 0.6) 2.52%, rgba(255, 255, 255, 0.36) 96.27%);
-    -webkit-backdrop-filter: blur(30px);
-    backdrop-filter: blur(30px);
-    /* Note: backdrop-filter has minimal browser support */
+    /* -webkit-backdrop-filter: blur(30px);
+    backdrop-filter: blur(30px); */
 
     border-radius: 35px;  
     text-align: center;
@@ -340,9 +333,8 @@
 
 .wrap-page .wrap-information .my-ticket {
     background: linear-gradient(96.09deg, rgba(255, 255, 255, 0.6) 2.52%, rgba(255, 255, 255, 0.36) 96.27%);
-    -webkit-backdrop-filter: blur(30px);
-    backdrop-filter: blur(30px);
-    /* Note: backdrop-filter has minimal browser support */
+    /* -webkit-backdrop-filter: blur(30px);
+    backdrop-filter: blur(30px); */
 
     border-radius: 35px;
     height: 100%;
@@ -357,8 +349,7 @@
     align-items: center;
     width: 100%;
     background: rgba(255, 255, 255, 0.45);
-    backdrop-filter: blur(4px);
-    /* Note: backdrop-filter has minimal browser support */
+    /* backdrop-filter: blur(4px); */
 
     border-radius: 35px 35px 0px 0px;
 }
@@ -1168,11 +1159,11 @@
     }
 
     .modal-lucky {
-        width: 100% !important;
+        width: 90% !important;
     }
 
     .ant-modal {
-        max-width: 98% !important;
+        max-width: 88% !important;
         margin: 8px auto;
     }
 

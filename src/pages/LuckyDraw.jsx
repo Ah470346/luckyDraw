@@ -101,10 +101,10 @@ const Luckydraw = () => {
                 getResult(Number(res.toString())-1).then(res=> {setFinalResult(res[4].toString().padStart(4,"0"))});
             });
         }
-        getReward().then((res)=>{setReward((res.toString()/(10e17)).toFixed(0))});
+        getReward().then((res)=>{setReward((res.toString()/(10e17)).toFixed(2))});
         getTotalPlayers().then(res=> {setTotalPlayer(res.toString());});
         getTotalTickets().then(res=> setTotalTicket(res.toString()));
-        getPriceTicket().then((res)=> setPrice((res.toString()/(10e17)).toFixed(0)));
+        getPriceTicket().then((res)=> setPrice((res.toString()/(10e17)).toFixed(2)));
         if(check2 === true){
             setDate(Date.now());
             getLastTime().then(res=>{setLastTime(Number(res.toString()) *1000);});
@@ -114,7 +114,7 @@ const Luckydraw = () => {
 
         getResult(39).then(res=> {setFinalResult(res[4].toString().padStart(4,"0"))});
     }
-    useEffect(async ()=>{
+    useEffect(()=>{
         fetch(true,false);
     },[wallet.account]);
     useEffect(()=>{
@@ -249,7 +249,7 @@ const Luckydraw = () => {
                                     <div className='left'>
                                         <div className='txt wrap-wave mr-5'>Wave: <span >{wave !== null && wave.padStart(2,'0')}</span></div>
                                         <div className='txt wrap-time'>Time: { showResult === 0 && lastTime && requireTime && currentTime && date && <Countdown renderer={renderer} 
-                                            date={date + (requireTime - (currentTime - lastTime)) - 5000}></Countdown>}
+                                            date={date + (requireTime - (currentTime - lastTime)) - 20000}></Countdown>}
                                             {showResult !== 0 && <span>00:00:00</span>}
                                         </div>
                                     </div>
@@ -320,12 +320,6 @@ const Luckydraw = () => {
                                     <div className='header'>
                                         <p className='txt'>My Tickets:</p>
                                         <div className='history'>
-                                            {/* <Reload onClick={()=>{
-                                                 const inputWave = document.querySelector("#inputWave");
-                                                setHistoryResult(null);
-                                                getMyTicket(wave).then(res => {setMyTickets(res)} );
-                                                inputWave.value = "";
-                                                }} className='reload'></Reload> */}
                                             <input id="inputWave" type="text" defaultValue={wave && wave}/>
                                             <More onClick={onNextWave} className='next'></More>
                                         </div>
@@ -431,7 +425,7 @@ const Luckydraw = () => {
                     <p>Number of tickets:</p>
                     <input onChange={(event)=> 
                       {  
-                        if(event.target.value < 100000 ){
+                        if(event.target.value < 10000 ){
                             setInput(event.target.value)
                         }   
                     }

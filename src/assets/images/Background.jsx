@@ -57,7 +57,7 @@ function Background({refresh,setAvoidXoSo,setEffect,setEffectReward,wave,setShow
                 setEffectReward(null);
                 setEffect(false);
                 setShowResult(0);
-            },5000);
+            },20000);
         }
         return ()=>{clearInterval(id)}
     },[result]);
