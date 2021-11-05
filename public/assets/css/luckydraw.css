@@ -491,6 +491,11 @@
 
 }
 
+.wrap-page .wrap-information .my-ticket .content .claim{
+    background: linear-gradient(180deg, #3089fd 0%, #066bca 100%);
+
+}
+
 .wrap-page  .wrap-information .wrap-myTicket{
     height: 68%;
     margin-right: 0;
@@ -1419,5 +1424,15 @@
 .modal-lucky .ant-spin-nested-loading .ant-spin-container {
     width: 100%;
     height: 100%;
+    border-radius: 20px;
+}
+
+.buy-ticket .ant-spin-container {
+    width: 100%;
+    border-radius: 20px;
+}
+
+.buy-ticket .ant-spin-nested-loading {
+    width: 100%;
     border-radius: 20px;
 }

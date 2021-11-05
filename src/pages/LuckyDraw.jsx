@@ -26,6 +26,8 @@ const Luckydraw = () => {
     const [price,setPrice] = useState(null);
     const [input,setInput] = useState(null);
     const [spin,setSpin] = useState(false);
+    const [spinClaim,setSpinClaim] = useState(false);
+    const [claim,setClaim] = useState(null);
     const [isApprove,setIsApprove] = useState(false);
     const [reward,setReward] = useState(null);
     const [check,setCheck] = useState(false);
@@ -376,14 +378,19 @@ const Luckydraw = () => {
                                         <div className='buy-ticket'>
                                             {!check ? <button onClick={()=>{checkReward(wallet.account).then((res)=> {
                                                 if((res.toString()/(10e17)).toFixed(0) > 0){
+                                                    setClaim((res.toString()/(10e17)).toFixed(2));
                                                     setCheck(true);
                                                 } else {
                                                     openNotificationWithIcon('error','info',"you didn't win");
                                                 }
                                                 });}} >Check</button>:
-                                                <button onClick={()=>{
+                                                <Spin spinning={spinClaim}>
+                                                <button className='claim' onClick={()=>{
+                                                    setSpinClaim(true);
                                                     if(avoid === true){
                                                         openNotificationWithIcon('warning',"Warning","The system is in process, please wait!");
+                                                        setSpinClaim(false);
+                                                        
                                                     } else {
                                                         claimReward().then(res => {
                                                             avoid = true;
@@ -391,11 +398,14 @@ const Luckydraw = () => {
                                                                 openNotificationWithIcon('success','info',"Claim reward success");
                                                                 balanceOf(wallet.account).then((res)=>setMoney((res.toString()/(10e17)).toFixed(0)));
                                                                 setCheck(false);
+                                                                setSpinClaim(true);
                                                                 avoid = false;
                                                             })
+                                                        }).catch((err)=>{
+                                                            setSpinClaim(false);
                                                         })
                                                     }
-                                                }}>Claim</button>                                                    
+                                                }}>Claim {claim && claim}$</button> </Spin>                                                 
                                                 }
                                         </div>
                                     </div>
