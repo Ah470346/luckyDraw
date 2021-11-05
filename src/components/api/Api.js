@@ -20,7 +20,7 @@ export const convertBigNumBer = (value) => {
     return parseFloat(ethers.utils.formatUnits(value, "ether").toString()).toFixed(2)
 }
 
-export const LoadingFC = <img src={"/assets/img/loading.gif"} alt={'loading'} style={{fontSize:200}}/>
+export const LoadingFC = ()=> <img src={"/assets/img/loading.svg"} alt={'loading'} style={{fontSize:200}}/>
 
 
 

@@ -3,7 +3,7 @@ import 'react-notifications/lib/notifications.css';
 import {withRouter} from 'react-router';
 import {useWallet} from "use-wallet";
 import {useBuyTicketAction} from "../hook/hookBuyTicket";
-import {convertBigNumBer, openNotificationWithIcon} from "../components/api/Api";
+import {convertBigNumBer, LoadingFC, openNotificationWithIcon} from "../components/api/Api";
 import Countdown from "react-countdown";
 import {useNFTaction} from "../hook/hookNFT";
 import {BlockCurrentDetail, BlockResult, BlockResultYourTicket, ModalBuyTicket} from "../components/Component";
@@ -11,6 +11,7 @@ import {useERC20Action} from "../hook/hookErc20";
 import {useDispatch, useSelector} from "react-redux";
 import {changeMoney} from "../redux/reloadMoney";
 import {changeSumReward} from "../redux/reloadSumReward";
+import {Spin} from "antd";
 
 const renderer = ({ hours, minutes, seconds, completed }) => {
   if (completed) {
@@ -232,9 +233,10 @@ const Home = () => {
             .then(res=>{
             console.log(res.toString())
             const currentTime = new Date(res.toString()*1000);
-                console.log(currentTime)
+            console.log(currentTime)
             const timeCheck = new Date(res.toString()*1000);
             const nextDate = new Date(new Date(res.toString()*1000).setDate(currentTime.getDate()+1))
+            const timeDiff = new Date - currentTime
             buyTicketAction.getTimeDraw()
                 .then(res=>{
                     console.log(res[0].toString())
@@ -246,19 +248,20 @@ const Home = () => {
                     console.log(time2)
                     if (currentTime > time2) {
                         console.log("time 2")
-                        setNextDraw(nextDate.setHours(res[0].toString(),0,0))
+                        setNextDraw(nextDate.setHours(res[0].toString(),0,0)+timeDiff)
                         console.log(nextDate.setHours(res[0].toString()-1,59,0))
-                        setNextDrawPre(nextDate.setHours(res[0].toString()-1,59,0))
+                        setNextDrawPre(nextDate.setHours(res[0].toString()-1,59,0)+timeDiff)
                     }
                     else if (currentTime > time1)
                     {
-                        setNextDraw(currentTime.setHours(res[1].toString(),0,0))
-                        setNextDrawPre(currentTime.setHours(res[1].toString()-1,59,0))
+
+                        setNextDraw(currentTime.setHours(res[1].toString(),0,0)+timeDiff)
+                        setNextDrawPre(currentTime.setHours(res[1].toString()-1,59,0)+timeDiff)
                     }
                     else {
                         console.log("ok")
-                        setNextDraw(currentTime.setHours(res[0].toString(),0,0))
-                        setNextDrawPre(currentTime.setHours(res[0].toString()-1,59,0))
+                        setNextDraw(currentTime.setHours(res[0].toString(),0,0)+timeDiff)
+                        setNextDrawPre(currentTime.setHours(res[0].toString()-1,59,0)+timeDiff)
                     }
                      setResetCountdown(false)
                 })
@@ -457,7 +460,7 @@ const Home = () => {
                     <div className="content">
                         <div className="section-header">
                             <button onClick={()=>DrawnLoto()}>Xổ số</button>
-                            {/*<button onClick={()=>buyTicketAction.setTimeDraw([16,17])}>Change Time</button>*/}
+                            <button onClick={()=>buyTicketAction.setTimeDraw([16,17])}>Change Time</button>
                             <h2 className="title">
                                 Latest Lottery results
                             </h2>
@@ -489,7 +492,7 @@ const Home = () => {
                     <div className="result-box">
                         <h4 className="box-header">CHECK YOUR TICKET</h4>
                         <div className="result-list">
-                            {!!isReload ? <BlockResultYourTicket/> : <BlockResultYourTicket/>}
+                            <BlockResultYourTicket Reload={isReload}/>
                         </div>
                     </div>
                 </div>
@@ -500,7 +503,8 @@ const Home = () => {
 
     </section>
             <ModalBuyTicket visible={isShowModalBuyTicket} hideModal={()=>setIsShowModalBuyTicket(false)} Reload={isReload} setReload={setIsReload} fetchNewUserTicket={()=>fetchNewUserTicket()}/>
-    </>
+
+            </>
     );
 };
 

@@ -195,7 +195,7 @@ const Luckydraw = () => {
             openNotificationWithIcon("error","Error","Please enter the number of tickets!");
         } else if(input == 0) {
             openNotificationWithIcon("error","Error","The number is not correct!");
-        } else if(input > 9999){
+        } else if((input + totalTicket)> 9999){
             openNotificationWithIcon("error","Error","The number is not correct!");
         }
         else {
@@ -405,7 +405,7 @@ const Luckydraw = () => {
                                                             setSpinClaim(false);
                                                         })
                                                     }
-                                                }}>Claim {claim && claim}$</button> </Spin>                                                 
+                                                }}>Claim {claim && claim.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}$</button> </Spin>
                                                 }
                                         </div>
                                     </div>

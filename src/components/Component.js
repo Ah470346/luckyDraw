@@ -292,7 +292,7 @@ export const BlockResult = () => {
 }
 
 
-export const BlockResultYourTicket = () => {
+export const BlockResultYourTicket = ({Reload}) => {
     const nftAction = useNFTaction();
     const buyTicketAction = useBuyTicketAction();
     const [selectedDraw, setSelectedDraw] = useState(null);
@@ -303,7 +303,6 @@ export const BlockResultYourTicket = () => {
     const [totalPlayerCurrentId, setTotalPlayerCurrentId] = useState(null);
     const {account} = useWallet();
     const [result,setResult] = useState([])
-
 
     useEffect(()=>{
         if (account) {
@@ -316,7 +315,7 @@ export const BlockResultYourTicket = () => {
                 }
             })
         }
-    },[account])
+    },[account,Reload])
 
     useEffect(()=>{
         if (account) {
@@ -333,7 +332,7 @@ export const BlockResultYourTicket = () => {
                     setResult(lsResult)
                 })
         }
-    },[selectedDraw,account])
+    },[selectedDraw,account,Reload])
 
     const BoxItemTicket = ({item,index,winningNumber})=>{
             const checkWinTicket = (item,winningNumber) => {
@@ -618,7 +617,7 @@ export const ModalBuyTicket = ({visible,hideModal,fetchNewUserTicket,setReload,R
                     setLsTicket([getRandomTicket()])
                     openNotificationWithIcon('success','Success','Transaction Success')
                     hideModal()
-                    setReload(!!Reload)
+                    setReload(2)
                     fetchNewUserTicket()
                 })
                 .catch(error => {
