@@ -24,6 +24,7 @@ const Luckydraw = () => {
     const [visible,setVisible] = useState(false);
     const [showResult,setShowResult] = useState(0);
     const [wave,setWave] = useState(null);
+    const [refreshWave,setRefreshWave] = useState(false);
     const [price,setPrice] = useState(null);
     const [input,setInput] = useState(null);
     const [spin,setSpin] = useState(false);
@@ -91,7 +92,6 @@ const Luckydraw = () => {
         setRequireTime(null);
         setCurrentTime(null);
     }
-
     const fetch = (check,check2) => {
         if(check=== true){
             getWave().then((res)=>{
@@ -121,6 +121,7 @@ const Luckydraw = () => {
         getResult(39).then(res=> {setFinalResult(res[4].toString().padStart(4,"0"))});
         setLastWave(null);
         setSyncWave(null);
+        setRefreshWave(!refreshWave);
     }
     useEffect(()=>{
         fetch(true,false);
@@ -142,7 +143,7 @@ const Luckydraw = () => {
     const getMyTicketList = (myTickets) =>{
         let result = [];
         const list =  myTickets[0].flatMap((i,index)=>(i == wallet.account ? index : []));
-        if(list.length !== 0  && syncWave !== lastWave){
+        if((list.length !== 0  && syncWave !== lastWave || (syncWave === null && lastWave === null))){
             const first = myTickets[1].flatMap((i,index)=>{
                 for(let j of list){
                     if(j === index){
@@ -346,7 +347,7 @@ const Luckydraw = () => {
                                 <div className='my-ticket'>
                                     <div className='header'>
                                         <p className='txt'>My Tickets:</p>
-                                        <div className='history'>
+                                        <div key={refreshWave} className='history'>
                                             <input id="inputWave" type="text" defaultValue={wave && wave}/>
                                             <More onClick={onNextWave} className='next'></More>
                                         </div>
