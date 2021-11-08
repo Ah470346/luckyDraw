@@ -450,9 +450,9 @@ export const BlockResultYourTicket = ({Reload}) => {
                     <div className="light-area-bottom">
 
                         <div className="left row col-12">
-                            <p className={'left col-5'}>Winning Numbers</p>
+                            <p className={'left col-5 col-sm-12'}>Winning Numbers</p>
 
-                            <div className="numbers right col-7">
+                            <div className="numbers right col-7 col-sm-12">
                                 {lastestWinningNumber && lastestWinningNumber.length > 0 && !checkerWinningNumber(lastestWinningNumber)?
                                      <>
                                     {lastestWinningNumber.map((item, index) =>
