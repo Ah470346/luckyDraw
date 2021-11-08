@@ -12,6 +12,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {changeMoney} from "../redux/reloadMoney";
 import {changeSumReward} from "../redux/reloadSumReward";
 import {Spin} from "antd";
+import {handledErrorAction} from "../utils/handleError";
 
 const renderer = ({ hours, minutes, seconds, completed }) => {
   if (completed) {
@@ -298,6 +299,14 @@ const Home = () => {
                     setLoadingClaim(false)
                     fetchNewUserTicket()
                 })
+                    .catch(error => {
+                        setLoadingClaim(false)
+                        openNotificationWithIcon('error','Error',error)
+                    })
+            })
+            .catch(error => {
+                setLoadingClaim(false)
+                openNotificationWithIcon('error','Error',handledErrorAction(error).message)
             })
     }
     const fetchNewUserTicket = () => {
@@ -451,7 +460,7 @@ const Home = () => {
                 <div className="col-lg-9">
                     <div className="content">
                         <div className="section-header">
-                            {/*<button onClick={()=>DrawnLoto()}>Xổ số</button>*/}
+                            <button onClick={()=>DrawnLoto()}>Xổ số</button>
                             {/*<button onClick={()=>buyTicketAction.setTimeDraw([16,17])}>Change Time</button>*/}
                             <h2 className="title">
                                 Latest Lottery results
@@ -464,7 +473,7 @@ const Home = () => {
                             <Spin spinning={loadingClaim}>
                             <button className={'btn-top custom-button1'} style={{width:'100%',paddingTop:'10px',paddingBottom:'10px',fontSize:'25px'}}
                                     onClick={yourReward ? ()=>onClaimReward() : ()=>onCheckNow()}>
-                                {yourReward ? <h1>You had win {yourReward} $, Claim Now</h1> :"Check Now"}
+                                {yourReward ? <span>You had win {yourReward} $, Claim Now</span> :"Check Now"}
                             </button>
                             </Spin>
                         </div>
