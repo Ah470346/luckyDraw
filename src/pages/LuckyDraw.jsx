@@ -1,6 +1,5 @@
 import React,{useState,useEffect} from 'react';
 import Countdown from 'react-countdown';
-import {ReactComponent as More} from '../assets/images/More.svg';
 import {ReactComponent as Empty} from '../assets/images/EmptyTicket.svg';
 import { Row, Col,Modal,Spin } from 'antd';
 import { useLKaction } from '../hook/hookLK';
@@ -14,6 +13,7 @@ import Background from '../assets/images/Background';
 import Waiting from '../assets/images/waitting';
 import { Transition } from 'react-transition-group';
 import {handledErrorAction} from "../utils/handleError";
+import Search from '../assets/images/search.png'
 
 
 
@@ -353,7 +353,8 @@ const Luckydraw = () => {
                                         <p className='txt'>My Tickets:</p>
                                         <div key={refreshWave} className='history'>
                                             <input id="inputWave" type="text" defaultValue={wave && wave}/>
-                                            <More onClick={onNextWave} className='next'></More>
+                                            <img onClick={onNextWave} className='next' src={Search} alt="#" />
+                                            {/* <More onClick={onNextWave} className='next'></More> */}
                                         </div>
                                         <span className='mt-0'>{myTickets.length ===0 ? "00" : finalTicket.length.toString().padStart(2,"0")}</span>
                                     </div>
