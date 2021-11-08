@@ -1438,22 +1438,22 @@
     border-radius: 20px;
 }
 
-.my-ticket .ant-spin-nested-loading {
+.list-ticket .ant-spin-nested-loading {
     height: 100%;
     width: 100%;
 }
 
-.my-ticket .ant-spin-nested-loading .ant-spin-container {
+.list-ticket .ant-spin-nested-loading .ant-spin-container {
     width: 100%;
     height: 100%;
 }
 
-.my-ticket .ant-spin-container {
+.list-ticket .ant-spin-container {
     height: 100%;
     width: 100%;
 }
 
-.my-ticket .ant-spin-nested-loading {
+.list-ticket .ant-spin-nested-loading {
     height: 100%;
     width: 100%;
 }
