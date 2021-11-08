@@ -96,6 +96,7 @@ const Luckydraw = () => {
         if(check=== true){
             getWave().then((res)=>{
                 setWave(res.toString());
+                setRefreshWave(!refreshWave);
                 if(wallet.account){
                     getMyTicket(res.toString()).then(res => {
                         if(res[0].length !== 0){
@@ -121,7 +122,6 @@ const Luckydraw = () => {
         getResult(39).then(res=> {setFinalResult(res[4].toString().padStart(4,"0"))});
         setLastWave(null);
         setSyncWave(null);
-        setRefreshWave(!refreshWave);
     }
     useEffect(()=>{
         fetch(true,false);
@@ -205,7 +205,10 @@ const Luckydraw = () => {
     const approveFC = () =>{
         setSpin(true);
         approveLK().then(res=>{
-            res.wait().then(res=> {setIsApprove(res);setSpin(false)});
+            res.wait().then(res=> {
+                setIsApprove(res);setSpin(false);
+                openNotificationWithIcon("success","Info","Approve success!");
+            });
         }).catch(err => {openNotificationWithIcon("warning","Warning",handledErrorAction(err).message);setSpin(false)});
     }
     const buyTickets = (input) =>{
@@ -226,6 +229,7 @@ const Luckydraw = () => {
                     fetch(true,false);
                     setSpin(false);
                     setInput("");
+                    openNotificationWithIcon("success","Info","Buy tickets success!");
                 })
             }).catch((error)=>{
                 openNotificationWithIcon("warning","Warning",handledErrorAction(error).message);
