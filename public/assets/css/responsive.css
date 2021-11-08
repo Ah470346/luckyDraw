@@ -283,7 +283,7 @@
     .header-wrapper .menu {
         display: none;
         position: fixed;
-        background-color: rgb(108, 0, 146);
+        background-color: rgb(0 0 0 / 85%);;
         width: 100%;
         max-width: 500px;
         top: 0px;
@@ -354,7 +354,7 @@
     .header-section {
         -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-        background-color: rgb(108, 0, 146);
+        /*background-color: rgb(108, 0, 146);*/
         border: none;
         padding: 10px 0px;
     }

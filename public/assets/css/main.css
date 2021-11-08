@@ -1550,7 +1550,7 @@ input[type=submit] {
 
 .header-section {
   background: #2F80ED;
-  display: none;
+  /*display: none;*/
 }
 .header-section.header-active {
   position: fixed;

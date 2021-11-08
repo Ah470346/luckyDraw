@@ -104,7 +104,7 @@ export const Header = () => {
                                 <a href="/" className="logo">
                                     <img src="assets/images/logo.png" alt=""/> <span>BILLY</span>
                                 </a>
-                                <div className="left-area">
+                                <div className="left-area d-none d-lg-block">
                                     <Link to={'/'} className="active custom-button1 btn-top mr-3">Powerball</Link>
                                     <Link to={'/luckydraw'} className="active custom-button1 btn-top">Lucky Draw</Link>
                                 </div>
@@ -141,7 +141,7 @@ export const Header = () => {
                     </div>
                 </div>
             </div>
-            <div className="header-section">
+            <div className="header-section d-block d-lg-none">
                 <div className="container">
                     <div className="header-wrapper">
                         <ul className="menu">
@@ -151,6 +151,7 @@ export const Header = () => {
                             <li>
                                 <Link to={'/luckydraw'}>Lucky Draw</Link>
                             </li>
+
                             {/*<li>*/}
                             {/*    <a href="single-lottery.html" className="active">Lottery</a>*/}
                             {/*</li>*/}
@@ -178,16 +179,17 @@ export const Header = () => {
                             {/*    <a href="contact.html">Contact</a>*/}
                             {/*</li>*/}
                         </ul>
+
                         <div className="right-tools">
                             {/*<select className="select-bar">*/}
                             {/*    <option value="">BTC</option>*/}
                             {/*    <option value="">BDT</option>*/}
                             {/*    <option value="">USD</option>*/}
                             {/*</select>*/}
-                            <select className="select-bar">
-                                <option value="">EN</option>
-                                <option value="">VN</option>
-                            </select>
+                            {/*<select className="select-bar">*/}
+                            {/*    <option value="">EN</option>*/}
+                            {/*    <option value="">VN</option>*/}
+                            {/*</select>*/}
                         </div>
                         <div className="header-bar d-lg-none">
                             <span></span>
