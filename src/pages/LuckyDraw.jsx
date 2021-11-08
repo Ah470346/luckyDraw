@@ -31,7 +31,8 @@ const Luckydraw = () => {
     const [spinWave,setSpinWave] = useState(false);
     const [claim,setClaim] = useState(null);
     const [lastWave,setLastWave] = useState(null);
-    const [lastMyTickets,setLastMyTickets] = useState([]);
+    // check giữa last wave và sync wave để đồng bộ quá trình search wave
+    const [syncWave,setSyncWave] = useState(null);
     const [isApprove,setIsApprove] = useState(false);
     const [reward,setReward] = useState(null);
     const [check,setCheck] = useState(false);
@@ -119,7 +120,7 @@ const Luckydraw = () => {
         }
         getResult(39).then(res=> {setFinalResult(res[4].toString().padStart(4,"0"))});
         setLastWave(null);
-        setLastMyTickets([]);
+        setSyncWave(null);
     }
     useEffect(()=>{
         fetch(true,false);
@@ -137,12 +138,11 @@ const Luckydraw = () => {
         if(myTickets.length !== 0) {
             setFinalTicket(getMyTicketList(myTickets));
         }
-    },[historyResult.history,myTickets]);
+    },[historyResult.history,myTickets,lastWave]);
     const getMyTicketList = (myTickets) =>{
         let result = [];
         const list =  myTickets[0].flatMap((i,index)=>(i == wallet.account ? index : []));
-        console.log(myTickets[0],lastMyTickets[0],JSON.stringify(myTickets[0]) !== JSON.stringify(lastMyTickets[0]));
-        if(list.length !== 0 && JSON.stringify(myTickets[0]) !== JSON.stringify(lastMyTickets[0])){
+        if(list.length !== 0  && syncWave !== lastWave){
             const first = myTickets[1].flatMap((i,index)=>{
                 for(let j of list){
                     if(j === index){
@@ -174,11 +174,11 @@ const Luckydraw = () => {
                 }
             }
             let final = [...new Set(result)];
-            setLastMyTickets(myTickets);
+            setSyncWave(lastWave);
             setSpinWave(false);
             return  final;
-        } else if(JSON.stringify(myTickets[0]) !== JSON.stringify(lastMyTickets[0])){
-            setLastMyTickets(myTickets);
+        } else if(syncWave !== lastWave){
+            setSyncWave(lastWave);
             setSpinWave(false);
             return [];
         } else {
@@ -247,7 +247,7 @@ const Luckydraw = () => {
                     setHistoryResult({history:null,win:null});
                     setSpinWave(false);
                 }
-                setLastWave(wave);
+                setLastWave(Number(inputWave.value));
             } );
         } else if(Number(inputWave.value) !== lastWave) {
             setSpinWave(true);
@@ -256,13 +256,12 @@ const Luckydraw = () => {
                 getHistory(Number(inputWave.value)).then((res)=>{
                     if(res[0].length !== 0){
                         setMyTickets(res);
-                        console.log(res);
                     } else {
                         setSpinWave(false);
                     }
+                    setLastWave(Number(inputWave.value));
                 });
-            });
-            setLastWave(Number(inputWave.value));
+            });   
         }
 
     }
