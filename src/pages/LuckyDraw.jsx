@@ -31,6 +31,7 @@ const Luckydraw = () => {
     const [spinWave,setSpinWave] = useState(false);
     const [claim,setClaim] = useState(null);
     const [lastWave,setLastWave] = useState(null);
+    const [lastMyTickets,setLastMyTickets] = useState([]);
     const [isApprove,setIsApprove] = useState(false);
     const [reward,setReward] = useState(null);
     const [check,setCheck] = useState(false);
@@ -118,6 +119,7 @@ const Luckydraw = () => {
         }
         getResult(39).then(res=> {setFinalResult(res[4].toString().padStart(4,"0"))});
         setLastWave(null);
+        setLastMyTickets([]);
     }
     useEffect(()=>{
         fetch(true,false);
@@ -139,39 +141,50 @@ const Luckydraw = () => {
     const getMyTicketList = (myTickets) =>{
         let result = [];
         const list =  myTickets[0].flatMap((i,index)=>(i == wallet.account ? index : []));
-        const first = myTickets[1].flatMap((i,index)=>{
-            for(let j of list){
-                if(j === index){
-                    return i.toString();
+        console.log(myTickets[0],lastMyTickets[0],JSON.stringify(myTickets[0]) !== JSON.stringify(lastMyTickets[0]));
+        if(list.length !== 0 && JSON.stringify(myTickets[0]) !== JSON.stringify(lastMyTickets[0])){
+            const first = myTickets[1].flatMap((i,index)=>{
+                for(let j of list){
+                    if(j === index){
+                        return i.toString();
+                    }
+                }
+                return [];
+            })
+            const last = myTickets[2].flatMap((i,index)=>{
+                for(let j of list){
+                    if(j === index){
+                        return i.toString();
+                    }
+                }
+                return [];
+            })
+            for(let i = 0 ; i < first.length ; i++){
+                for(let j = Number(first[i]) ; j <= Number(last[i]); j++){
+                    result.push(j);
                 }
             }
+            if(historyResult.history !== null){
+                for(let i of result){
+                    if(i == historyResult.history){
+                        setHistoryResult({win:true,...historyResult});
+                        result = [i,...result];
+                        break;
+                    }
+                }
+            }
+            let final = [...new Set(result)];
+            setLastMyTickets(myTickets);
+            setSpinWave(false);
+            return  final;
+        } else if(JSON.stringify(myTickets[0]) !== JSON.stringify(lastMyTickets[0])){
+            setLastMyTickets(myTickets);
+            setSpinWave(false);
             return [];
-        })
-        const last = myTickets[2].flatMap((i,index)=>{
-            for(let j of list){
-                if(j === index){
-                    return i.toString();
-                }
-            }
+        } else {
             return [];
-        })
-        for(let i = 0 ; i < first.length ; i++){
-            for(let j = Number(first[i]) ; j <= Number(last[i]); j++){
-                result.push(j);
-            }
         }
-        if(historyResult.history !== null){
-            for(let i of result){
-                if(i == historyResult.history){
-                    setHistoryResult({win:true,...historyResult});
-                    result = [i,...result];
-                    break;
-                }
-            }
-        }
-        let final = [...new Set(result)];
-        setSpinWave(false);
-        return  final;
+        
     }
     const renderer = ({ hours, minutes, seconds, completed }) => {
         if (completed) {
@@ -227,7 +240,7 @@ const Luckydraw = () => {
             setSpinWave(true);
             getMyTicket(wave).then(res => {
                 if(res[0].length !== 0){
-                    setMyTickets(res)
+                    setMyTickets(res);
                     setHistoryResult({history:null,win:null});
                 } else {
                     setMyTickets([]);
@@ -238,14 +251,17 @@ const Luckydraw = () => {
             } );
         } else if(Number(inputWave.value) !== lastWave) {
             setSpinWave(true);
-            getHistory(Number(inputWave.value)).then((res)=>{
-                if(res[0].length !== 0){
-                    setMyTickets(res);
-                } else {
-                    setSpinWave(false);
-                }
+            getResult(Number(inputWave.value)).then(res=> {
+                setHistoryResult({history:res[4].toString()});
+                getHistory(Number(inputWave.value)).then((res)=>{
+                    if(res[0].length !== 0){
+                        setMyTickets(res);
+                        console.log(res);
+                    } else {
+                        setSpinWave(false);
+                    }
+                });
             });
-            getResult(Number(inputWave.value)).then(res=> {setHistoryResult({history:res[4].toString()})});
             setLastWave(Number(inputWave.value));
         }
 
