@@ -210,14 +210,12 @@ export const BlockResult = () => {
     }
 
     const onInputRoundChange = (e) => {
-        if (e.charCode >= 48 && e.charCode <= 57) {
-        if (0 < parseInt(e.key) && parseInt(e.key) <= parseInt(lastestDraw)) {
-            setCurrentDraw(e.key)
-            fetchSelectedDrawResult(e.key)
+        if (isNaN(e.target.value) === false) {
+            if (e.nativeEvent.inputType === "deleteContentBackward" || parseInt(e.target.value) <= parseInt(lastestDraw)) {
+                setCurrentDraw(e.target.value)
+            }
         }
     }
-    }
-
 
 
     useEffect(()=>{
@@ -232,8 +230,8 @@ export const BlockResult = () => {
                     <div className="light-area-top">
                         <div className="left">
                             <img src="assets/images/d1.png" alt=""/>
-                                <h4>Round <input pattern="[0-9]{1}" inputMode="numeric" onChange={(e)=>console.log(e.target.value)} id="round-id" name="round-id"
-                                                 scale="lg" className="input-number-inner" autoComplete={'off'} value={currentDraw|| 0} onKeyPress={(e)=>onInputRoundChange(e)}/></h4>
+                                <h4>Round <input inputMode="numeric" onChange={(e)=>onInputRoundChange(e)} id="round-id" name="round-id"
+                                                 scale="lg" className="input-number-inner" autoComplete={'off'} value={currentDraw} /></h4>
                         </div>
                         <div className="right">
                             {currentDraw > 1 ?
@@ -398,14 +396,21 @@ export const BlockResultYourTicket = ({Reload}) => {
             })
     }
 
-    const onInputRoundChange = (e) => {
-        if (e.charCode >= 48 && e.charCode <= 57) {
-        if (0 < parseInt(e.key) && parseInt(e.key) <= parseInt(lastestDraw)) {
-            setSelectedDraw(e.key)
-            fetchSelectedDrawResult(e.key)
-        }
+    // const onInputRoundChange = (e) => {
+    //     if (e.charCode >= 48 && e.charCode <= 57) {
+    //     if (0 < parseInt(e.key) && parseInt(e.key) <= parseInt(lastestDraw)) {
+    //         setSelectedDraw(e.key)
+    //         fetchSelectedDrawResult(e.key)
+    //     }
+    //
+    // }
 
-    }
+    const onInputRoundChange = (e) => {
+        if (isNaN(e.target.value) === false) {
+            if (e.nativeEvent.inputType === "deleteContentBackward" || parseInt(e.target.value) <= parseInt(lastestDraw)) {
+                setSelectedDraw(e.target.value)
+            }
+        }
     }
     useEffect(()=>{
         if (account) {
@@ -420,8 +425,8 @@ export const BlockResultYourTicket = ({Reload}) => {
                     <div className="light-area-top">
                         <div className="left">
                             <img src="assets/images/d1.png" alt=""/>
-                                <h4>Round <input pattern="[0-9]{1}" inputMode="numeric" id="round-id" name="round-id" onChange={e=>console.log(e.target.value)}
-                                                 scale="lg" className="input-number-inner" autoComplete={'off'} value={selectedDraw||0} onKeyPress={(e)=>onInputRoundChange(e)}/></h4>
+                                <h4>Round <input pattern="[0-9]{1}" inputMode="numeric" id="round-id" name="round-id" onChange={e=>onInputRoundChange(e)}
+                                                 scale="lg" className="input-number-inner" autoComplete={'off'} value={selectedDraw||0}/></h4>
                         </div>
                         <div className="right">
                             {selectedDraw > 1 ?
@@ -732,15 +737,19 @@ export const ModalBuyTicket = ({visible,hideModal,fetchNewUserTicket,setReload,R
                                     <span className="left">Total</span>
                                     <span className="right">${lsTicket.length*price}</span>
                                 </div>
-                                <button className="custom-button2" onClick={()=>{if(isApproved){
-                                    return buyTicket()
-                                    }
-                                    return approveFC()
-                                }}>{
-                                    isApproved ?
-                                        <Spin spinning={loading}>Buy Tickets</Spin> :
-                                        <Spin spinning={loadingApprove}>Approve</Spin>
-                                }</button>
+                                <div style={{marginTop: '20px'}}>
+                                    <Spin spinning={loading||loadingApprove}>
+                                        <button className="custom-button2 btn-top" style={{width:'100%',height:'100%',marginTop:0}} onClick={()=>{if(isApproved){
+                                            return buyTicket()
+                                            }
+                                            return approveFC()
+                                        }}>{
+                                            isApproved ?
+                                                "Buy Tickets" :
+                                                "Approve"
+                                        }</button>
+                                    </Spin>
+                                </div>
                             </div>
                         </div>
                     </div>

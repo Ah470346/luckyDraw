@@ -202,6 +202,7 @@ const Home = () => {
     const [isReload, setIsReload] = useState(0);
     const [isHaveWinner, setIsHaveWinner] = useState(false);
     const [isStartDraw, setStartDraw] = useState(false);
+    const [loadingClaim, setLoadingClaim] = useState(false);
     const [isDrawing, setIsDrawing] = useState(false);
     const [isShowModalBuyTicket, setIsShowModalBuyTicket] = useState(false);
 
@@ -231,25 +232,16 @@ const Home = () => {
     useEffect(()=>{
         buyTicketAction.returnBlockTime()
             .then(res=>{
-            console.log(res.toString())
             const currentTime = new Date(res.toString()*1000);
-            console.log(currentTime)
             const timeCheck = new Date(res.toString()*1000);
             const nextDate = new Date(new Date(res.toString()*1000).setDate(currentTime.getDate()+1))
             const timeDiff = new Date - currentTime
             buyTicketAction.getTimeDraw()
                 .then(res=>{
-                    console.log(res[0].toString())
-                    console.log(res[1].toString())
                     const time1 = new Date(timeCheck.setHours(res[0].toString(),0,0))
                     const time2 = new Date(timeCheck.setHours(res[1].toString(),0,0))
-                    console.log(currentTime.getHours())
-                    console.log(time1)
-                    console.log(time2)
                     if (currentTime > time2) {
-                        console.log("time 2")
                         setNextDraw(nextDate.setHours(res[0].toString(),0,0)+timeDiff)
-                        console.log(nextDate.setHours(res[0].toString()-1,59,0))
                         setNextDrawPre(nextDate.setHours(res[0].toString()-1,59,0)+timeDiff)
                     }
                     else if (currentTime > time1)
@@ -259,7 +251,6 @@ const Home = () => {
                         setNextDrawPre(currentTime.setHours(res[1].toString()-1,59,0)+timeDiff)
                     }
                     else {
-                        console.log("ok")
                         setNextDraw(currentTime.setHours(res[0].toString(),0,0)+timeDiff)
                         setNextDrawPre(currentTime.setHours(res[0].toString()-1,59,0)+timeDiff)
                     }
@@ -298,12 +289,13 @@ const Home = () => {
     }
 
     const onClaimReward = () =>{
+        setLoadingClaim(true)
         buyTicketAction.claimReward()
             .then(res=>{
-                console.log(res)
                 res.wait().then(res=>{
                     openNotificationWithIcon('success','Info','Success')
                     setYourReward(null)
+                    setLoadingClaim(false)
                     fetchNewUserTicket()
                 })
             })
@@ -459,8 +451,8 @@ const Home = () => {
                 <div className="col-lg-9">
                     <div className="content">
                         <div className="section-header">
-                            <button onClick={()=>DrawnLoto()}>Xổ số</button>
-                            <button onClick={()=>buyTicketAction.setTimeDraw([16,17])}>Change Time</button>
+                            {/*<button onClick={()=>DrawnLoto()}>Xổ số</button>*/}
+                            {/*<button onClick={()=>buyTicketAction.setTimeDraw([16,17])}>Change Time</button>*/}
                             <h2 className="title">
                                 Latest Lottery results
                             </h2>
@@ -469,8 +461,12 @@ const Home = () => {
                                 if you won the latest lotto jackpots
                             </p>
                             <p></p>
-                            <button className={'btn-top custom-button1'} style={{width:'100%',paddingTop:'10px',paddingBottom:'10px',fontSize:'25px'}} onClick={()=>onCheckNow()}>Check Now</button>
-                            {yourReward ? <h1>You had win {yourReward} $, <button onClick={()=>onClaimReward()} className={'btn-top custom-button1 btn-claim-bil'}>Claim Now</button></h1> : null}
+                            <Spin spinning={loadingClaim}>
+                            <button className={'btn-top custom-button1'} style={{width:'100%',paddingTop:'10px',paddingBottom:'10px',fontSize:'25px'}}
+                                    onClick={yourReward ? ()=>onClaimReward() : ()=>onCheckNow()}>
+                                {yourReward ? <h1>You had win {yourReward} $, Claim Now</h1> :"Check Now"}
+                            </button>
+                            </Spin>
                         </div>
                     </div>
                 </div>
