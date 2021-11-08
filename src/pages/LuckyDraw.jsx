@@ -28,7 +28,9 @@ const Luckydraw = () => {
     const [input,setInput] = useState(null);
     const [spin,setSpin] = useState(false);
     const [spinClaim,setSpinClaim] = useState(false);
+    const [spinWave,setSpinWave] = useState(false);
     const [claim,setClaim] = useState(null);
+    const [lastWave,setLastWave] = useState(null);
     const [isApprove,setIsApprove] = useState(false);
     const [reward,setReward] = useState(null);
     const [check,setCheck] = useState(false);
@@ -114,8 +116,8 @@ const Luckydraw = () => {
             getRequireTime().then(res=> setRequireTime(Number(res.toString()) * 60000));
             getCurrentTime().then((res)=> setCurrentTime(Number(res.toString())*1000));
         }
-
         getResult(39).then(res=> {setFinalResult(res[4].toString().padStart(4,"0"))});
+        setLastWave(null);
     }
     useEffect(()=>{
         fetch(true,false);
@@ -168,6 +170,7 @@ const Luckydraw = () => {
             }
         }
         let final = [...new Set(result)];
+        setSpinWave(false);
         return  final;
     }
     const renderer = ({ hours, minutes, seconds, completed }) => {
@@ -189,7 +192,7 @@ const Luckydraw = () => {
         setSpin(true);
         approveLK().then(res=>{
             res.wait().then(res=> {setIsApprove(res);setSpin(false)});
-        })
+        }).catch(err => {openNotificationWithIcon("warning","Warning",handledErrorAction(err).message);setSpin(false)});
     }
     const buyTickets = (input) =>{
         if(input === "" || input === null){
@@ -220,8 +223,8 @@ const Luckydraw = () => {
         const inputWave = document.querySelector("#inputWave");
         if(isNaN(inputWave.value) ||Number(inputWave.value) < 1 || Number(inputWave.value) > wave){
             openNotificationWithIcon('error',"info","Don't have this Wave !")
-        } else if(inputWave.value === wave){
-          
+        } else if(inputWave.value === wave && Number(inputWave.value) !== lastWave){
+            setSpinWave(true);
             getMyTicket(wave).then(res => {
                 if(res[0].length !== 0){
                     setMyTickets(res)
@@ -229,15 +232,21 @@ const Luckydraw = () => {
                 } else {
                     setMyTickets([]);
                     setHistoryResult({history:null,win:null});
+                    setSpinWave(false);
                 }
+                setLastWave(wave);
             } );
-        } else  {
+        } else if(Number(inputWave.value) !== lastWave) {
+            setSpinWave(true);
             getHistory(Number(inputWave.value)).then((res)=>{
                 if(res[0].length !== 0){
                     setMyTickets(res);
+                } else {
+                    setSpinWave(false);
                 }
             });
             getResult(Number(inputWave.value)).then(res=> {setHistoryResult({history:res[4].toString()})});
+            setLastWave(Number(inputWave.value));
         }
 
     }
@@ -330,13 +339,14 @@ const Luckydraw = () => {
                                     </div>
                                     <div className='content'>
                                         <div className='list-ticket'>
+                                            <Spin spinning={spinWave}>
                                             {myTickets.length === 0 || finalTicket.length === 0 ?  <div className='empty'>
                                                 <Empty></Empty>
                                                 <p>You don’t have any ticket. <br /> Wanna try buy some?</p>
                                             </div> 
                                             : <ul><Row className='list'>
                                                 {
-                                                    myTickets.length !==0 && finalTicket.map((i,index)=>{
+                                                    spinWave!== true && myTickets.length !==0 && finalTicket.map((i,index)=>{
                                                         if(historyResult.history !== null){
                                                             if(index === 0 && historyResult.win === true){
                                                                 return (
@@ -375,6 +385,7 @@ const Luckydraw = () => {
                                                     })
                                                 }
                                             </Row></ul> }
+                                            </Spin>
                                         </div>
                                         <div className='buy-ticket'>
                                             {!check ? <button onClick={()=>{checkReward(wallet.account).then((res)=> {
