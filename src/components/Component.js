@@ -144,6 +144,7 @@ export const BlockDetail = ({rewardMoney,lsWinner}) => {
 
 export const BlockResult = () => {
     const nftAction = useNFTaction();
+    const buyTicketAction = useBuyTicketAction();
     const [currentDraw, setCurrentDraw] = useState(null);
     const [lastestDraw, setLastestDraw] = useState(null);
     const [lastestWinningNumber,setLastestWinningNumber] = useState(null)
@@ -156,12 +157,12 @@ export const BlockResult = () => {
 
     useEffect(()=>{
         if (account) {
-            nftAction.getCurrentDraw()
+            buyTicketAction.getCurrentDraw()
                 .then(res => {
                     const curId = res
                     setLastestDraw(curId - 1)
                     setCurrentDraw(res - 1)
-                    nftAction.returnNumberId(parseInt(res) - 1)
+                    buyTicketAction.returnNumberId(parseInt(res) - 1)
                         .then(res => {
                             let lsWinning = []
                             for (let i of res[0]) {
@@ -178,7 +179,7 @@ export const BlockResult = () => {
                             setLsWinner(lsWinnerTemp)
 
                         })
-                    nftAction.returnTotalAddress(curId - 1)
+                    buyTicketAction.returnTotalAddress(curId - 1)
                         .then(res => {
                             setTotalPlayerCurrentId(res.toString())
                         })
@@ -187,7 +188,7 @@ export const BlockResult = () => {
     },[account])
 
     const fetchSelectedDrawResult = (value) => {
-        nftAction.returnNumberId(value)
+        buyTicketAction.returnNumberId(value)
             .then(res=>{
                 let lsWinning = []
                 for (let i of res[0]) {
@@ -204,7 +205,7 @@ export const BlockResult = () => {
                 setLsWinner(lsWinnerTemp)
 
             })
-        nftAction.returnTotalAddress(value)
+        buyTicketAction.returnTotalAddress(value)
             .then(res=>{
                 setTotalPlayerCurrentId(res.toString())
             })
@@ -319,7 +320,7 @@ export const BlockResultYourTicket = ({Reload}) => {
 
     useEffect(()=>{
         if (account) {
-            nftAction.getCurrentResult(account, parseInt(selectedDraw))
+            buyTicketAction.getCurrentResult(account, parseInt(selectedDraw))
                 .then(res => {
                     let lsResult = []
                     for (let i of res[0]) {
@@ -367,7 +368,7 @@ export const BlockResultYourTicket = ({Reload}) => {
     }
 
     const fetchSelectedDrawResult = (value) => {
-        nftAction.returnNumberId(value)
+        buyTicketAction.returnNumberId(value)
             .then(res=>{
                 let lsWinning = []
                 for (let i of res[0]) {
@@ -378,11 +379,11 @@ export const BlockResultYourTicket = ({Reload}) => {
                 const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
                 setSelectedDate(new Date(parseInt(res[2].toString())*1000).toLocaleDateString("en-US", options))
             })
-        nftAction.returnTotalAddress(value)
+        buyTicketAction.returnTotalAddress(value)
             .then(res=>{
                 setTotalPlayerCurrentId(res.toString())
             })
-        nftAction.getCurrentResult(account,parseInt(value))
+        buyTicketAction.getCurrentResult(account,parseInt(value))
             .then(res=>{
                 let lsResult = []
                 for (let i of res[0]) {
@@ -719,7 +720,7 @@ export const ModalBuyTicket = ({visible,hideModal,fetchNewUserTicket,setReload,R
         setLsTicket([getRandomTicket()])
     }
 
-    const duration = 600;
+    const duration = 300;
 
     const defaultStyle = {
         transition: `all ${duration}ms ease-in-out`,

@@ -33,30 +33,19 @@ export const useNFTaction = () => {
      return await nftContract.addrTicketBatch(address)
     }, [nftContract])
 
-    const getCurrentDraw = useCallback(async ()=> {
-     return await nftContract.getCurrentId()
-    }, [nftContract])
 
-    const getCurrentResult = useCallback(async (address,currentId)=> {
-     return await nftContract.returnTicketOfAddressInBatch(currentId,address)
-    }, [nftContract])
 
-    const returnTotalReward = useCallback(async ()=> {
-     return await nftContract.returnTotalReward()
-    }, [nftContract])
+
+
 
     const returnTotalrewardId = useCallback(async (currentId)=> {
      return await nftContract.returnTotalrewardId(currentId)
     }, [nftContract])
 
-    const returnNumberId = useCallback(async (currentId)=> {
-     return await nftContract.returnNumberId(currentId)
-    }, [nftContract])
 
 
-    const returnTotalAddress = useCallback(async (currentId)=> {
-     return await nftContract.returnTotalAddress(currentId)
-    }, [nftContract])
+
+
 
     const returnCountReward = useCallback(async (currentId)=> {
      return await nftContract.returnCountReward(currentId)
@@ -75,13 +64,10 @@ export const useNFTaction = () => {
         transferFrom:transferFrom,
 
         getLsTicketIdByAddress:getLsTicketIdByAddress,
-        getCurrentDraw:getCurrentDraw,
-        getCurrentResult:getCurrentResult,
-        returnTotalReward:returnTotalReward,
-        returnNumberId:returnNumberId,
+
         // returnDatetimeId:returnDatetimeId,
         // returnTotalrewardId:returnTotalrewardId,
-        returnTotalAddress:returnTotalAddress,
+
         returnCountReward:returnCountReward,
         checkDrawNow:checkDrawNow
     }

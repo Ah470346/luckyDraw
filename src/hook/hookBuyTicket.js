@@ -55,6 +55,29 @@ export const useBuyTicketAction = () => {
         return openBoxContract.getLastDraw()
     }, [openBoxContract])
 
+
+
+
+    const returnTotalReward = useCallback(async ()=> {
+     return await openBoxContract.totalreward()
+    }, [openBoxContract])
+
+    const returnNumberId = useCallback(async (currentId)=> {
+     return await openBoxContract.returnNumberId(currentId)
+    }, [openBoxContract])
+
+    const getCurrentDraw = useCallback(async ()=> {
+     return await openBoxContract.getCurrentId()
+    }, [openBoxContract])
+
+    const getCurrentResult = useCallback(async (address,currentId)=> {
+     return await openBoxContract.returnTicketOfAddressInBatch(currentId,address)
+    }, [openBoxContract])
+
+    const returnTotalAddress = useCallback(async (currentId)=> {
+     return await openBoxContract.returnTotalAddress(currentId)
+    }, [openBoxContract])
+
     return {
         openBoxContract: openBoxContract,
         getTicketPrice: getTicketPrice,
@@ -68,6 +91,13 @@ export const useBuyTicketAction = () => {
         returnBlockTime:returnBlockTime,
         getTimeDraw:returnListDrawHours,
         setTimeDraw:setTimeDraw,
-        getLastDraw:getLastDraw
+        getLastDraw:getLastDraw,
+
+
+        returnTotalReward:returnTotalReward,
+        returnNumberId:returnNumberId,
+        getCurrentDraw:getCurrentDraw,
+        getCurrentResult:getCurrentResult,
+        returnTotalAddress:returnTotalAddress
     }
 }

@@ -209,7 +209,7 @@ const Home = () => {
 
     const {account} = useWallet();
     useEffect(() => {
-            nftAction.returnTotalReward()
+            buyTicketAction.returnTotalReward()
             .then(res=>{
                 setCurrentRewardMoney(convertBigNumBer(res))})
 
@@ -318,7 +318,7 @@ const Home = () => {
                 console.log(err)
             })
         }
-        nftAction.returnTotalReward()
+        buyTicketAction.returnTotalReward()
         .then(res=>{
             setCurrentRewardMoney(convertBigNumBer(res))})
 
@@ -331,7 +331,7 @@ const Home = () => {
     }
     const onStartDraw = () =>{
         console.log("start")
-        nftAction.returnNumberId(1)
+        buyTicketAction.returnNumberId(1)
             .then(res=>{
                 let lsWinning = []
                 for (let i of res[0]) {
