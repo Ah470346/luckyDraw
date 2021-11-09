@@ -452,9 +452,9 @@ export const BlockResultYourTicket = ({Reload}) => {
                     <div className="light-area-bottom">
 
                         <div className="left row col-12">
-                            <p className={'left col-5 col-sm-12'}>Winning Numbers</p>
+                            <p className={'left col-5'}>Winning Numbers</p>
 
-                            <div className="numbers right col-7 col-sm-12">
+                            <div className="numbers right col-7">
                                 {lastestWinningNumber && lastestWinningNumber.length > 0 && !checkerWinningNumber(lastestWinningNumber)?
                                      <>
                                     {lastestWinningNumber.map((item, index) =>
@@ -622,8 +622,8 @@ export const ModalBuyTicket = ({visible,hideModal,fetchNewUserTicket,setReload,R
         currentLsTicket.splice(index,1)
         setLsTicket(currentLsTicket)
     }
-    const buyTicket = (address) => {
-        if (isGift) {
+    const buyTicket = (address,type) => {
+        if (type === 'gift') {
             setLoadingGift(true)
         }
         else {
@@ -636,7 +636,7 @@ export const ModalBuyTicket = ({visible,hideModal,fetchNewUserTicket,setReload,R
                     console.log(result)
                     let e = handleTxHash(result, account, nftContract)
                     console.log("result",e)
-                    if (isGift) {
+                    if (type === 'gift') {
                         setLoadingGift(false)
                         setIsgift(false)
                     }
@@ -653,20 +653,20 @@ export const ModalBuyTicket = ({visible,hideModal,fetchNewUserTicket,setReload,R
                 .catch(error => {
                         const message = handledErrorAction(error).message
                         openNotificationWithIcon('error','Error',message)
-                        if (isGift) {
-                        setLoadingGift(false)
-                        setIsgift(false)
-                        }
-                        else {
-                            setLoading(false)
-                        }
+                        if (type === 'gift') {
+                            setLoadingGift(false)
+                            setIsgift(false)
+                            }
+                            else {
+                                setLoading(false)
+                            }
                         hideModal()
                     })
             })
             .catch(error => {
                 const message = handledErrorAction(error).message
                 openNotificationWithIcon('error','Error',message)
-                if (isGift) {
+                if (type === 'gift') {
                     setLoadingGift(false)
                     setIsgift(false)
                 }
@@ -727,7 +727,7 @@ export const ModalBuyTicket = ({visible,hideModal,fetchNewUserTicket,setReload,R
         visibility: 'hidden',
         opacity:0,
         height: '0px',
-        marginTop:'10px'
+        marginBottom:'5px'
     }
 
     const transitionStyles = {
@@ -792,7 +792,7 @@ export const ModalBuyTicket = ({visible,hideModal,fetchNewUserTicket,setReload,R
                                 <div style={{marginTop: '20px'}}>
                                     <Spin spinning={loading||loadingApprove}>
                                         <button className="custom-button2 btn-top" style={{width:'100%',height:'100%',marginTop:0}} onClick={()=>{if(isApproved){
-                                            return buyTicket(account)
+                                            return buyTicket(account,'buy')
                                             }
                                             return approveFC()
                                         }}>{
@@ -803,6 +803,14 @@ export const ModalBuyTicket = ({visible,hideModal,fetchNewUserTicket,setReload,R
                                     </Spin>
                                     {isApproved &&
                                         <div style={{marginTop: '20px'}}>
+                                            <Transition in={isGift} timeout={duration}>
+                                                    {state => (
+                                                    <Input style={{
+                                                        ...defaultStyle,
+                                                        ...transitionStyles[state]
+                                                    }} value={addressTo} type={"text"} onChange={(e)=>setAddressTo(e.target.value)}/>
+                                                    )}
+                                                </Transition>
                                             <Spin spinning={isLoadingGift} style={{marginTop: '20px'}}>
                                                 {!isGift ?
                                                     <button className="custom-button2 btn-top"
@@ -812,20 +820,11 @@ export const ModalBuyTicket = ({visible,hideModal,fetchNewUserTicket,setReload,R
                                                     </button>:
                                                     <button className="custom-button2 btn-top"
                                                             style={{width: '100%', height: '100%', marginTop: 0}}
-                                                            onClick={() => buyTicket(addressTo)}>
+                                                            onClick={() => buyTicket(addressTo,'gift')}>
                                                         Send
                                                     </button>
                                                 }
                                             </Spin>
-                                                <Transition in={isGift} timeout={duration}>
-                                                    {state => (
-                                                    <Input style={{
-                                                        ...defaultStyle,
-                                                        ...transitionStyles[state]
-                                                    }} value={addressTo} type={"text"} onChange={(e)=>setAddressTo(e.target.value)}/>
-                                                    )}
-                                                </Transition>
-
                                         </div>
                                     }
                                 </div>
