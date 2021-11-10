@@ -601,7 +601,7 @@ const Luckydraw = () => {
                     <p>Number of tickets:</p>
                     <input onChange={(event)=> 
                       {  
-                        if(event.target.value < 10000 && event.target.value > 0 || event.target.value === "" ){
+                        if(event.target.value < 11 && event.target.value > 0 || event.target.value === "" ){
                             setInput(event.target.value)
                         }   
                     }

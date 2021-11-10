@@ -149,7 +149,7 @@
                 "type": "address"
             }
         ],
-        "name": "_addmaster",
+        "name": "_addMaster",
         "outputs": [
             {
                 "internalType": "bool",
@@ -177,13 +177,6 @@
             }
         ],
         "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "checkTimeToBuy",
-        "outputs": [],
-        "stateMutability": "nonpayable",
         "type": "function"
     },
     {
@@ -273,7 +266,7 @@
                 "components": [
                     {
                         "internalType": "address[]",
-                        "name": "addbuyer",
+                        "name": "addBuyer",
                         "type": "address[]"
                     },
                     {
@@ -311,6 +304,19 @@
     {
         "inputs": [],
         "name": "returnTotalTicket",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "returnUserLimitTicket",
         "outputs": [
             {
                 "internalType": "uint256",
@@ -400,6 +406,13 @@
         "type": "function"
     },
     {
+        "inputs": [],
+        "name": "setListMaster",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
         "inputs": [
             {
                 "internalType": "address",
@@ -464,6 +477,19 @@
                 "type": "uint256"
             }
         ],
+        "name": "setUserLimitTicket",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_amount",
+                "type": "uint256"
+            }
+        ],
         "name": "setlastDrawTime",
         "outputs": [],
         "stateMutability": "nonpayable",
@@ -484,7 +510,7 @@
     },
     {
         "inputs": [],
-        "name": "ticketprice",
+        "name": "ticketPrice",
         "outputs": [
             {
                 "internalType": "uint256",
