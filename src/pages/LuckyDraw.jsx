@@ -466,8 +466,12 @@ const Luckydraw = () => {
                                             </div>}
                                             </div>
                                             <div className='total-detail'>
-                                                <span >{historyResult.totalPlayer !== null ? historyResult.totalPlayer : (totalPlayer && totalPlayer)}  <People></People></span>
-                                                <span >{historyResult.totalTicket !== null ? historyResult.totalTicket : (totalTicket && totalTicket)}  <Ticket></Ticket></span>
+                                                <Tooltip title="Total players of history wave">
+                                                    <span >{historyResult.totalPlayer !== null ? historyResult.totalPlayer : (totalPlayer && totalPlayer)}  <People></People></span>
+                                                </Tooltip>
+                                                <Tooltip title="Total players of history wave">
+                                                    <span >{historyResult.totalTicket !== null ? historyResult.totalTicket : (totalTicket && totalTicket)}  <Ticket></Ticket></span>
+                                                </Tooltip>
                                             </div>  
                                         </div>}
                                     </Spin>
