@@ -1,6 +1,6 @@
 import {ethers} from "ethers";
 import React, {useEffect, useState} from "react";
-import {Button, Modal, notification, Spin} from "antd";
+import {Button, Input, Modal, notification, Spin} from "antd";
 import { Skeleton } from 'antd';
 import CaretLeftOutlined from "@ant-design/icons/lib/icons/CaretLeftOutlined";
 import CaretRightOutlined from "@ant-design/icons/lib/icons/CaretRightOutlined";
@@ -12,6 +12,7 @@ import {handledErrorAction} from "../utils/handleError";
 import {useBuyTicketAction} from "../hook/hookBuyTicket";
 import {useWallet} from "use-wallet";
 import {useERC20Action} from "../hook/hookErc20";
+import { Transition } from 'react-transition-group';
 
 
 const checkerWinningNumber = (e) => {
@@ -143,6 +144,7 @@ export const BlockDetail = ({rewardMoney,lsWinner}) => {
 
 export const BlockResult = () => {
     const nftAction = useNFTaction();
+    const buyTicketAction = useBuyTicketAction();
     const [currentDraw, setCurrentDraw] = useState(null);
     const [lastestDraw, setLastestDraw] = useState(null);
     const [lastestWinningNumber,setLastestWinningNumber] = useState(null)
@@ -155,12 +157,12 @@ export const BlockResult = () => {
 
     useEffect(()=>{
         if (account) {
-            nftAction.getCurrentDraw()
+            buyTicketAction.getCurrentDraw()
                 .then(res => {
                     const curId = res
                     setLastestDraw(curId - 1)
                     setCurrentDraw(res - 1)
-                    nftAction.returnNumberId(parseInt(res) - 1)
+                    buyTicketAction.returnNumberId(parseInt(res) - 1)
                         .then(res => {
                             let lsWinning = []
                             for (let i of res[0]) {
@@ -177,7 +179,7 @@ export const BlockResult = () => {
                             setLsWinner(lsWinnerTemp)
 
                         })
-                    nftAction.returnTotalAddress(curId - 1)
+                    buyTicketAction.returnTotalAddress(curId - 1)
                         .then(res => {
                             setTotalPlayerCurrentId(res.toString())
                         })
@@ -186,7 +188,7 @@ export const BlockResult = () => {
     },[account])
 
     const fetchSelectedDrawResult = (value) => {
-        nftAction.returnNumberId(value)
+        buyTicketAction.returnNumberId(value)
             .then(res=>{
                 let lsWinning = []
                 for (let i of res[0]) {
@@ -203,7 +205,7 @@ export const BlockResult = () => {
                 setLsWinner(lsWinnerTemp)
 
             })
-        nftAction.returnTotalAddress(value)
+        buyTicketAction.returnTotalAddress(value)
             .then(res=>{
                 setTotalPlayerCurrentId(res.toString())
             })
@@ -318,7 +320,7 @@ export const BlockResultYourTicket = ({Reload}) => {
 
     useEffect(()=>{
         if (account) {
-            nftAction.getCurrentResult(account, parseInt(selectedDraw))
+            buyTicketAction.getCurrentResult(account, parseInt(selectedDraw))
                 .then(res => {
                     let lsResult = []
                     for (let i of res[0]) {
@@ -366,7 +368,7 @@ export const BlockResultYourTicket = ({Reload}) => {
     }
 
     const fetchSelectedDrawResult = (value) => {
-        nftAction.returnNumberId(value)
+        buyTicketAction.returnNumberId(value)
             .then(res=>{
                 let lsWinning = []
                 for (let i of res[0]) {
@@ -377,11 +379,11 @@ export const BlockResultYourTicket = ({Reload}) => {
                 const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
                 setSelectedDate(new Date(parseInt(res[2].toString())*1000).toLocaleDateString("en-US", options))
             })
-        nftAction.returnTotalAddress(value)
+        buyTicketAction.returnTotalAddress(value)
             .then(res=>{
                 setTotalPlayerCurrentId(res.toString())
             })
-        nftAction.getCurrentResult(account,parseInt(value))
+        buyTicketAction.getCurrentResult(account,parseInt(value))
             .then(res=>{
                 let lsResult = []
                 for (let i of res[0]) {
@@ -450,9 +452,9 @@ export const BlockResultYourTicket = ({Reload}) => {
                     <div className="light-area-bottom">
 
                         <div className="left row col-12">
-                            <p className={'left col-5 col-sm-12'}>Winning Numbers</p>
+                            <p className={'left col-5'}>Winning Numbers</p>
 
-                            <div className="numbers right col-7 col-sm-12">
+                            <div className="numbers right col-7">
                                 {lastestWinningNumber && lastestWinningNumber.length > 0 && !checkerWinningNumber(lastestWinningNumber)?
                                      <>
                                     {lastestWinningNumber.map((item, index) =>
@@ -540,12 +542,15 @@ export const ModalBuyTicket = ({visible,hideModal,fetchNewUserTicket,setReload,R
     const {account} = useWallet();
     const {approve, isApprove} = useERC20Action();
     const [lsTicket,setLsTicket] = useState([getRandomTicket()])
-    const [loading, setLoading] = useState(false)
-    const [loadingApprove, setLoadingApprove] = useState(false)
+    const [loading, setLoading] = useState(false);
+    const [isLoadingGift, setLoadingGift] = useState(false);
+    const [loadingApprove, setLoadingApprove] = useState(false);
     const buyTicketAction = useBuyTicketAction();
     const {nftContract} = useNFTaction();
     const [price, setPrice] = useState(100);
     const [isApproved, setIsApproved] = useState(false);
+    const [isGift, setIsgift] = useState(false);
+    const [addressTo, setAddressTo] = useState('');
 
     const addTicket = () => {
         const currentLsTicket = [...lsTicket]
@@ -617,36 +622,61 @@ export const ModalBuyTicket = ({visible,hideModal,fetchNewUserTicket,setReload,R
         currentLsTicket.splice(index,1)
         setLsTicket(currentLsTicket)
     }
-    const buyTicket = () => {
-        setLoading(true)
-        buyTicketAction.buyTicket(lsTicket,account)
+    const buyTicket = (address,type) => {
+        if (type === 'gift') {
+            setLoadingGift(true)
+        }
+        else {
+            setLoading(true)
+        }
+        buyTicketAction.buyTicket(lsTicket,address)
             .then(res => {
                 console.log(res)
                 res.wait().then(result => {
                     console.log(result)
                     let e = handleTxHash(result, account, nftContract)
                     console.log("result",e)
-                    setLoading(false)
+                    if (type === 'gift') {
+                        setLoadingGift(false)
+                        setIsgift(false)
+                    }
+                    else {
+                        setLoading(false)
+                    }
                     setLsTicket([getRandomTicket()])
                     openNotificationWithIcon('success','Success','Transaction Success')
                     hideModal()
                     setReload(Reload+1)
+                    setAddressTo('')
                     fetchNewUserTicket()
                 })
                 .catch(error => {
                         const message = handledErrorAction(error).message
                         openNotificationWithIcon('error','Error',message)
-                        setLoading(false)
+                        if (type === 'gift') {
+                            setLoadingGift(false)
+                            setIsgift(false)
+                            }
+                            else {
+                                setLoading(false)
+                            }
                         hideModal()
                     })
             })
             .catch(error => {
                 const message = handledErrorAction(error).message
                 openNotificationWithIcon('error','Error',message)
-                setLoading(false)
+                if (type === 'gift') {
+                    setLoadingGift(false)
+                    setIsgift(false)
+                }
+                else {
+                    setLoading(false)
+                }
                 hideModal()
             })
     }
+
 
     useEffect(()=>{
         buyTicketAction.getTicketPrice()
@@ -661,6 +691,9 @@ export const ModalBuyTicket = ({visible,hideModal,fetchNewUserTicket,setReload,R
         }
     }, [account]);
 
+    const onGift =()=>{
+
+    }
     const approveFC = () => {
         setLoadingApprove(true)
         approve().then(res => {
@@ -682,8 +715,27 @@ export const ModalBuyTicket = ({visible,hideModal,fetchNewUserTicket,setReload,R
     }
     const handleCancel = () => {
         hideModal()
+        setIsgift(false)
+        setAddressTo('')
         setLsTicket([getRandomTicket()])
     }
+
+    const duration = 300;
+
+    const defaultStyle = {
+        transition: `all ${duration}ms ease-in-out`,
+        visibility: 'hidden',
+        opacity:0,
+        height: '0px',
+        marginBottom:'5px'
+    }
+
+    const transitionStyles = {
+        entering: {opacity:0, visibility: 'visible',height: '0px'},
+        entered:  {opacity:1, visibility: 'visible',height: '50px' },
+        // exiting:  { opacity: 0,transform: `scale(0)` },
+        // exited:  { opacity: 0 ,transform: `scale(0)`},
+    };
 
     return (
         <Modal
@@ -697,7 +749,7 @@ export const ModalBuyTicket = ({visible,hideModal,fetchNewUserTicket,setReload,R
         <div className="pick-number-area">
             <div className="container">
                 <div className="row">
-                    <div className="col-lg-9">
+                    <div className="col-lg-8">
                         <div className="row justify-content-center">
                             <BoxTicket lsTicket={lsTicket} callbackRemoveTicket={(index)=>RemoveTicket(index)}/>
                         </div>
@@ -710,7 +762,7 @@ export const ModalBuyTicket = ({visible,hideModal,fetchNewUserTicket,setReload,R
                         {/*        </> : null }*/}
                         {/*</div>*/}
                     </div>
-                    <div className="col-lg-3">
+                    <div className="col-lg-4">
                         <div className="cart-summary">
                             <div className="top-area">
                                 <h4 className="title">
@@ -740,7 +792,7 @@ export const ModalBuyTicket = ({visible,hideModal,fetchNewUserTicket,setReload,R
                                 <div style={{marginTop: '20px'}}>
                                     <Spin spinning={loading||loadingApprove}>
                                         <button className="custom-button2 btn-top" style={{width:'100%',height:'100%',marginTop:0}} onClick={()=>{if(isApproved){
-                                            return buyTicket()
+                                            return buyTicket(account,'buy')
                                             }
                                             return approveFC()
                                         }}>{
@@ -749,6 +801,32 @@ export const ModalBuyTicket = ({visible,hideModal,fetchNewUserTicket,setReload,R
                                                 "Approve"
                                         }</button>
                                     </Spin>
+                                    {isApproved &&
+                                        <div style={{marginTop: '20px'}}>
+                                            <Transition in={isGift} timeout={duration}>
+                                                    {state => (
+                                                    <Input style={{
+                                                        ...defaultStyle,
+                                                        ...transitionStyles[state]
+                                                    }} value={addressTo} type={"text"} onChange={(e)=>setAddressTo(e.target.value)}/>
+                                                    )}
+                                                </Transition>
+                                            <Spin spinning={isLoadingGift} style={{marginTop: '20px'}}>
+                                                {!isGift ?
+                                                    <button className="custom-button2 btn-top"
+                                                            style={{width: '100%', height: '100%', marginTop: 0}}
+                                                            onClick={() => setIsgift(true)}>
+                                                        Gift
+                                                    </button>:
+                                                    <button className="custom-button2 btn-top"
+                                                            style={{width: '100%', height: '100%', marginTop: 0}}
+                                                            onClick={() => buyTicket(addressTo,'gift')}>
+                                                        Send
+                                                    </button>
+                                                }
+                                            </Spin>
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         </div>

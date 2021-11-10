@@ -245,9 +245,122 @@
 		{
 			"inputs": [
 				{
-					"internalType": "uint256[][]",
+					"internalType": "uint256[]",
+					"name": "_each",
+					"type": "uint256[]"
+				},
+				{
+					"internalType": "uint256[]",
+					"name": "_id",
+					"type": "uint256[]"
+				},
+				{
+					"internalType": "address",
+					"name": "_address",
+					"type": "address"
+				}
+			],
+			"name": "_claim",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "devaddress",
+					"type": "address"
+				},
+				{
+					"internalType": "uint256[6]",
+					"name": "_number",
+					"type": "uint256[6]"
+				}
+			],
+			"name": "_drawnTicket",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				},
+				{
+					"internalType": "address",
+					"name": "",
+					"type": "address"
+				}
+			],
+			"name": "addrTicket",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "datetime",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "",
+					"type": "address"
+				},
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"name": "addrTicketBatch",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "totalreward",
+					"type": "uint256"
+				},
+				{
+					"internalType": "bool",
+					"name": "claimed",
+					"type": "bool"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"name": "addressId",
+			"outputs": [
+				{
+					"internalType": "address",
+					"name": "",
+					"type": "address"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint8[][]",
 					"name": "ticketlist",
-					"type": "uint256[][]"
+					"type": "uint8[][]"
 				},
 				{
 					"internalType": "address",
@@ -312,6 +425,19 @@
 			"type": "function"
 		},
 		{
+			"inputs": [],
+			"name": "checkDrawNow",
+			"outputs": [
+				{
+					"internalType": "bool",
+					"name": "",
+					"type": "bool"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
 			"inputs": [
 				{
 					"internalType": "address",
@@ -353,9 +479,64 @@
 		},
 		{
 			"inputs": [],
+			"name": "currentId",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"name": "dTicket",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "totalreward",
+					"type": "uint256"
+				},
+				{
+					"internalType": "uint256",
+					"name": "datetime",
+					"type": "uint256"
+				},
+				{
+					"internalType": "bool",
+					"name": "allowclaim",
+					"type": "bool"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
 			"name": "drawnLoto",
 			"outputs": [],
 			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "getCurrentId",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
 			"type": "function"
 		},
 		{
@@ -474,6 +655,52 @@
 			"type": "function"
 		},
 		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "_id",
+					"type": "uint256"
+				},
+				{
+					"internalType": "address",
+					"name": "_address",
+					"type": "address"
+				}
+			],
+			"name": "returnBatchidOfAddress",
+			"outputs": [
+				{
+					"components": [
+						{
+							"internalType": "uint256[]",
+							"name": "result",
+							"type": "uint256[]"
+						},
+						{
+							"internalType": "uint256",
+							"name": "totalreward",
+							"type": "uint256"
+						},
+						{
+							"internalType": "uint256[6]",
+							"name": "indexreward",
+							"type": "uint256[6]"
+						},
+						{
+							"internalType": "bool",
+							"name": "claimed",
+							"type": "bool"
+						}
+					],
+					"internalType": "struct Billy.BatchReward",
+					"name": "",
+					"type": "tuple"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
 			"inputs": [],
 			"name": "returnBlockTime",
 			"outputs": [
@@ -500,6 +727,52 @@
 			"type": "function"
 		},
 		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "_id",
+					"type": "uint256"
+				}
+			],
+			"name": "returnNumberId",
+			"outputs": [
+				{
+					"components": [
+						{
+							"internalType": "uint256[6]",
+							"name": "numbers",
+							"type": "uint256[6]"
+						},
+						{
+							"internalType": "uint256",
+							"name": "totalreward",
+							"type": "uint256"
+						},
+						{
+							"internalType": "uint256",
+							"name": "datetime",
+							"type": "uint256"
+						},
+						{
+							"internalType": "bool",
+							"name": "allowclaim",
+							"type": "bool"
+						},
+						{
+							"internalType": "uint256[6]",
+							"name": "CountReward",
+							"type": "uint256[6]"
+						}
+					],
+					"internalType": "struct Billy.TicketBatch",
+					"name": "",
+					"type": "tuple"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
 			"inputs": [],
 			"name": "returnReward",
 			"outputs": [
@@ -510,6 +783,61 @@
 				}
 			],
 			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "_id",
+					"type": "uint256"
+				},
+				{
+					"internalType": "address",
+					"name": "_address",
+					"type": "address"
+				}
+			],
+			"name": "returnTicketOfAddressInBatch",
+			"outputs": [
+				{
+					"components": [
+						{
+							"internalType": "uint8[][]",
+							"name": "numbers",
+							"type": "uint8[][]"
+						},
+						{
+							"internalType": "uint256",
+							"name": "datetime",
+							"type": "uint256"
+						}
+					],
+					"internalType": "struct Billy.TicketInfo",
+					"name": "",
+					"type": "tuple"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "_id",
+					"type": "uint256"
+				}
+			],
+			"name": "returnTotalAddress",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
 			"type": "function"
 		},
 		{
@@ -541,12 +869,45 @@
 		{
 			"inputs": [
 				{
+					"internalType": "uint256",
+					"name": "_amount",
+					"type": "uint256"
+				}
+			],
+			"name": "setBonusReward",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
 					"internalType": "address",
 					"name": "_address",
 					"type": "address"
 				}
 			],
 			"name": "setClaim",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "_value",
+					"type": "uint256"
+				}
+			],
+			"name": "setFirstclaim",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "setListMaster",
 			"outputs": [],
 			"stateMutability": "nonpayable",
 			"type": "function"
@@ -687,8 +1048,45 @@
 			"type": "function"
 		},
 		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				},
+				{
+					"internalType": "address",
+					"name": "",
+					"type": "address"
+				}
+			],
+			"name": "sumAddress",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
 			"inputs": [],
 			"name": "ticketprice",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "totalreward",
 			"outputs": [
 				{
 					"internalType": "uint256",
@@ -710,6 +1108,25 @@
 			"name": "transferOwnership",
 			"outputs": [],
 			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"name": "ttPlayer",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
 			"type": "function"
 		}
 	]
