@@ -28,7 +28,6 @@ const Luckydraw = () => {
     const [visible,setVisible] = useState(false);
     const [showResult,setShowResult] = useState(0);
     const [wave,setWave] = useState(null);
-    const [refreshWave,setRefreshWave] = useState(false);
     const [price,setPrice] = useState(null);
     const [input,setInput] = useState(null);
     const [inputWave,setInputWave] = useState(null);
@@ -98,10 +97,12 @@ const Luckydraw = () => {
         setCurrentTime(null);
     }
     const fetch = (check,check2) => {
+        getWave().then((res)=>{
+            setWave(res.toString());
+        });
         if(check=== true){
             getWave().then((res)=>{
                 setWave(res.toString());
-                setRefreshWave(!refreshWave);
                 if(wallet.account){
                     getMyTicket(res.toString()).then(res => {
                         if(res[0].length !== 0){
@@ -124,7 +125,6 @@ const Luckydraw = () => {
             getRequireTime().then(res=> setRequireTime(Number(res.toString()) * 60000));
             getCurrentTime().then((res)=> setCurrentTime(Number(res.toString())*1000));
         }
-        getResult(39).then(res=> {setFinalResult(res[4].toString().padStart(4,"0"))});
         setLastWave(null);
         setSyncWave(null);
     }
@@ -405,7 +405,7 @@ const Luckydraw = () => {
                                         </div>
                                         )}
                                     </Transition>
-                                    <Background refresh={refresh} setAvoidXoSo={setAvoidXoSo} setEffect={setEffect} setEffectReward={setEffectReward} wave={wave} setShowResult={setShowResult}  fetch={fetch}>
+                                    <Background inputWave={inputWave} setInputWave={setInputWave} refresh={refresh} setAvoidXoSo={setAvoidXoSo} setEffect={setEffect} setEffectReward={setEffectReward} wave={wave} setShowResult={setShowResult}  fetch={fetch}>
                                     </Background>
                                     <Transition in={effect} timeout={duration}>
                                        {state => (<div className='id-ticket' style={{
