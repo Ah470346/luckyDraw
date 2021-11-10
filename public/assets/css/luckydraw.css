@@ -328,6 +328,14 @@
     align-items: center;
 }
 
+.wrap-page .wrap-information .col-search .body-search .total-detail {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
 .col-search .ant-spin-nested-loading {
     height: 75%;
     width: 100%;
@@ -444,15 +452,6 @@
 
 
 
-.wrap-page .wrap-information .total-player {
-    display: flex;
-    width: 100%;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-
-}
-
 .wrap-page .wrap-information .history  svg {
     width: 28px;
     height: 28px;
@@ -473,15 +472,6 @@
 }
 
 
-
-
-.wrap-page .wrap-information .total-ticket {
-    display: flex;
-    width: 100%;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-}
 
 
 .wrap-page .wrap-information .my-ticket {
@@ -1007,13 +997,6 @@
         margin-bottom: 60px;
     }
 
-    .wrap-page .banner-luckydraw .total-player {
-        height: 250px !important;
-    }
-
-    .wrap-page .banner-luckydraw .total-ticket {
-        height: 250px !important;
-    }
 
    
     .wrap-page .wrap-information .my-ticket .content .buy-ticket button {

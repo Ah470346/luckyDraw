@@ -102,7 +102,6 @@ const Luckydraw = () => {
         });
         if(check=== true){
             getWave().then((res)=>{
-                setWave(res.toString());
                 if(wallet.account){
                     getMyTicket(res.toString()).then(res => {
                         if(res[0].length !== 0){
@@ -114,6 +113,8 @@ const Luckydraw = () => {
                 }
                 getResult(Number(res.toString())).then(res=> {setFinalResult(res[4].toString().padStart(4,"0"))});
             });
+            setLastWave(null);
+            setSyncWave(null);
         }
         getReward().then((res)=>{setReward((res.toString()/(10e17)).toFixed(2))});
         getTotalPlayers().then(res=> {setTotalPlayer(res.toString());});
@@ -125,8 +126,6 @@ const Luckydraw = () => {
             getRequireTime().then(res=> setRequireTime(Number(res.toString()) * 60000));
             getCurrentTime().then((res)=> setCurrentTime(Number(res.toString())*1000));
         }
-        setLastWave(null);
-        setSyncWave(null);
     }
     useEffect(()=>{
         fetch(true,false);
@@ -317,12 +316,14 @@ const Luckydraw = () => {
         }
     }
     const onFilter = (inputWave) =>{
+        console.log(wave);
         console.log(inputWave);
         if(inputWave === ""){
             setLastWave(0);
             setSyncWave(0);
             setSpinWave(true); 
         } else if(Number(inputWave) === Number(wave) && Number(inputWave) !== lastWave){
+            console.log('hello');
             setSpinWave(true);
             getMyTicket(wave).then(res => {
                 if(res[0].length !== 0){
@@ -336,6 +337,7 @@ const Luckydraw = () => {
                 setLastWave(Number(inputWave));
             } );
         } else if(Number(inputWave) !== lastWave) {
+            console.log('2');
             setSpinWave(true);
             getResult(Number(inputWave)).then(res=> {
                 setHistoryResult({reward:res[4].toString(),totalPlayer:res[2].toString(),totalTicket:res[1].toString()});
@@ -360,7 +362,7 @@ const Luckydraw = () => {
                         <div className='waiting'>
                                 <div className='waiting-header'>
                                     <div className='left'>
-                                        <div className='txt wrap-wave mr-5'>Wave: <span >{wave !== null && wave.padStart(2,'0')}</span></div>
+                                        <div className='txt wrap-wave mr-5'>Wave: <span >{wave !== null && wave.toString().padStart(2,'0')}</span></div>
                                         <div className='txt wrap-time'>Time: { showResult === 0 && lastTime && requireTime && currentTime && date && <Countdown renderer={renderer} 
                                             date={date + (requireTime - (currentTime - lastTime)) - 10000}></Countdown>}
                                             {showResult !== 0 && <span>00:00:00</span>}
@@ -405,7 +407,7 @@ const Luckydraw = () => {
                                         </div>
                                         )}
                                     </Transition>
-                                    <Background inputWave={inputWave} setInputWave={setInputWave} refresh={refresh} setAvoidXoSo={setAvoidXoSo} setEffect={setEffect} setEffectReward={setEffectReward} wave={wave} setShowResult={setShowResult}  fetch={fetch}>
+                                    <Background setWave={setWave} setInputWave={setInputWave} refresh={refresh} setAvoidXoSo={setAvoidXoSo} setEffect={setEffect} setEffectReward={setEffectReward} wave={wave} setShowResult={setShowResult}  fetch={fetch}>
                                     </Background>
                                     <Transition in={effect} timeout={duration}>
                                        {state => (<div className='id-ticket' style={{
@@ -463,14 +465,10 @@ const Luckydraw = () => {
                                                 <div className='ball'>?</div>
                                             </div>}
                                             </div>
-                                            <div className='total-player'>
-                                                <p className='txt'>Total player:</p>
+                                            <div className='total-detail'>
                                                 <span >{historyResult.totalPlayer !== null ? historyResult.totalPlayer : (totalPlayer && totalPlayer)}  <People></People></span>
-                                            </div>  
-                                            <div className='total-ticket'>
-                                                <p className='txt'>Total ticket:</p>
                                                 <span >{historyResult.totalTicket !== null ? historyResult.totalTicket : (totalTicket && totalTicket)}  <Ticket></Ticket></span>
-                                            </div>
+                                            </div>  
                                         </div>}
                                     </Spin>
                                 </div>
