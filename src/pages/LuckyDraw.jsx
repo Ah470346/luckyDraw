@@ -1,7 +1,12 @@
 import React,{useState,useEffect} from 'react';
 import Countdown from 'react-countdown';
 import {ReactComponent as Empty} from '../assets/images/EmptyTicket.svg';
-import { Row, Col,Modal,Spin } from 'antd';
+import {ReactComponent as Next} from '../assets/images/Next.svg';
+import {ReactComponent as Previous} from '../assets/images/Previous.svg';
+import {ReactComponent as Reload} from '../assets/images/reload.svg';
+import {ReactComponent as People} from '../assets/images/people.svg';
+import {ReactComponent as Ticket} from '../assets/images/ticket.svg';
+import { Row, Col,Modal,Spin,Tooltip } from 'antd';
 import { useLKaction } from '../hook/hookLK';
 import { useLKnftAction } from '../hook/hookLKNFT';
 import { useERC20Action } from '../hook/hookErc20';
@@ -13,7 +18,6 @@ import Background from '../assets/images/Background';
 import Waiting from '../assets/images/waitting';
 import { Transition } from 'react-transition-group';
 import {handledErrorAction} from "../utils/handleError";
-import Search from '../assets/images/search.png'
 
 
 
@@ -27,6 +31,7 @@ const Luckydraw = () => {
     const [refreshWave,setRefreshWave] = useState(false);
     const [price,setPrice] = useState(null);
     const [input,setInput] = useState(null);
+    const [inputWave,setInputWave] = useState(null);
     const [spin,setSpin] = useState(false);
     const [spinClaim,setSpinClaim] = useState(false);
     const [spinWave,setSpinWave] = useState(false);
@@ -39,7 +44,7 @@ const Luckydraw = () => {
     const [check,setCheck] = useState(false);
     const [effectReward,setEffectReward] = useState(null);
     const [effect,setEffect] = useState(false);
-    const [historyResult,setHistoryResult] = useState({history:null,win:null});
+    const [historyResult,setHistoryResult] = useState({reward:null,totalTicket:null,totalPlayer:null,win:null});
     const [totalPlayer,setTotalPlayer] = useState(null);
     const [avoidXoSo,setAvoidXoSo] = useState(false);
     const [totalTicket,setTotalTicket] = useState(null);
@@ -106,7 +111,7 @@ const Luckydraw = () => {
                         }
                     } );
                 }
-                getResult(Number(res.toString())-1).then(res=> {setFinalResult(res[4].toString().padStart(4,"0"))});
+                getResult(Number(res.toString())).then(res=> {setFinalResult(res[4].toString().padStart(4,"0"))});
             });
         }
         getReward().then((res)=>{setReward((res.toString()/(10e17)).toFixed(2))});
@@ -136,10 +141,15 @@ const Luckydraw = () => {
         isApproveLK().then((res)=> {setIsApprove(res)}).catch((e)=>console.log(e));
     },[isApprove,wallet.account]);
     useEffect(()=>{
-        if(myTickets.length !== 0) {
+        if(myTickets.length !== 0 && lastWave != 0) {
             setFinalTicket(getMyTicketList(myTickets));
         }
     },[historyResult.history,myTickets,lastWave]);
+    useEffect(()=>{
+        if(inputWave!== null){
+            onFilter(inputWave);
+        }
+    },[inputWave]);
     const getMyTicketList = (myTickets) =>{
         let result = [];
         const list =  myTickets[0].flatMap((i,index)=>(i == wallet.account ? index : []));
@@ -167,7 +177,7 @@ const Luckydraw = () => {
             }
             if(historyResult.history !== null){
                 for(let i of result){
-                    if(i == historyResult.history){
+                    if(i == historyResult.reward){
                         setHistoryResult({win:true,...historyResult});
                         result = [i,...result];
                         break;
@@ -224,7 +234,7 @@ const Luckydraw = () => {
             buyTicket(input).then(res=> {
                 res.wait().then(res=>{
                     setVisible(false);
-                    setHistoryResult({history:null,win:null});
+                    setHistoryResult({history:null,win:null,totalTicket:null,totalPlayer:null});
                     balanceOf(wallet.account).then((res)=>setMoney((res.toString()/(10e17)).toFixed(0)));
                     fetch(true,false);
                     setSpin(false);
@@ -237,34 +247,105 @@ const Luckydraw = () => {
             })
         }
     }
-    const onNextWave = () =>{
-        const inputWave = document.querySelector("#inputWave");
-        if(isNaN(inputWave.value) ||Number(inputWave.value) < 1 || Number(inputWave.value) > wave){
-            openNotificationWithIcon('error',"info","Don't have this Wave !")
-        } else if(inputWave.value === wave && Number(inputWave.value) !== lastWave){
+    const onNextWave = (inputWave) =>{
+        if(inputWave !== null && inputWave !== "" && Number(inputWave) < Number(wave)){
+            setSpinWave(true);
+            if(Number(inputWave) === Number(wave-1)){
+                setInputWave(wave);
+                getMyTicket(wave).then(res => {
+                    if(res[0].length !== 0){
+                        setMyTickets(res);
+                        setHistoryResult({history:null,win:null,totalTicket:totalTicket,totalPlayer:totalPlayer});
+                    } else {
+                        setMyTickets([]);
+                        setHistoryResult({history:null,win:null,totalTicket:totalTicket,totalPlayer:totalPlayer});
+                        setSpinWave(false);
+                    }
+                    setLastWave(Number(inputWave));
+                });
+            } else{
+                setInputWave(inputWave ?  Number(inputWave) + 1 : Number(wave) +1);
+                getResult(inputWave ?  Number(inputWave) + 1 : Number(wave) +1).then(res=> {
+                    setHistoryResult({reward:res[4].toString(),totalPlayer:res[2].toString(),totalTicket:res[1].toString()});
+                    getHistory(Number(inputWave)).then((res)=>{
+                        if(res[0].length !== 0){
+                            setMyTickets(res);
+                        } else {
+                            setSpinWave(false);
+                        }
+                        setLastWave(Number(inputWave));
+                    });
+                });   
+            }
+           
+        }
+    }
+
+    const onPreviousWave = (inputWave) =>{
+        if((inputWave === null && Number(wave) > 1) || (Number(inputWave) > 1 && inputWave !== "")){
+            setSpinWave(true);
+            setInputWave(inputWave ?  Number(inputWave) - 1 : Number(wave) -1);
+                getResult(inputWave ?  Number(inputWave) - 1 : Number(wave) -1).then(res=> {
+                    setHistoryResult({reward:res[4].toString(),totalPlayer:res[2].toString(),totalTicket:res[1].toString()});
+                    getHistory(Number(inputWave)).then((res)=>{
+                        if(res[0].length !== 0){
+                            setMyTickets(res);
+                        } else {
+                            setSpinWave(false);
+                        }
+                        setLastWave(Number(inputWave));
+                    });
+                });   
+        }
+    }
+
+    const onReload = (inputWave) =>{
+        if(inputWave !== null && Number(inputWave) !== Number(wave) && inputWave !== ""){
+            setSpinWave(true);
+            setInputWave(wave);
+                getMyTicket(wave).then(res => {
+                    if(res[0].length !== 0){
+                        setMyTickets(res);
+                        setHistoryResult({history:null,win:null,totalTicket:totalTicket,totalPlayer:totalPlayer});
+                    } else {
+                        setMyTickets([]);
+                        setHistoryResult({history:null,win:null,totalTicket:totalTicket,totalPlayer:totalPlayer});
+                        setSpinWave(false);
+                    }
+                    setLastWave(Number(inputWave));
+                } );
+        }
+    }
+    const onFilter = (inputWave) =>{
+        console.log(inputWave);
+        if(inputWave === ""){
+            setLastWave(0);
+            setSyncWave(0);
+            setSpinWave(true); 
+        } else if(Number(inputWave) === Number(wave) && Number(inputWave) !== lastWave){
             setSpinWave(true);
             getMyTicket(wave).then(res => {
                 if(res[0].length !== 0){
                     setMyTickets(res);
-                    setHistoryResult({history:null,win:null});
+                    setHistoryResult({history:null,win:null,totalTicket:totalTicket,totalPlayer:totalPlayer});
                 } else {
                     setMyTickets([]);
-                    setHistoryResult({history:null,win:null});
+                    setHistoryResult({history:null,win:null,totalTicket:totalTicket,totalPlayer:totalPlayer});
                     setSpinWave(false);
                 }
-                setLastWave(Number(inputWave.value));
+                setLastWave(Number(inputWave));
             } );
-        } else if(Number(inputWave.value) !== lastWave) {
+        } else if(Number(inputWave) !== lastWave) {
             setSpinWave(true);
-            getResult(Number(inputWave.value)).then(res=> {
-                setHistoryResult({history:res[4].toString()});
-                getHistory(Number(inputWave.value)).then((res)=>{
+            getResult(Number(inputWave)).then(res=> {
+                setHistoryResult({reward:res[4].toString(),totalPlayer:res[2].toString(),totalTicket:res[1].toString()});
+                getHistory(Number(inputWave)).then((res)=>{
                     if(res[0].length !== 0){
                         setMyTickets(res);
                     } else {
                         setSpinWave(false);
                     }
-                    setLastWave(Number(inputWave.value));
+                    setLastWave(Number(inputWave));
                 });
             });   
         }
@@ -281,7 +362,7 @@ const Luckydraw = () => {
                                     <div className='left'>
                                         <div className='txt wrap-wave mr-5'>Wave: <span >{wave !== null && wave.padStart(2,'0')}</span></div>
                                         <div className='txt wrap-time'>Time: { showResult === 0 && lastTime && requireTime && currentTime && date && <Countdown renderer={renderer} 
-                                            date={date + (requireTime - (currentTime - lastTime)) - 20000}></Countdown>}
+                                            date={date + (requireTime - (currentTime - lastTime)) - 10000}></Countdown>}
                                             {showResult !== 0 && <span>00:00:00</span>}
                                         </div>
                                     </div>
@@ -293,7 +374,18 @@ const Luckydraw = () => {
                                         }
                                         }>Xo So</button> */}
                                     <div className='right'>
-                                        <div className='txt wrap-balance'>Balance: <span >{money ? money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","): 0} $</span></div>
+                                        <Tooltip title="Total players of current wave">
+                                            <div className='total-player-current txt'>
+                                                <People></People>
+                                                <span >{totalPlayer && totalPlayer}</span>
+                                            </div>
+                                        </Tooltip>
+                                        <Tooltip title="Total tickets of current wave">
+                                            <div className='total-ticket-current txt'>
+                                                <Ticket></Ticket>
+                                                <span >{totalTicket && totalTicket}</span>
+                                            </div>
+                                        </Tooltip>
                                     </div>
                                 </div>
                               { showResult === 0 && <div className='waiting-content'>
@@ -335,27 +427,70 @@ const Luckydraw = () => {
                     </Col >
                     <Col style={{paddingRight:"0"}} span={24} xl={{span:6}}  className='wrap-information'>
                         <Row gutter={16} className='information'>
-                            <Col span={12} md={{span:6,offset:7}} lg={{span:4,offset:4}} xl={{span:12,offset:0}}  style={{height:"28%",paddingRight:"0"}}>
+                            <Col className='col-search' style={{height:"33%"}} span={24} sm={{span:14,offset:5}} md={{span:12,offset:6}} lg={{span:8,offset:0}} xl={{span:24}} >
+                                <div className='history'>
+                                    <div className='header-search'>
+                                        <div  className='input'>
+                                            <p className='txt'>Wave:</p>
+                                            <input onChange={(event)=> {
+                                                if (isNaN(event.target.value) === false) {
+                                                    if (event.nativeEvent.inputType === "deleteContentBackward" || Number(event.target.value) <= parseInt(wave) && Number(event.target.value) > 0) {
+                                                        setInputWave(event.target.value);
+                                                    }
+                                                }
+                                            }} autoComplete='off' id="inputWave" type="text" value={inputWave !== null ? inputWave : wave}/>
+                                        </div>
+                                        <div className='direction'>
+                                            <Previous onClick={()=>onPreviousWave(inputWave)} style={inputWave == 1 || inputWave==="" ? {opacity:"0.2",cursor:"no-drop"} : {opacity:"1",cursor:"pointer"}}></Previous>
+                                            <Next onClick={() => onNextWave(inputWave)} style={inputWave == wave || inputWave == null || inputWave===""? {opacity:"0.2",cursor:"no-drop"} : {opacity:"1",cursor:"pointer"}}></Next>
+                                            <Reload onClick={() => onReload(inputWave)} style={inputWave == wave  || inputWave == null || inputWave==="" ? {opacity:"0.2",cursor:"no-drop"} : {opacity:"1",cursor:"pointer"}}></Reload>
+                                        </div>
+                                    </div>
+                                    <Spin spinning={spinWave}>
+                                        {spinWave !== true && <div className='body-search'>
+                                            <div className='winning'>
+                                                <p>Winning Number</p>
+                                            {historyResult.reward  ?  <div className='ball-win'>
+                                                    <div className='ball'>{historyResult.reward.toString().padStart(4,'0')[0]}</div>
+                                                    <div className='ball'>{historyResult.reward.toString().padStart(4,'0')[1]}</div>
+                                                    <div className='ball'>{historyResult.reward.toString().padStart(4,'0')[2]}</div>
+                                                    <div className='ball'>{historyResult.reward.toString().padStart(4,'0')[3]}</div>
+                                                </div>
+                                                : <div className='ball-win'>
+                                                <div className='ball'>?</div>
+                                                <div className='ball'>?</div>
+                                                <div className='ball'>?</div>
+                                                <div className='ball'>?</div>
+                                            </div>}
+                                            </div>
+                                            <div className='total-player'>
+                                                <p className='txt'>Total player:</p>
+                                                <span >{historyResult.totalPlayer !== null ? historyResult.totalPlayer : (totalPlayer && totalPlayer)}  <People></People></span>
+                                            </div>  
+                                            <div className='total-ticket'>
+                                                <p className='txt'>Total ticket:</p>
+                                                <span >{historyResult.totalTicket !== null ? historyResult.totalTicket : (totalTicket && totalTicket)}  <Ticket></Ticket></span>
+                                            </div>
+                                        </div>}
+                                    </Spin>
+                                </div>
+                            </Col>
+                            {/* <Col span={12} md={{span:6,offset:7}} lg={{span:4,offset:4}} xl={{span:10,offset:2}}  style={{height:"22%",paddingRight:"0",paddingLeft:"0"}}>
                                 <div className='total-player'>
                                     <p className='txt'>Total player:</p>
                                     <span >{totalPlayer !== null && totalPlayer} <br /> Players</span>
                                 </div>
                             </Col>
-                            <Col span={12} md={{span:6}} lg={{span:4}} xl={{span:12,offset:0}} style={{height:"28%",paddingRight:"0"}}>
+                            <Col span={12} md={{span:6}} lg={{span:4}} xl={{span:10,offset:0}} style={{height:"22%",paddingRight:"0"}}>
                                 <div className='total-ticket'>
                                     <p className='txt'>Total ticket:</p>
                                     <span >{totalTicket !== null && totalTicket} <br /> Tickets</span>
                                 </div>
-                            </Col>
-                            <Col span={24} lg={{span:8}}  xl={{span:24}} className='wrap-myTicket' style={{}}>
+                            </Col> */}
+                            <Col span={24} md={{span:24}} lg={{span:8,offset:0}}  xl={{span:24}} className='wrap-myTicket' style={{}}>
                                 <div className='my-ticket'>
                                     <div className='header'>
                                         <p className='txt'>My Tickets:</p>
-                                        <div key={refreshWave} className='history'>
-                                            <input id="inputWave" type="text" defaultValue={wave && wave}/>
-                                            <img onClick={onNextWave} className='next' src={Search} alt="#" />
-                                            {/* <More onClick={onNextWave} className='next'></More> */}
-                                        </div>
                                         <span className='mt-0'>{myTickets.length ===0 ? "00" : finalTicket.length.toString().padStart(2,"0")}</span>
                                     </div>
                                     <div className='content'>

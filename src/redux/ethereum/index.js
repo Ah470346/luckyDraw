@@ -2,7 +2,7 @@ import {createSlice} from "@reduxjs/toolkit";
 import {ethers} from "ethers";
 
 const defaultProvider = () => {
-    return new ethers.providers.JsonRpcProvider("https://data-seed-prebsc-2-s3.binance.org:8545/");
+    return new ethers.providers.JsonRpcProvider("https://data-seed-prebsc-2-s2.binance.org:8545/");
     // return new ethers.providers.JsonRpcProvider("https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161")
 }
 

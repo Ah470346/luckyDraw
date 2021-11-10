@@ -7,7 +7,7 @@
     margin: 0 !important;
     width: 100%;
     height: calc(100vh - 64px);
-    padding: 48px 60px;
+    padding: 40px 60px;
     background: url("../images/banner-luckydraw.png");
     background-size: cover;
     background-position: center;
@@ -82,9 +82,27 @@
     flex-direction: row;
 }
 
-.wrap-page .banner-luckydraw .waiting .waiting-header .left {
+.wrap-page .banner-luckydraw .waiting .waiting-header .right {
     display: flex;
     flex-direction: row;
+}
+
+.wrap-page .banner-luckydraw .waiting .waiting-header .right > div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.wrap-page .banner-luckydraw .waiting .waiting-header .right > div:first-child{
+    margin-right: 50px;
+}
+
+
+.wrap-page .banner-luckydraw .waiting .waiting-header .right svg {
+    width: 28px;
+    height: 28px;
+    fill: #428cef;
+    margin-right: 10px;
 }
 
 .wrap-page .banner-luckydraw .waiting .waiting-content {
@@ -287,47 +305,182 @@
 }
 
 
-.wrap-page .wrap-information .total-player {
+.wrap-page .wrap-information .col-search .header-search {
+    height: 25%;
+    width: 100%;
+    border-radius: 35px 35px 0 0;
+    background: rgba(255, 255, 255, 0.45);
     display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px 0 30px;
+}
+
+
+.wrap-page .wrap-information .col-search .body-search {
+    height: 100%;
+    width: 100%;
+    padding: 10px 20px 10px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.col-search .ant-spin-nested-loading {
+    height: 75%;
+    width: 100%;
+}
+
+.col-search .ant-spin-nested-loading .ant-spin-container {
+    width: 100%;
+    height: 100%;
+}
+
+.col-search .ant-spin-container {
+    height: 100%;
+    width: 100%;
+}
+
+.wrap-page .wrap-information .col-search .body-search .winning{
+    display: flex;
+    width: 100%;
+    height: 85px;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(96.09deg, rgba(255, 255, 255, 0.6) 2.52%, rgba(255, 255, 255, 0.6) 96.27%);
-    /* backdrop-filter: blur(30px);
-    -webkit-backdrop-filter: blur(30px); */
 
-    border-radius: 35px;
+}
+
+.wrap-page .wrap-information .col-search .body-search .winning p {
+    color: #F37335;
+    font-size: 1.3em;
+    font-weight: bold;
+    margin: 0;
+    margin-bottom: 5px;
+}
+
+.wrap-page .wrap-information .col-search .body-search .winning .ball-win {
+    display: flex;
+    height: 52px;
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.wrap-page .wrap-information .col-search .body-search .winning .ball-win .ball {
+    width:52px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-left: 5px;
+    height: 100%;
+    border-radius: 50%;
+    background: linear-gradient(180deg, #FDC830 0%, #F37335 100%);
+
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 25px;
+    line-height: 30px;
     text-align: center;
+    letter-spacing: 0.04em;
+
+    color: #FFFFFF;
+    
+}
+
+.wrap-page .wrap-information .col-search .body-search .winning .ball-win .ball:first-child {
+    margin-left: 0;
+}
+
+
+.wrap-page .wrap-information .col-search .history {
+    background: linear-gradient(96.09deg, rgba(255, 255, 255, 0.6) 2.52%, rgba(255, 255, 255, 0.6) 96.27%);
+    height: 100%;
+    width: 100%;
+    border-radius: 35px;
+}
+
+.wrap-page .wrap-information .col-search .input p {
+    display: inline-block;
+}
+
+.wrap-page .wrap-information  .history input {
+    width: 70px;
+    height: 45px;
+    background: #51d0f7;
+    border-radius: 11px;
+    outline: none;
+    border: none;
+    font-size: 22px;
+    text-align: center;
+    padding: 0;
+    margin-left: 10px;
+}
+
+.wrap-page .wrap-information  .history .reload {
+    cursor: pointer;
+    width: 26px;
+    height: 26px;
+}
+
+.wrap-page .wrap-information  .history .next{
+    cursor: pointer;
+    width: 26px;
+    height: 26px;
+    margin-right: 10px;
+}
+
+.wrap-page .wrap-information  .history .previous{
+    cursor: pointer;
+    width: 26px;
+    height: 26px;
+    margin-right: 10px;
+}
+
+
+
+.wrap-page .wrap-information .total-player {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.wrap-page .wrap-information .history  svg {
+    width: 28px;
+    height: 28px;
+    margin-left: 15px;
 }
 
 .wrap-page .wrap-information  span {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     font-family: Montserrat;
     font-style: normal;
     font-weight: bold;
     font-size: 27px;
     line-height: 35px;
     color: #428cef;
-    margin-top: 20px;
+    margin-left: 15px;
 }
 
 
 
 
 .wrap-page .wrap-information .total-ticket {
-    width: 100%;
-    height: 100%;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    width: 100%;
+    flex-direction: row;
     align-items: center;
-    background: linear-gradient(96.09deg, rgba(255, 255, 255, 0.6) 2.52%, rgba(255, 255, 255, 0.6) 96.27%);
-    /* -webkit-backdrop-filter: blur(30px);
-    backdrop-filter: blur(30px); */
-
-    border-radius: 35px;  
-    text-align: center;
+    justify-content: center;
 }
 
 
@@ -408,35 +561,8 @@
     margin-bottom: 30px;
 }
 
-.wrap-page .wrap-information .my-ticket .history {
-    display: flex ;
-    flex-direction: row;
-    align-items: center;
-}
-
-
-.wrap-page .wrap-information .my-ticket .history input {
-    width: 40px;
-    height: 40px;
-    background: #51d0f7;
-    border-radius: 11px;
-    outline: none;
-    border: none;
-    font-size: 22px;
-    text-align: center;
-    padding: 0;
-}
-
-.wrap-page .wrap-information .my-ticket .history .reload {
-    width: 30px;
-    height: 30px;
-    margin-right: 10px;
-}
-
-.wrap-page .wrap-information .my-ticket .history .next{
-    width: 28px;
-    height: 28px;
-    margin-left: 12px;
+.wrap-page .wrap-information .col-search {
+    border-radius: 35px;
 }
 
 .wrap-page .wrap-information .my-ticket .content .list-ticket .ball{
@@ -498,9 +624,9 @@
 }
 
 .wrap-page  .wrap-information .wrap-myTicket{
-    height: 68%;
+    height: 65%;
     margin-right: 0;
-    margin-top: 4%;
+    margin-top: 2%;
 }
 
 @media only screen and (max-width: 1812px) {
@@ -573,6 +699,18 @@
     
 }
 
+@media only screen and (max-width: 1542px){
+    .wrap-page .wrap-information .history .direction svg {
+        margin-right: 0px;
+        margin-left: 10px;
+    }
+
+    .wrap-page .wrap-information .information .txt {
+        font-size: 20px;
+        line-height: 22px;
+    }
+}
+
 
 @media only screen and (max-width: 1475px){
     .wrap-page .banner-luckydraw{
@@ -585,6 +723,17 @@
 }
 
 @media only screen and (max-width: 1385px){
+
+    .wrap-page .wrap-information .col-search .body-search{
+        padding: 10px;
+    }
+
+    .wrap-page .wrap-information .col-search .header-search{
+        padding: 0 15px 0 15px !important;
+    }
+    .wrap-page .wrap-information .history input {
+        width: 50px;
+    }
     .wrap-page .banner-luckydraw{
         padding: 50px 20px;
     }
@@ -613,10 +762,39 @@
 }
 
 @media only screen and (max-width: 1200px){
+    .wrap-page .wrap-information .col-search .body-search{
+        padding: 20px;
+    }
+
+    .wrap-page .wrap-information .col-search .header-search{
+        padding: 0 20px 0 20px !important;
+        height: 20%;
+    }
+
+    .col-search .ant-spin-nested-loading {
+        height: 80%;
+        width: 100%;
+    }       
+    .wrap-page .wrap-information .col-search {
+        padding-left: 0 !important;
+        height: 280px !important;
+        display: flex !important;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+
     .wrap-page .banner-luckydraw{
         height: auto !important;
         padding: 20px 20px;
     }
+
+    .wrap-page .wrap-information {
+        padding-left: 0 !important;
+        margin-top: 30px !important;
+
+    }
+
 
     .wrap-page .banner-luckydraw .waiting {
         height: 700px !important;
@@ -793,6 +971,12 @@
 }
 
 @media only screen and (max-width: 765px){
+
+    .wrap-page .banner-luckydraw .waiting .waiting-header .right svg {
+        height: 24px;
+        width: 24px;
+    }
+
     .wrap-page .banner-luckydraw{
         height: 600px;
         padding: 15px 15px;
@@ -963,6 +1147,11 @@
 }
 
 @media only screen and (max-width: 577px) {
+
+    .wrap-page .banner-luckydraw .waiting .waiting-header .right svg {
+        height: 20px;
+        width: 20px;
+    }
 
     .wrap-page .wrap-information .my-ticket .content .list-ticket ul .item:nth-child(odd) {
         border-right:none;
