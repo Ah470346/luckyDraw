@@ -23,6 +23,7 @@ export const Header = () => {
     const {balanceOf} = useERC20Action();
     const {claimToken} = useBuyTicketAction();
     const [isModalConnectedVisible, setIsModalConnectedVisible] = useState(false);
+
     const walletConnectFC = (value) => {
         wallet.connect(value);
         setIsModalVisible(false);

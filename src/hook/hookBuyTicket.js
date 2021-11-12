@@ -7,7 +7,7 @@ export const useBuyTicketAction = () => {
     const openBoxContract = useBuyTicketcontract(signer)
 
     const getTicketPrice = useCallback(async () => {
-        return openBoxContract.ticketprice()
+        return openBoxContract.getTicketPrice()
     }, [openBoxContract])
 
     const buyTicket = useCallback(async (lsTicket,address) => {
@@ -56,10 +56,8 @@ export const useBuyTicketAction = () => {
     }, [openBoxContract])
 
 
-
-
     const returnTotalReward = useCallback(async ()=> {
-     return await openBoxContract.totalreward()
+     return await openBoxContract.totalReward()
     }, [openBoxContract])
 
     const returnNumberId = useCallback(async (currentId)=> {
