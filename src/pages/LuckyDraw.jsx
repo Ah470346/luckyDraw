@@ -10,7 +10,7 @@ import { Row, Col,Modal,Spin,Tooltip } from 'antd';
 import { useLKaction } from '../hook/hookLK';
 import { useLKnftAction } from '../hook/hookLKNFT';
 import { useERC20Action } from '../hook/hookErc20';
-import { useDispatch,useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { changeMoney } from '../redux/reloadMoney';
 import {openNotificationWithIcon } from '../components/api/Api';
 import useWallet from 'use-wallet';
@@ -23,11 +23,16 @@ import {handledErrorAction} from "../utils/handleError";
 
 const Luckydraw = () => {
     const dispatch = useDispatch();
+    //error do Gọi hàm từ file useKaiWallet
+    //ConnectKaiWallet().test(res => console.log(res));
+
+    //fix khởi tạo instance thành hàm của rect component
+    //
     const setMoney = (money)=> dispatch(changeMoney(money));
-    const money = useSelector(state => state.money.money)
     const [visible,setVisible] = useState(false);
     const [showResult,setShowResult] = useState(0);
     const [wave,setWave] = useState(null);
+    const [avoid,setAvoid] = useState(false);
     const [price,setPrice] = useState(null);
     const [input,setInput] = useState(null);
     const [inputWave,setInputWave] = useState(null);
@@ -61,8 +66,6 @@ const Luckydraw = () => {
     const {getPriceTicket,getTotalPlayers,getTotalTickets,buyTicket,getMyTicket,getLastTime,getRequireTime,XoSo,getCurrentTime,claimReward,checkReward,getHistory} = luckyDrawAction();
     const {getWave,getReward,getResult} = luckyNFTAction();
     const wallet = useWallet();
-    let avoid = false;
-
     const duration = 600;
 
     const defaultStyle = {
@@ -96,10 +99,12 @@ const Luckydraw = () => {
         setRequireTime(null);
         setCurrentTime(null);
     }
-    const fetch = (check,check2) => {
-        getWave().then((res)=>{
-            setWave(res.toString());
-        });
+    const fetch = (check,check2,check3) => {
+        if(check3 !== "fresh"){
+            getWave().then((res)=>{
+                setWave(res.toString());
+            });
+        }
         if(check=== true){
             getWave().then((res)=>{
                 if(wallet.account){
@@ -131,6 +136,21 @@ const Luckydraw = () => {
         fetch(true,false);
     },[wallet.account]);
     useEffect(()=>{
+        const id = setInterval(()=>{
+            fetch(false,false,"fresh");
+        },2000)
+        if(totalTicket !== historyResult.totalTicket && totalPlayer !== historyResult.totalPlayer && inputWave == wave){
+            console.log(totalTicket,totalPlayer,inputWave);
+            setHistoryResult({totalTicket:null,totalPlayer:null,...historyResult});
+        }
+        return ()=>{clearInterval(id)};
+    },[inputWave,totalPlayer]);
+    useEffect(()=>{
+        if(inputWave!== null){
+            onFilter(inputWave);
+        }
+    },[inputWave]);
+    useEffect(()=>{
         setDate(Date.now());
         getLastTime().then(res=>{setLastTime(Number(res.toString()) *1000);});
         getRequireTime().then(res=> setRequireTime(Number(res.toString()) * 60000));
@@ -144,11 +164,6 @@ const Luckydraw = () => {
             setFinalTicket(getMyTicketList(myTickets));
         }
     },[historyResult.history,myTickets,lastWave]);
-    useEffect(()=>{
-        if(inputWave!== null){
-            onFilter(inputWave);
-        }
-    },[inputWave]);
     const getMyTicketList = (myTickets) =>{
         let result = [];
         const list =  myTickets[0].flatMap((i,index)=>(i == wallet.account ? index : []));
@@ -174,7 +189,7 @@ const Luckydraw = () => {
                     result.push(j);
                 }
             }
-            if(historyResult.history !== null){
+            if(historyResult.reward !== null){
                 for(let i of result){
                     if(i == historyResult.reward){
                         setHistoryResult({win:true,...historyResult});
@@ -254,10 +269,10 @@ const Luckydraw = () => {
                 getMyTicket(wave).then(res => {
                     if(res[0].length !== 0){
                         setMyTickets(res);
-                        setHistoryResult({history:null,win:null,totalTicket:totalTicket,totalPlayer:totalPlayer});
+                        setHistoryResult({history:null,win:null,totalTicket:null,totalPlayer:null});
                     } else {
                         setMyTickets([]);
-                        setHistoryResult({history:null,win:null,totalTicket:totalTicket,totalPlayer:totalPlayer});
+                        setHistoryResult({history:null,win:null,totalTicket:null,totalPlayer:null});
                         setSpinWave(false);
                     }
                     setLastWave(Number(inputWave));
@@ -266,7 +281,7 @@ const Luckydraw = () => {
                 setInputWave(inputWave ?  Number(inputWave) + 1 : Number(wave) +1);
                 getResult(inputWave ?  Number(inputWave) + 1 : Number(wave) +1).then(res=> {
                     setHistoryResult({reward:res[4].toString(),totalPlayer:res[2].toString(),totalTicket:res[1].toString()});
-                    getHistory(Number(inputWave)).then((res)=>{
+                    getHistory(Number(inputWave) == 0 ? wave + 1 :  Number(inputWave)+1).then((res)=>{
                         if(res[0].length !== 0){
                             setMyTickets(res);
                         } else {
@@ -286,7 +301,7 @@ const Luckydraw = () => {
             setInputWave(inputWave ?  Number(inputWave) - 1 : Number(wave) -1);
                 getResult(inputWave ?  Number(inputWave) - 1 : Number(wave) -1).then(res=> {
                     setHistoryResult({reward:res[4].toString(),totalPlayer:res[2].toString(),totalTicket:res[1].toString()});
-                    getHistory(Number(inputWave)).then((res)=>{
+                    getHistory(Number(inputWave) == 0 ? wave - 1 :  Number(inputWave)-1).then((res)=>{
                         if(res[0].length !== 0){
                             setMyTickets(res);
                         } else {
@@ -297,7 +312,6 @@ const Luckydraw = () => {
                 });   
         }
     }
-
     const onReload = (inputWave) =>{
         if(inputWave !== null && Number(inputWave) !== Number(wave) && inputWave !== ""){
             setSpinWave(true);
@@ -305,10 +319,10 @@ const Luckydraw = () => {
                 getMyTicket(wave).then(res => {
                     if(res[0].length !== 0){
                         setMyTickets(res);
-                        setHistoryResult({history:null,win:null,totalTicket:totalTicket,totalPlayer:totalPlayer});
+                        setHistoryResult({history:null,win:null,totalTicket:null,totalPlayer:null});
                     } else {
                         setMyTickets([]);
-                        setHistoryResult({history:null,win:null,totalTicket:totalTicket,totalPlayer:totalPlayer});
+                        setHistoryResult({history:null,win:null,totalTicket:null,totalPlayer:null});
                         setSpinWave(false);
                     }
                     setLastWave(Number(inputWave));
@@ -328,10 +342,10 @@ const Luckydraw = () => {
             getMyTicket(wave).then(res => {
                 if(res[0].length !== 0){
                     setMyTickets(res);
-                    setHistoryResult({history:null,win:null,totalTicket:totalTicket,totalPlayer:totalPlayer});
+                    setHistoryResult({history:null,win:null,totalTicket:null,totalPlayer:null});
                 } else {
                     setMyTickets([]);
-                    setHistoryResult({history:null,win:null,totalTicket:totalTicket,totalPlayer:totalPlayer});
+                    setHistoryResult({history:null,win:null,totalTicket:null,totalPlayer:null});
                     setSpinWave(false);
                 }
                 setLastWave(Number(inputWave));
@@ -368,13 +382,13 @@ const Luckydraw = () => {
                                             {showResult !== 0 && <span>00:00:00</span>}
                                         </div>
                                     </div>
-                                    {/* <button onClick={()=> {
+                                    <button onClick={()=> {
                                         if(totalPlayer == 0){
                                             XoSo().then(res=> {console.log(res)});
                                         } else{
                                             XoSo().then(res => console.log(res))};
                                         }
-                                        }>Xo So</button> */}
+                                        }>Xo So</button>
                                     <div className='right'>
                                         <Tooltip title="Total players of current wave">
                                             <div className='total-player-current txt'>
@@ -477,18 +491,6 @@ const Luckydraw = () => {
                                     </Spin>
                                 </div>
                             </Col>
-                            {/* <Col span={12} md={{span:6,offset:7}} lg={{span:4,offset:4}} xl={{span:10,offset:2}}  style={{height:"22%",paddingRight:"0",paddingLeft:"0"}}>
-                                <div className='total-player'>
-                                    <p className='txt'>Total player:</p>
-                                    <span >{totalPlayer !== null && totalPlayer} <br /> Players</span>
-                                </div>
-                            </Col>
-                            <Col span={12} md={{span:6}} lg={{span:4}} xl={{span:10,offset:0}} style={{height:"22%",paddingRight:"0"}}>
-                                <div className='total-ticket'>
-                                    <p className='txt'>Total ticket:</p>
-                                    <span >{totalTicket !== null && totalTicket} <br /> Tickets</span>
-                                </div>
-                            </Col> */}
                             <Col span={24} md={{span:24}} lg={{span:8,offset:0}}  xl={{span:24}} className='wrap-myTicket' style={{}}>
                                 <div className='my-ticket'>
                                     <div className='header'>
@@ -563,13 +565,13 @@ const Luckydraw = () => {
                                                         
                                                     } else {
                                                         claimReward().then(res => {
-                                                            avoid = true;
+                                                            setAvoid(true);
                                                             res.wait().then(res=>{
                                                                 openNotificationWithIcon('success','info',"Claim reward success");
                                                                 balanceOf(wallet.account).then((res)=>setMoney((res.toString()/(10e17)).toFixed(0)));
                                                                 setCheck(false);
                                                                 setSpinClaim(true);
-                                                                avoid = false;
+                                                                setAvoid(false);
                                                             })
                                                         }).catch((err)=>{
                                                             setSpinClaim(false);
