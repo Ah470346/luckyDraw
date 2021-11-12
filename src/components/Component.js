@@ -143,7 +143,6 @@ export const BlockDetail = ({rewardMoney,lsWinner}) => {
 
 
 export const BlockResult = () => {
-    const nftAction = useNFTaction();
     const buyTicketAction = useBuyTicketAction();
     const [currentDraw, setCurrentDraw] = useState(null);
     const [lastestDraw, setLastestDraw] = useState(null);
@@ -226,84 +225,90 @@ export const BlockResult = () => {
         }
     },[currentDraw,account])
     return (
+
         <>
-            <div className="single-list">
-                <div className="light-area">
-                    <div className="light-area-top">
-                        <div className="left">
-                            <img src="assets/images/d1.png" alt=""/>
-                                <h4>Round <input inputMode="numeric" onChange={(e)=>onInputRoundChange(e)} id="round-id" name="round-id"
-                                                 scale="lg" className="input-number-inner" autoComplete={'off'} value={currentDraw} /></h4>
-                        </div>
-                        <div className="right">
-                            {currentDraw > 1 ?
-                            <span><CaretLeftOutlined style={{fontSize:'26px'}} onClick={()=>setCurrentDraw(currentDraw-1)}/></span> :
-                            <span><CaretLeftOutlined style={{fontSize:'26px',color: '#777777'}}/></span>}
-                            {currentDraw < lastestDraw ?
-                                <>
-                                <span><CaretRightOutlined style={{fontSize:'26px'}} onClick={()=>setCurrentDraw(currentDraw+1)} /></span>
-                                <span><StepForwardOutlined style={{fontSize:'26px'}} onClick={()=>setCurrentDraw(lastestDraw)} /></span></>
-                                :
-                                <>
-                                <span><CaretRightOutlined style={{fontSize:'26px',color: '#777777'}} /></span>
-                                <span><StepForwardOutlined style={{fontSize:'26px',color: '#777777'}}/></span>
-                                </>
-                            }
-
-
-                        </div>
+        <div className="single-list">
+            <div className="light-area">
+                <div className="light-area-top">
+                    <div className="left">
+                        <img src="assets/images/d1.png" alt=""/>
+                        <h4>Round <input inputMode="numeric" onChange={(e) => onInputRoundChange(e)} id="round-id"
+                                         name="round-id"
+                                         scale="lg" className="input-number-inner" autoComplete={'off'}
+                                         value={currentDraw}/></h4>
                     </div>
-                    <div className="light-area-bottom">
-                        <div className="left row col-12">
-                            <p className={'left col-5'}>Winning Numbers:</p>
+                    <div className="right">
+                        {currentDraw > 1 ?
+                            <span><CaretLeftOutlined style={{fontSize: '26px'}}
+                                                     onClick={() => setCurrentDraw(currentDraw - 1)}/></span> :
+                            <span><CaretLeftOutlined style={{fontSize: '26px', color: '#777777'}}/></span>}
+                        {currentDraw < lastestDraw ?
+                            <>
+                                <span><CaretRightOutlined style={{fontSize: '26px'}}
+                                                          onClick={() => setCurrentDraw(currentDraw + 1)}/></span>
+                                <span><StepForwardOutlined style={{fontSize: '26px'}}
+                                                           onClick={() => setCurrentDraw(lastestDraw)}/></span></>
+                            :
+                            <>
+                                <span><CaretRightOutlined style={{fontSize: '26px', color: '#777777'}}/></span>
+                                <span><StepForwardOutlined style={{fontSize: '26px', color: '#777777'}}/></span>
+                            </>
+                        }
 
-                            <div className="numbers right col-7">
-                                {lastestWinningNumber && lastestWinningNumber.length > 0 && !checkerWinningNumber(lastestWinningNumber) ?
-                                     <>
+
+                    </div>
+                </div>
+                <div className="light-area-bottom">
+                    <div className="left row col-12">
+                        <p className={'left col-5'}>Winning Numbers:</p>
+
+                        <div className="numbers right col-7">
+                            {lastestWinningNumber && lastestWinningNumber.length > 0 && !checkerWinningNumber(lastestWinningNumber) ?
+                                <>
                                     {lastestWinningNumber.map((item, index) =>
                                         <span key={'wininingnumber' + index}>{item}</span>
                                     )}
-                                    </>
-                                    :
-                                    <Skeleton active paragraph={{ rows: 0 }}/>
-                                }
+                                </>
+                                :
+                                <Skeleton active paragraph={{rows: 0}}/>
+                            }
 
-                            </div>
                         </div>
                     </div>
-                    {lsWinner.length > 0 ?
-                    <BlockDetail rewardMoney={rewardMoney} lsWinner={lsWinner}/>:<Skeleton active paragraph={{ rows: 6 }}/>}
                 </div>
-                <div className="color-area">
-                    <div className="top">
-                        <span>Draw took place on</span>
-                        <h6>{selectedDate}</h6>
-                    </div>
-                    <div className="bottom">
-                        <span>Total players this round</span>
-                        <h6>{totalPlayerCurrentId}</h6>
-                        <span>Est. Jackpot </span>
-                        <h6><img src={'assets/images/logo-coin.png'}/> &nbsp; ~ {rewardMoney}</h6>
-                    </div>
+                {lsWinner.length > 0 ?
+                    <BlockDetail rewardMoney={rewardMoney} lsWinner={lsWinner}/> :
+                    <Skeleton active paragraph={{rows: 6}}/>}
+            </div>
+            <div className="color-area">
+                <div className="top">
+                    <span>Draw took place on</span>
+                    <h6>{selectedDate}</h6>
+                </div>
+                <div className="bottom">
+                    <span>Total players this round</span>
+                    <h6>{totalPlayerCurrentId}</h6>
+                    <span>Est. Jackpot </span>
+                    <h6><img src={'assets/images/logo-coin.png'}/> &nbsp; ~ {rewardMoney}</h6>
                 </div>
             </div>
+        </div>
         </>
     )
 }
 
 
 export const BlockResultYourTicket = ({Reload}) => {
-    const nftAction = useNFTaction();
     const buyTicketAction = useBuyTicketAction();
     const [selectedDraw, setSelectedDraw] = useState(null);
     const [lastestDraw, setLastestDraw] = useState(null);
-    const [lastestWinningNumber,setLastestWinningNumber] = useState(null)
-    const [rewardMoney,setRewardMoney] = useState(0)
+    const [lastestWinningNumber,setLastestWinningNumber] = useState(null);
+    const [rewardMoney,setRewardMoney] = useState(0);
     const [selectedDate, setSelectedDate] = useState(null);
     const [totalPlayerCurrentId, setTotalPlayerCurrentId] = useState(null);
-    const [loadingResult,setLoadingResult] = useState(false)
+    const [loadingResult,setLoadingResult] = useState(false);
     const {account} = useWallet();
-    const [result,setResult] = useState([])
+    const [result,setResult] = useState([]);
 
     useEffect(()=>{
         if (account) {

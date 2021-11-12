@@ -187,7 +187,6 @@ const BoxDrawnLoto = ({isStartDraw, setIsHaveWinner,setIsShowCountDownDraw,isSho
 
 
 const Home = () => {
-    const nftAction = useNFTaction();
     const {balanceOf} = useERC20Action();
     const dispatch = useDispatch();
     const setBalanceCPA = (money) => dispatch(changeMoney(money));
@@ -208,6 +207,17 @@ const Home = () => {
     const [isShowModalBuyTicket, setIsShowModalBuyTicket] = useState(false);
 
     const {account} = useWallet();
+
+    useEffect(()=>{
+        setInterval(()=>{
+            buyTicketAction.returnTotalReward()
+            .then(res=>{
+                setCurrentRewardMoney(convertBigNumBer(res))})
+        },5000)
+    },[])
+
+
+
     useEffect(() => {
             buyTicketAction.returnTotalReward()
             .then(res=>{
