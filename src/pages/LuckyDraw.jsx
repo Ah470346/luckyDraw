@@ -382,13 +382,13 @@ const Luckydraw = () => {
                                             {showResult !== 0 && <span>00:00:00</span>}
                                         </div>
                                     </div>
-                                    <button onClick={()=> {
+                                    {/* <button onClick={()=> {
                                         if(totalPlayer == 0){
                                             XoSo().then(res=> {console.log(res)});
                                         } else{
                                             XoSo().then(res => console.log(res))};
                                         }
-                                        }>Xo So</button>
+                                        }>Xo So</button> */}
                                     <div className='right'>
                                         <Tooltip title="Total players of current wave">
                                             <div className='total-player-current txt'>
