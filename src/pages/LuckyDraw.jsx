@@ -404,13 +404,13 @@ const Luckydraw = () => {
                                         </Tooltip>
                                     </div>
                                 </div>
-                              { showResult === 1 && <div className='waiting-content'>
+                              { showResult === 0 && <div className='waiting-content'>
                                     <p className='reward-title'>REWARD OF LUCKY DRAW</p>
                                     <p className='reward'>{reward !== null ? reward.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0} $</p>
                                     <p className='note'>Power up for chance to win in this electrifying <br /> instant game!</p>
                                     <button  onClick={()=> {setVisible(true)}} className='buy'>Buy Ticket</button>
                                 </div>}
-                              { showResult === 0 && finalResult && <div className='waiting-content result reset'>
+                              { showResult === 1 && finalResult && <div className='waiting-content result reset'>
                                     <Transition in={effect} timeout={duration}>
                                         {state => (
                                         <div className='congratulation' style={{
