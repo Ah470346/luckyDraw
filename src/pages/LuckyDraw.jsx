@@ -232,7 +232,7 @@ const Luckydraw = () => {
             res.wait().then(res=> {
                 setIsApprove(res);setSpin(false);
                 openNotificationWithIcon("success","Info","Approve success!");
-            });
+            }).catch(err => {openNotificationWithIcon("warning","Warning",handledErrorAction(err).message);setSpin(false)});;
         }).catch(err => {openNotificationWithIcon("warning","Warning",handledErrorAction(err).message);setSpin(false)});
     }
     const buyTickets = (input) =>{
@@ -254,6 +254,9 @@ const Luckydraw = () => {
                     setSpin(false);
                     setInput("");
                     openNotificationWithIcon("success","Info","Buy tickets success!");
+                }).catch((er)=>{
+                    openNotificationWithIcon("warning","Warning",handledErrorAction(er).message);
+                    setSpin(false);
                 })
             }).catch((error)=>{
                 openNotificationWithIcon("warning","Warning",handledErrorAction(error).message);
